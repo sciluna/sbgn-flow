@@ -1,10 +1,10 @@
 import cytoscape from 'cytoscape';
-//import fcose from "cytoscape-fcose";
+import fcose from "cytoscape-fcose";
 import sbgnStylesheet from 'cytoscape-sbgn-stylesheet';
 import contextMenus from 'cytoscape-context-menus';
 import { getMapType } from './menu.js'
 
-//cytoscape.use(fcose);
+cytoscape.use(fcose);
 cytoscape.use(contextMenus);
 
 let cy = window.cy = cytoscape({

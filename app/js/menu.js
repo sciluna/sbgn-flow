@@ -269,8 +269,8 @@ let sendRequestToValidator = async function (sbgnmlContent) {
 };
 
 let generateCyGraph = async function () {
-	console.log(sbgnmlText);
 	let cyGraph = convert(sbgnmlText);
+	// change node/edge ids to allow keeping current content (otherwise nodes/edges with same ids cannot be added)
 	let nodeNewIdMap = new Map();
 	cyGraph.nodes.forEach(node => {
 		const randomId = generateNodeId();
@@ -286,7 +286,7 @@ let generateCyGraph = async function () {
 		edge.data.target = nodeNewIdMap.get(edge.data.target);
 		edge.data.id = randomId;
 	});
-	console.log(cyGraph);
+
 	cy.add(cyGraph);
 	cy.nodes().forEach(
 		(node) => {
@@ -314,7 +314,7 @@ let generateCyGraph = async function () {
 		});
 	}
 	// apply layout
-	cy.layout({ name: 'preset', randomize: false }).run();
+	cy.layout({ name: 'fcose', randomize: false }).run();
 	// apply identifier mapping
 	let nodesToQuery = cy.nodes().filter(node => {
 		return node.data("label");
@@ -325,7 +325,7 @@ let generateCyGraph = async function () {
 	nodesToQuery = nodesToQuery.filter((value, index, array) => {
 		return array.indexOf(value) === index;
 	});
-/* 	let identifiers = await mapIdentifiers(nodesToQuery);
+	let identifiers = await mapIdentifiers(nodesToQuery);
 
 	let identifiersMap = new Map();
 	identifiers.forEach(item => {
@@ -349,7 +349,7 @@ let generateCyGraph = async function () {
 		cyNodes.forEach(cyNode => {
 			cyNode.data("identifierData", value);
 		});
-	}); */
+	});
 	document.getElementById("processData").style.backgroundColor = "#d67664";
 	document.getElementById("processData").classList.remove("loading");
 };
@@ -370,7 +370,7 @@ let mapIdentifiers = async function (nodesToQuery) {
 		body: data
 	};
 
-	let identifiers = await fetch('/anno', settings)
+	let identifiers = await fetch('http://3.95.207.114/anno', settings)
 		.then(response => response.json())
 		.then(result => {
 			return result;
@@ -386,9 +386,10 @@ let generateObjectContent = function (node, identifierData) {
 	// Create the main div element
 	const div = document.createElement('div');
 	div.setAttribute("id", "objectData");
+	div.setAttribute("class", "inline field");
 
 	// Create a title for the id
-	const title = document.createElement('h3');
+	const title = document.createElement('h4');
 	title.textContent = node.data('label');
 
 	// Create an edit icon 
@@ -455,22 +456,39 @@ let generateObjectContent = function (node, identifierData) {
 	return div;
 };
 
-/* cy.on("select", "node", function (evt) {
-	let node = evt.target;
-	if (node.data("label") && node.data("label") != "") {
-		let objectContent = generateObjectContent(node, node.data("identifierData"));
+cy.on("select", "node", function (evt) {
+	if(cy.nodes(":selected").length == 1) {
+		let node = evt.target;
+		if (node.data("label") && node.data("label") != "") {
+			let objectContent = generateObjectContent(node, node.data("identifierData"));
+			let objectView = document.getElementById("objectView");
+			objectView.appendChild(objectContent);
+		}
+	} else {
 		let objectView = document.getElementById("objectView");
-		objectView.appendChild(objectContent);
+		if (objectView.querySelector("#objectData") != null) {
+			let objectData = document.getElementById("objectData");
+			objectView.removeChild(objectData);
+		}
 	}
-}); */
+});
 
-/* cy.on("unselect", "node", function (evt) {
-	let objectView = document.getElementById("objectView");
-	if (objectView.querySelector("#objectData") != null) {
-		let objectData = document.getElementById("objectData");
-		objectView.removeChild(objectData);
+cy.on("unselect", "node", function (evt) {
+	if(cy.nodes(":selected").length != 1) {
+		let objectView = document.getElementById("objectView");
+		if (objectView.querySelector("#objectData") != null) {
+			let objectData = document.getElementById("objectData");
+			objectView.removeChild(objectData);
+		}
+	} else {
+		let node = cy.nodes(":selected")[0];
+		if (node.data("label") && node.data("label") != "") {
+			let objectContent = generateObjectContent(node, node.data("identifierData"));
+			let objectView = document.getElementById("objectView");
+			objectView.appendChild(objectContent);
+		}
 	}
-}); */
+});
 
 async function openInNewtAndDelete(sbgnContent) {
 	let filename = 'diagram_' + Date.now() + '.sbgnml';

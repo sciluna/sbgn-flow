@@ -14,6 +14,7 @@
   "license": "CCO 1.0 Universal",
   "dependencies": {
     "cytoscape-context-menus": "^4.2.1",
+    "cytoscape-fcose": "^2.2.0",
     "cytoscape-sbgn-stylesheet": "https://github.com/hasanbalci/cytoscape-sbgn-stylesheet.git",
     "express": "^4.19.2",
     "file-saver": "^2.0.5",
