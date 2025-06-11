@@ -1,0 +1,31 @@
+{
+  "name": "sbgn-flow",
+  "version": "1.0.0",
+  "description": "Pipeline to generate and process maps in SBGN",
+  "main": "public/dist/bundle.js",
+  "module": "public/dist/bundle.js",
+  "browser": "public/dist/bundle.js",
+  "type": "module",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hasan Balci",
+  "license": "CCO 1.0 Universal",
+  "dependencies": {
+    "cytoscape-context-menus": "^4.2.1",
+    "cytoscape-sbgn-stylesheet": "https://github.com/hasanbalci/cytoscape-sbgn-stylesheet.git",
+    "express": "^4.19.2",
+    "file-saver": "^2.0.5",
+    "libsbgn.js": "github:sbgn/libsbgn.js#master",
+    "sbgnml-to-cytoscape": "https://github.com/hasanbalci/sbgnml-to-cytoscape.git",
+    "xml-formatter": "^3.6.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "babel-loader": "^9.2.1",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
+  }
+}

@@ -1,0 +1,195 @@
+<!DOCTYPE>
+
+<html>
+
+<head>
+	<title>SBGNFlow demo</title>
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<!-- Fomantic UI -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.css">
+	<link href="app/css/style.css" rel="stylesheet">
+	<link href="app/css/cytoscape-context-menus.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div class="ui wide container">
+		<div class="ui vertically divided grid">
+			<div class="row" style="padding-bottom: 0; margin-top: 10px;">
+				<div class="four wide column" style="display: flex; align-items: center;">
+					<a href="https://github.com/sciluna" target="_blank" style="color: #d67664;">
+						<h2>Luna Lab</h2>
+					</a>
+				</div>
+				<div class="eight wide column">
+					<h2 class="ui padded center aligned header" style="margin-top: 5px;">
+						SBGNFlow
+					</h2>
+				</div>
+				<div class="four wide column">
+					<a href="https://github.com/sciluna/sbgn-flow" target="_blank">
+						<img class="ui image" src="app/img/github-mark.svg" title="Go to GitHub Repository" style="height: 30px; margin-top: 5px; float: right">
+					</a>
+				</div>
+			</div>
+			<div class="two column row" style="padding-bottom: 0; padding-top: 0;">
+				<div class="four wide column" style="padding-right: 0;">
+					<div class="ui styled accordion">
+						<div class="active title">
+							<i class="dropdown icon"></i>
+							Convert Image to SBGN
+						</div>
+						<div class="active content">
+							<h4 class="ui header" style="margin-bottom: 5px;">File</h4>
+							<div class="ui small form">
+								<div class="field">
+									<!--   <label id="load-file" class="underline">Open File...</label> -->
+									<div class="inline fields">
+										<label>Open Sample:</label>
+										<div class="six wide field">
+											<select required id="samples">
+												<option value="">Select...</option>
+												<option value="sample1">SampleAF 1</option>
+												<option value="sample2">SampleAF 2</option>
+												<option value="sample3">SamplePD 1</option>
+												<option value="sample4">SamplePD 2</option>
+											</select>
+										</div>
+										<div class="ui tiny button" id="load-file" tabindex="0">
+											Open File...
+										</div>
+									</div>
+<!-- 									<div class="ui button" id="load-file" tabindex="0">
+										Open File...
+									</div> -->
+									<div class="ui button" id="upload-file" tabindex="0" style="display:none" >
+										Load File...
+									</div>
+								</div>
+								<input id="file-input" type="file" accept="image/*" style="display:none" />
+								<input id="file-input-cy" type="file" multiple style="display:none" />
+								<h4 class="ui header" style="margin-top: 10px; margin-bottom: 5px;">Settings</h4>
+								<div class="field">
+									<div class="inline fields" style="margin-top: 0px; margin-bottom: 5px;">
+										<label style="margin-top: 5px;">Map Type</label>
+										<div class="field">
+											<div class="ui radio checkbox">
+												<input type="radio" id="radioAF" name="language" checked="checked">
+												<label>AF</label>
+											</div>
+										</div>
+										<div class="field">
+											<div class="ui radio checkbox">
+												<input type="radio" id="radioPD" name="language">
+												<label>PD</label>
+											</div>
+										</div>
+									</div>
+									<div class="inline fields" style="margin-top: 0px; margin-bottom: 5px;">
+										<label style="margin-top: 5px;">Model</label>
+										<div class="field">
+											<div class="ui radio checkbox">
+												<input type="radio" id="openai" name="model" checked="checked">
+												<label>GPT-4.1</label>
+											</div>
+										</div>
+										<div class="field">
+											<div class="ui radio checkbox">
+												<input type="radio" id="gemini" name="model">
+												<label>Gemini 2.0 Flash</label>
+											</div>
+										</div>
+									</div>
+									<div class="inline fields" style="margin-top: 0px; margin-bottom: 5px;">
+										<label style="margin-top: 5px;">Keep current content</label>
+										<div class="field">
+											<div class="ui tiny checkbox">
+												<input type="checkbox" id="mapStatus" name="mapStatus">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id='imageArea'>
+									<div class="ui form">
+										<div class="field">
+											<div id="imageInput" class="ui segment" style="width: auto; height: 200px; margin-top: -3px; padding: 0px;">
+												<img id="inputImage" draggable="true" style="cursor:pointer; padding: 0px !important;" class="ui centered huge image" >
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="ui basic input" style="padding-top: 10px;">
+									<textarea id="userInputText" rows="4" cols="45" placeholder="Please enter some info about the map:&#10;- What is it about...&#10;- More details about interactions...&#10;- Info about unclear parts in the image..."></textarea>
+								</div>
+								<div style="margin-top: 10px; border-top: 0px !important;">
+									<button id="processData" class="tiny ui orange button">Process Data</button>
+								</div>
+							</div>
+<!-- 							<span class="input-file" id="file-name"
+								style="overflow: hidden; text-overflow:ellipsis; margin-top: 10px; width:250px; font-weight: bold; display:inline-block;"></span> -->
+							<!-- <p style="margin-top: 6px" class="input-file" id="file-type"></p> -->
+							<!-- Settings -->
+						</div>
+						<div class="title">
+							<i class="dropdown icon"></i>
+							Merge/Split Maps
+						</div>
+						<div class="content">
+							<h4 class="ui header" style="margin-bottom: 5px;">Merge/Split</h4>
+						</div>
+						<div class="title">
+							<i class="dropdown icon"></i>
+							Apply Layout
+						</div>
+						<div class="content">
+							<h4 class="ui header" style="margin-bottom: 5px;">Layout</h4>
+						</div>
+					</div>
+				</div>
+				<div class="twelve wide column" style="padding-right: 0;">
+					<div class="ui form">
+						<div class="field">
+							<div class="inline fields" style="margin-bottom: 10px;"">
+								<h3 class="ui header" style="margin-bottom: -3px; margin-right: 7.5px; padding: 2.5px;">Graph View</h3>
+								<img class="ui image" id="downloadSbgnml" src="app/img/download.svg" title="Download as SBGNML" style="height: 25px; width: 25px; padding: 2.5px; display: none;">&nbsp;
+								<img class="ui image" id="applyLayout" src="app/img/layout.svg" title="Apply Layout" style="height: 25px; width: 25px; padding: 2.5px; display: none;">
+								<img class="ui image" id="openNewt" src="app/img/newt-icon.png" title="Open in Newt" style="height: 25px; width: 25px; padding: 2.5px; display: none;">
+								<a class="tooltip"><img class="ui image" id="contextMenuInfo" src="app/img/info.svg" style="height: 25px; width: 25px; padding: 2.5px;">
+									<span class="tooltiptext">Right click to nodes, edges or viewport for quick edit!</span></a>&nbsp;
+							</div>
+							<div id="cy"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+<!-- 				<div class="five wide column"
+					style="margin-top: 11.5px; padding-left: 0px;">
+					<div class="field">
+						<div class="inline fields">
+							<h3 class="ui header"
+								style="margin-bottom: -3px; margin-right: 7.5px; padding: 2.5px;">
+								Object View</h3>
+							<div class="ui segment" id="objectView"
+								style="height: 350px; margin-top: 12px;">
+							</div>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+
+	<div class="ui modal" id="imageModal">
+		<div class="image content">
+			<img class="image" id="imageContent">
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.js"></script>
+	<script src="dist/bundle.js"></script>
+
+</body>
+
+</html>
