@@ -1,13 +1,15 @@
 import cytoscape from 'cytoscape';
 import fcose from "cytoscape-fcose";
 import layoutUtilities from 'cytoscape-layout-utilities';
+import sbgnLayout from "cytoscape-sbgn-layout";
 import sbgnStylesheet from 'cytoscape-sbgn-stylesheet';
 import contextMenus from 'cytoscape-context-menus';
 import { getMapType } from './menu.js'
 
 cytoscape.use(fcose);
 cytoscape.use(contextMenus);
-cytoscape.use( layoutUtilities );
+cytoscape.use(layoutUtilities);
+cytoscape.use(sbgnLayout);
 
 let cy = window.cy = cytoscape({
 	container: document.getElementById('cy'),

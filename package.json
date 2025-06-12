@@ -16,6 +16,7 @@
     "cytoscape-context-menus": "^4.2.1",
     "cytoscape-fcose": "^2.2.0",
     "cytoscape-layout-utilities": "^1.1.1",
+    "cytoscape-sbgn-layout": "github:sciluna/cytoscape.js-sbgn-layout",
     "cytoscape-sbgn-stylesheet": "https://github.com/hasanbalci/cytoscape-sbgn-stylesheet.git",
     "express": "^4.19.2",
     "file-saver": "^2.0.5",

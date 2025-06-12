@@ -180,8 +180,8 @@ document.getElementById("processData").addEventListener("click", async function 
 	}
 });
 
-document.getElementById("applyLayout").addEventListener("click", function () {
-	cy.layout({ name: 'fcose', randomize: false, initialEnergyOnIncremental: 0.5 }).run();
+document.getElementById("refineLayout").addEventListener("click", function () {
+	cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
 });
 
 /* document.getElementById("openNewt").addEventListener("click", async function () {
@@ -241,30 +241,6 @@ let sendRequestToGPT = async function (data) {
 		.catch(e => {
 			console.log("Error!");
 		});
-	return res;
-};
-
-// send request to sbgn validator (sybvals) to validate the resulting sbgnml content
-let sendRequestToValidator = async function (sbgnmlContent) {
-	let url = "http://sybvals.cs.bilkent.edu.tr/validation=showResolutionAlternatives=true";
-	const settings = {
-		method: 'POST',
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'text/plain'
-		},
-		body: sbgnmlContent
-	};
-
-	let res = await fetch(url, settings)
-		.then(response => response.json())
-		.then(result => {
-			return result;
-		})
-		.catch(e => {
-			console.log("Error!");
-		});
-
 	return res;
 };
 
@@ -422,34 +398,35 @@ let generateObjectContent = function (node, identifierData) {
 
 	if (node.data("identifierData")) {
 		// Loop through the dataArray and generate content for each object
-		identifierData.forEach((dataItem) => {
+		identifierData.forEach((dataItem, i) => {
+			if(i == 0) { // TODO: show all identifiers
+				// Create a table with Fomantic UI classes
+				const table = document.createElement('table');
+				table.className = 'ui celled table';
 
-			// Create a table with Fomantic UI classes
-			const table = document.createElement('table');
-			table.className = 'ui celled table';
+				// Create a table body
+				const tbody = document.createElement('tbody');
 
-			// Create a table body
-			const tbody = document.createElement('tbody');
+				// Create a row for each object in dataArray
+				const row = document.createElement('tr');
 
-			// Create a row for each object in dataArray
-			const row = document.createElement('tr');
+				const dbCell = document.createElement('td');
+				dbCell.textContent = dataItem.db;
 
-			const dbCell = document.createElement('td');
-			dbCell.textContent = dataItem.db;
+				const idCell = document.createElement('td');
+				const link = document.createElement('a');
+				link.href = dataItem.url;
+				link.textContent = dataItem.id;
+				link.target = '_blank';
+				idCell.appendChild(link);
 
-			const idCell = document.createElement('td');
-			const link = document.createElement('a');
-			link.href = dataItem.url;
-			link.textContent = dataItem.id;
-			link.target = '_blank';
-			idCell.appendChild(link);
+				row.appendChild(dbCell);
+				row.appendChild(idCell);
+				tbody.appendChild(row);
 
-			row.appendChild(dbCell);
-			row.appendChild(idCell);
-			tbody.appendChild(row);
-
-			table.appendChild(tbody);
-			div.appendChild(table);
+				table.appendChild(tbody);
+				div.appendChild(table);
+			}
 		});
 	}
 
