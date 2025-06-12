@@ -1,15 +1,21 @@
 import cytoscape from 'cytoscape';
 import fcose from "cytoscape-fcose";
+import layoutUtilities from 'cytoscape-layout-utilities';
 import sbgnStylesheet from 'cytoscape-sbgn-stylesheet';
 import contextMenus from 'cytoscape-context-menus';
 import { getMapType } from './menu.js'
 
 cytoscape.use(fcose);
 cytoscape.use(contextMenus);
+cytoscape.use( layoutUtilities );
 
 let cy = window.cy = cytoscape({
 	container: document.getElementById('cy'),
-	style: sbgnStylesheet(cytoscape)
+	style: sbgnStylesheet(cytoscape),
+});
+
+cy.layoutUtilities({
+	desiredAspectRatio: cy.width()/cy.height()
 });
 
 var contextMenuOptions = {

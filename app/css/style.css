@@ -50,11 +50,11 @@ h1 {
   cursor: pointer;
 }
 
-#processData {
+#processData, #refineLayout {
   background-color: #d67664;
 }
 
-#processData:hover {
+#processData:hover, #refineLayout:hover {
   background-color: #f2711c !important;
 }
 
