@@ -1,14 +1,13 @@
 import { cy } from './cy-utilities.js';
 import convert from 'sbgnml-to-cytoscape';
-//import { convert as cytoscapeToSbgnml } from './cytoscape-to-sbgnml.js'
+import { convert as cytoscapeToSbgnml } from './cytoscape-to-sbgnml.js'
 import { saveAs } from 'file-saver';
 import format from 'xml-formatter';
 
 let base64data;
 let userInputText;
 let sbgnmlText;
-let img2sbgn = !(location.hostname === "localhost" || location.hostname === "127.0.0.1");
-let sbgnmlfilename = "";
+let sbgnmlfilename = "new_file.sbgnml";
 
 document.getElementById("samples").addEventListener("change", function (event) {
 	let sample = event.target.value;
@@ -148,12 +147,12 @@ document.getElementById("file-input").addEventListener("change", async function 
 	reader.readAsText(input.files[0]);
 }); */
 
-/* document.getElementById("downloadSbgnml").addEventListener("click", function () {
+document.getElementById("downloadSbgnml").addEventListener("click", function () {
 	let finalSbgnml = cytoscapeToSbgnml(cy, getMapType());
 	finalSbgnml = format(finalSbgnml);
 	let blob = new Blob([finalSbgnml], { type: "text/xml" });
 	saveAs(blob, sbgnmlfilename);
-}); */
+});
 
 document.getElementById("processData").addEventListener("click", async function (e) {
 	if (base64data !== undefined) {

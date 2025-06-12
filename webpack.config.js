@@ -13,7 +13,9 @@ export default {
     }
   },
   resolve: {
-    alias: { util$: path.resolve(__dirname, 'node_modules/util')},
+    alias: { util$: path.resolve(__dirname, 'node_modules/util'),
+      process$: path.resolve(__dirname, 'node_modules/process')
+    },
     fallback: {
       "fs": false,
       "http": false,
@@ -22,8 +24,8 @@ export default {
       "stream": false,
       "https": false,
       "child_process": false,
-      "util": false,
-      "process": false,
+      "util": 'util',
+      "process": 'process',
       "string_decoder": false
     } 
   },
