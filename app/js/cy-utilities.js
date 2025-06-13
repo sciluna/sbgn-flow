@@ -16,6 +16,14 @@ let cy = window.cy = cytoscape({
 	style: sbgnStylesheet(cytoscape),
 });
 
+cy.style().selector('.pinned')
+	.style({
+		'underlay-color': 'lightgrey',
+		'underlay-padding': '5px',
+		'underlay-opacity': 1,
+	})
+	.update();
+
 cy.layoutUtilities({
 	desiredAspectRatio: cy.width()/cy.height()
 });

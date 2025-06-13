@@ -4,6 +4,16 @@ import { convert as cytoscapeToSbgnml } from './cytoscape-to-sbgnml.js'
 import { saveAs } from 'file-saver';
 import format from 'xml-formatter';
 
+/* General */
+
+$('.ui.accordion').accordion({
+	exclusive: true 
+});
+
+$('.ui.checkbox').checkbox();
+
+/* Image-to-SBGN Menu */
+
 let base64data;
 let userInputText;
 let sbgnmlText;
@@ -43,56 +53,6 @@ document.getElementById("samples").addEventListener("change", function (event) {
 		radioPD.checked = true; // AF for sample2
 	}
 });
-
-function getMapType() {
-	// Get all radio buttons with the name 'language'
-	const radios = document.getElementsByName('language');
-
-	// Loop through the radio buttons and return the one that's checked
-	for (let i = 0; i < radios.length; i++) {
-		if (radios[i].checked) {
-			return radios[i].nextElementSibling.innerText; // Get the label text (PD or AF)
-		}
-	}
-	return null; // If none are checked
-}
-
-function getModelType() {
-	// Get all radio buttons with the name 'model'
-	const radios = document.getElementsByName('model');
-
-	// Loop through the radio buttons and return the one that's checked
-	for (let i = 0; i < radios.length; i++) {
-		if (radios[i].checked) {
-			return radios[i].id; // Get the model id (openai or gemini)
-		}
-	}
-	return null; // If none are checked
-}
-
-function getMapStatus() {
-	// Check if keep content is active
-	const keepContent = document.getElementById('mapStatus').checked;
-	return keepContent;
-}
-
-let loadSample = function (fname) {
-	cy.nodes().unselect();
-	fetch(fname).then(function (res) {
-		return res.blob();
-	}).then(blob => new Promise((resolve, reject) => {
-		const reader = new FileReader()
-		reader.onload = function () {
-			base64data = reader.result;
-			let output = document.getElementById('inputImage');
-			output.src = base64data;
-			output.style.removeProperty('width')
-			output.style.maxHeight = "100%";
-			sbgnmlText = undefined;
-		};
-		reader.readAsDataURL(blob)
-	}))
-};
 
 $("#load-file").on("click", function (e) {
 	$("#file-input").trigger('click');
@@ -147,11 +107,10 @@ document.getElementById("file-input").addEventListener("change", async function 
 	reader.readAsText(input.files[0]);
 }); */
 
-document.getElementById("downloadSbgnml").addEventListener("click", function () {
-	let finalSbgnml = cytoscapeToSbgnml(cy, getMapType());
-	finalSbgnml = format(finalSbgnml);
-	let blob = new Blob([finalSbgnml], { type: "text/xml" });
-	saveAs(blob, sbgnmlfilename);
+document.getElementById("inputImage").addEventListener("click", function () {
+	let imageContent = document.getElementById("imageContent");
+	imageContent.src = base64data;
+	$('#imageModal').modal({ inverted: true }).modal('show');
 });
 
 document.getElementById("processData").addEventListener("click", async function (e) {
@@ -179,15 +138,55 @@ document.getElementById("processData").addEventListener("click", async function 
 	}
 });
 
-document.getElementById("refineLayout").addEventListener("click", function () {
-	cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
-});
+function getMapType() {
+	// Get all radio buttons with the name 'language'
+	const radios = document.getElementsByName('language');
 
-/* document.getElementById("openNewt").addEventListener("click", async function () {
-	let finalSbgnml = cytoscapeToSbgnml(cy, getMapType());
-	finalSbgnml = format(finalSbgnml);
-	const filename = await openInNewtAndDelete(finalSbgnml);
-}); */
+	// Loop through the radio buttons and return the one that's checked
+	for (let i = 0; i < radios.length; i++) {
+		if (radios[i].checked) {
+			return radios[i].nextElementSibling.innerText; // Get the label text (PD or AF)
+		}
+	}
+	return null; // If none are checked
+}
+
+function getModelType() {
+	// Get all radio buttons with the name 'model'
+	const radios = document.getElementsByName('model');
+
+	// Loop through the radio buttons and return the one that's checked
+	for (let i = 0; i < radios.length; i++) {
+		if (radios[i].checked) {
+			return radios[i].id; // Get the model id (openai or gemini)
+		}
+	}
+	return null; // If none are checked
+}
+
+function getMapStatus() {
+	// Check if keep content is active
+	const keepContent = document.getElementById('mapStatus').checked;
+	return keepContent;
+}
+
+function loadSample(fname) {
+	cy.nodes().unselect();
+	fetch(fname).then(function (res) {
+		return res.blob();
+	}).then(blob => new Promise((resolve, reject) => {
+		const reader = new FileReader()
+		reader.onload = function () {
+			base64data = reader.result;
+			let output = document.getElementById('inputImage');
+			output.src = base64data;
+			output.style.removeProperty('width')
+			output.style.maxHeight = "100%";
+			sbgnmlText = undefined;
+		};
+		reader.readAsDataURL(blob)
+	}))
+};
 
 // evaluate positions
 let communicate = async function (pngBase64, userInputText) {
@@ -242,6 +241,38 @@ let sendRequestToGPT = async function (data) {
 		});
 	return res;
 };
+
+function generateNodeId(prefix = 'node') {
+  return `${prefix}-${Math.random().toString(36).substring(2, 11)}`;
+}
+
+async function setIdentifiers (nodeLabelArray){
+	let identifiers = await mapIdentifiers(nodeLabelArray);
+
+	let identifiersMap = new Map();
+	identifiers.forEach(item => {
+		item.forEach(data => {
+			if (data.score >= 0.6) {
+				let query = data.match.query;
+				let content = { db: data.term.db, id: data.term.id, url: data.url };
+				if (identifiersMap.has(query)) {
+					identifiersMap.get(query).push(content);
+				} else {
+					identifiersMap.set(query, [content]);
+				}
+			}
+		});
+	});
+	console.log(identifiersMap);
+	identifiersMap.forEach((value, key, map) => {
+		let cyNodes = cy.nodes().filter(node => {
+			return node.data('label') == key;
+		});
+		cyNodes.forEach(cyNode => {
+			cyNode.data("identifierData", value);
+		});
+	});
+}
 
 let generateCyGraph = async function () {
 	let cyGraph = convert(sbgnmlText);
@@ -300,31 +331,8 @@ let generateCyGraph = async function () {
 	nodesToQuery = nodesToQuery.filter((value, index, array) => {
 		return array.indexOf(value) === index;
 	});
-	let identifiers = await mapIdentifiers(nodesToQuery);
+	await setIdentifiers(nodesToQuery);
 
-	let identifiersMap = new Map();
-	identifiers.forEach(item => {
-		item.forEach(data => {
-			if (data.score >= 0.6) {
-				let query = data.match.query;
-				let content = { db: data.term.db, id: data.term.id, url: data.url };
-				if (identifiersMap.has(query)) {
-					identifiersMap.get(query).push(content);
-				} else {
-					identifiersMap.set(query, [content]);
-				}
-			}
-		});
-	});
-	console.log(identifiersMap);
-	identifiersMap.forEach((value, key, map) => {
-		let cyNodes = cy.nodes().filter(node => {
-			return node.data('label') == key;
-		});
-		cyNodes.forEach(cyNode => {
-			cyNode.data("identifierData", value);
-		});
-	});
 	document.getElementById("processData").style.backgroundColor = "#d67664";
 	document.getElementById("processData").classList.remove("loading");
 };
@@ -381,11 +389,14 @@ let generateObjectContent = function (node, identifierData) {
 		labelInput.setAttribute("id", "labelInput");
 		labelInput.value = title.textContent; // Set the current label text as input value
 
-		labelInput.addEventListener('keydown', (event) => {
+		labelInput.addEventListener('keydown', async (event) => {
 			if (event.key === 'Enter') {
 				title.textContent = labelInput.value;
 				div.replaceChild(title, labelInput);
 				node.data('label', title.textContent);
+				await setIdentifiers([node.data('label')]);
+				node.unselect();
+				node.select();
 			}
 		});
 
@@ -466,9 +477,51 @@ cy.on("unselect", "node", function (evt) {
 	}
 });
 
+/* Apply Layout Menu */
+
+document.getElementById("refineLayout").addEventListener("click", function () {
+	cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
+});
+
+document.getElementById("pinSelected").addEventListener("click", function () {
+	let selectedNodes = cy.nodes(":selected");
+	selectedNodes.addClass("pinned");
+	selectedNodes.lock();
+});
+
+document.getElementById("unpinSelected").addEventListener("click", function () {
+	let selectedNodes = cy.nodes(":selected");
+	selectedNodes.removeClass("pinned");
+	selectedNodes.unlock();
+});
+
+document.getElementById("unpinAll").addEventListener("click", function () {
+  cy.nodes().removeClass("pinned");
+	cy.nodes().unlock();
+});
+
+document.getElementById("selectAll").addEventListener("click", function () {
+  cy.elements().select();
+});
+
+/* Graph View Options */
+
+document.getElementById("downloadSbgnml").addEventListener("click", function () {
+	let finalSbgnml = cytoscapeToSbgnml(cy, getMapType());
+	finalSbgnml = format(finalSbgnml);
+	let blob = new Blob([finalSbgnml], { type: "text/xml" });
+	saveAs(blob, sbgnmlfilename);
+});
+
+document.getElementById("openNewt").addEventListener("click", async function () {
+	let finalSbgnml = cytoscapeToSbgnml(cy, getMapType());
+	finalSbgnml = format(finalSbgnml);
+	const filename = await openInNewtAndDelete(finalSbgnml);
+});
+
 async function openInNewtAndDelete(sbgnContent) {
 	let filename = 'diagram_' + Date.now() + '.sbgnml';
-  const response = await fetch('/upload', {
+  const response = await fetch('http://3.95.207.114/upload', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -501,21 +554,5 @@ async function openInNewtAndDelete(sbgnContent) {
   }
 	return data.filename;
 }
-
-document.getElementById("inputImage").addEventListener("click", function () {
-	let imageContent = document.getElementById("imageContent");
-	imageContent.src = base64data;
-	$('#imageModal').modal({ inverted: true }).modal('show');
-});
-
-function generateNodeId(prefix = 'node') {
-  return `${prefix}-${Math.random().toString(36).substring(2, 11)}`;
-}
-
-$('.ui.accordion').accordion({
-	exclusive: false 
-});
-
-$('.ui.checkbox').checkbox();
 
 export { sendRequestToGPT, getMapType };
