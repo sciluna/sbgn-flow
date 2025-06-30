@@ -274,7 +274,7 @@ async function setIdentifiers (nodeLabelArray){
 	});
 }
 
-let generateCyGraph = async function () {
+let generateCyGraph = async function (layoutType = "fcose") {
 	let cyGraph = convert(sbgnmlText);
 	// change node/edge ids to allow keeping current content (otherwise nodes/edges with same ids cannot be added)
 	let nodeNewIdMap = new Map();
@@ -320,7 +320,7 @@ let generateCyGraph = async function () {
 		});
 	}
 	// apply layout
-	cy.layout({ name: 'fcose', randomize: false }).run();
+	cy.layout({ name: layoutType, randomize: false }).run();
 	// apply identifier mapping
 	let nodesToQuery = cy.nodes().filter(node => {
 		return node.data("label");
@@ -477,6 +477,78 @@ cy.on("unselect", "node", function (evt) {
 	}
 });
 
+/* Merge/Split Maps Menu */
+
+document.getElementById("mergeButton").addEventListener("click", function () {
+	let selectedComponent = cy.elements(":selected");
+	let unselectedComponent = cy.elements(":unselected");
+
+	let selectedUnselectedMap = new Map();
+	// find intersecting nodes based on label
+	selectedComponent.nodes().forEach(node1 => {
+		if (node1.data("label")){
+			unselectedComponent.nodes("[label]").forEach(node2 => {
+				if (node1.data("label") == node2.data("label")) {
+					if (node1.parent().length == 0 && node2.parent().length == 0) { // no parent on both
+						selectedUnselectedMap.set(node1.id(), node2.id());
+					}
+					else if (node1.parent().length > 0 && node2.parent().length > 0) { // both has parent
+						if (node1.parent().id() == node1.parent().id()) {
+							selectedUnselectedMap.set(node1.id(), node2.id());
+						}
+					}
+				}
+			});
+		}
+	});
+	// for each intersecting node, transfer incident edges to unselected network
+	selectedUnselectedMap.forEach((value, key) => {
+		let selectedNode = cy.getElementById(key);
+		selectedNode.incomers().edges().forEach(edge => {
+			edge.move({
+				target: value
+			});
+		});
+		selectedNode.outgoers().edges().forEach(edge => {
+			edge.move({
+				source: value
+			});
+		});
+		selectedNode.remove();	// remove dangling node
+	});
+});
+
+document.getElementById("splitButton").addEventListener("click", function () {
+	let selectedComponent = cy.elements(":selected");
+
+	// find the nodes that need to be split
+	let nodesToSplit = selectedComponent.nodes().filter(node => {
+		let filter = false;
+		node.connectedEdges().forEach(edge => {
+			if(!edge.selected()) {
+				filter = true;
+			}
+		})
+		return filter;
+	});
+
+	// split nodes by generating a copy and reconnecting necessary edges
+	nodesToSplit.forEach(node => {
+		let clonedNode = cy.add({ group: 'nodes', data: { id: 'n0', class: node.data('class'), label: node.data('label'),'stateVariables': [], 'unitsOfInformation': [], clonemarker: node.data('clonemarker'), identifierData: node.data('identifierData') }, position: { x: node.position().x, y: node.position().y } });
+		console.log(clonedNode);
+		node.incomers(":unselected").edges().forEach(edge => {
+			edge.move({
+				target: clonedNode.id()
+			});
+		});
+		node.outgoers(":unselected").edges().forEach(edge => {
+			edge.move({
+				source: clonedNode.id()
+			});
+		});
+	});
+});
+
 /* Apply Layout Menu */
 
 document.getElementById("refineLayout").addEventListener("click", function () {
@@ -505,6 +577,21 @@ document.getElementById("selectAll").addEventListener("click", function () {
 });
 
 /* Graph View Options */
+
+$("#uploadSbgnml").on("click", function (e) {
+	$("#file-input-sbgn").trigger('click');
+});
+
+document.getElementById("file-input-sbgn").addEventListener("change", async function (file) {
+	let input = file.target;
+	let reader = new FileReader();
+	reader.onload = async function () {
+		sbgnmlText = reader.result;
+		await generateCyGraph("preset");
+		sbgnmlText = undefined;
+	};
+	reader.readAsText(input.files[0]);
+});
 
 document.getElementById("downloadSbgnml").addEventListener("click", function () {
 	let finalSbgnml = cytoscapeToSbgnml(cy, getMapType());

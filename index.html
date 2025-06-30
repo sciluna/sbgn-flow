@@ -43,7 +43,6 @@
 							<h4 class="ui header" style="margin-bottom: 5px;">File</h4>
 							<div class="ui small form">
 								<div class="field">
-									<!--   <label id="load-file" class="underline">Open File...</label> -->
 									<div class="inline fields">
 										<label>Open Sample:</label>
 										<div class="six wide field">
@@ -59,9 +58,6 @@
 											Open File...
 										</div>
 									</div>
-<!-- 									<div class="ui button" id="load-file" tabindex="0">
-										Open File...
-									</div> -->
 									<div class="ui button" id="upload-file" tabindex="0" style="display:none" >
 										Load File...
 									</div>
@@ -132,6 +128,17 @@
 						</div>
 						<div class="title">
 							<i class="dropdown icon"></i>
+							Merge/Split Maps
+						</div>
+						<div class="content">
+							<div class="ui wrapping spaced buttons">
+								<button id="mergeButton" class="tiny ui orange button" title="Merge selected to unselected">Merge selected</button>
+								<button id="splitButton" class="tiny ui orange button" title="Split selected from unselected">Split selected</button>
+							</div>
+
+						</div>
+						<div class="title">
+							<i class="dropdown icon"></i>
 							Apply Layout
 						</div>
 						<div class="content">
@@ -145,13 +152,6 @@
 								<button id="refineLayout" class="tiny ui orange button">Refine Layout</button>
 							</div>
 						</div>
-						<div class="title">
-							<i class="dropdown icon"></i>
-							Merge/Split Maps
-						</div>
-						<div class="content">
-							<h4 class="ui header" style="margin-bottom: 5px;">Merge/Split</h4>
-						</div>
 					</div>
 				</div>
 				<div class="twelve wide column" style="padding-right: 0;">
@@ -159,10 +159,11 @@
 						<div class="field">
 							<div class="inline fields" style="margin-bottom: 10px;"">
 								<h3 class="ui header" style="margin-bottom: -3px; margin-right: 7.5px; padding: 2.5px;">Graph View</h3>
-								<img class="ui image" id="downloadSbgnml" src="app/img/download.svg" title="Download as SBGNML" style="height: 25px; width: 25px; padding: 2.5px;">&nbsp;
-								<img class="ui image" id="applyLayout" src="app/img/layout.svg" title="Apply Layout" style="height: 25px; width: 25px; padding: 2.5px; display: none;">
-								<img class="ui image" id="openNewt" src="app/img/newt-icon.png" title="Open in Newt" style="height: 25px; width: 25px; padding: 2.5px;">
-								<a class="tooltip"><img class="ui image" id="contextMenuInfo" src="app/img/info.svg" style="height: 25px; width: 25px; padding: 2.5px;">
+								<i class="ui large upload icon" id="uploadSbgnml" title="Upload an SBGNML file"></i>&nbsp;
+								<input id="file-input-sbgn" type="file" accept="xml/*" style="display:none" />
+								<i class="ui large download icon" id="downloadSbgnml" title="Download as SBGNML"></i>&nbsp;
+								<img class="ui image" id="openNewt" src="app/img/newt-icon.png" title="Open in Newt" style="height: 22px; width: 22px;">
+								<a class="tooltip"><i class="ui large info circle icon" id="contextMenuInfo" style="color: black;"></i>
 									<span class="tooltiptext">Right click to nodes, edges or viewport for quick edit!</span></a>&nbsp;
 							</div>
 							<div id="cy"></div>

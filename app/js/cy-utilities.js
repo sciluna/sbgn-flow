@@ -368,12 +368,20 @@ var contextMenuOptions = {
 			content: 'Add node',
 			coreAsWell: true,
 			onClickFunction: function (event) {
-				const langauge = getMapType();
-				if (langauge == 'PD') {
-					cy.add({ group: 'nodes', data: { class: 'macromolecule', label: 'Node', 'stateVariables': [], 'unitsOfInformation': [] }, position: { x: event.position.x, y: event.position.y } });
-				} else {
-					cy.add({ group: 'nodes', data: { class: 'biological activity', label: 'Node', 'stateVariables': [], 'unitsOfInformation': [] }, position: { x: event.position.x, y: event.position.y } });
-				}
+					const langauge = getMapType();
+					if (langauge == 'PD') {
+						cy.add({ group: 'nodes', data: { class: 'macromolecule', label: 'Node', 'stateVariables': [], 'unitsOfInformation': [] }, position: { x: event.position.x, y: event.position.y } });
+					} else {
+						cy.add({ group: 'nodes', data: { class: 'biological activity', label: 'Node', 'stateVariables': [], 'unitsOfInformation': [] }, position: { x: event.position.x, y: event.position.y } });
+					}
+			}
+		},
+		{
+			id: 'removeSelected',
+			content: 'Remove selected',
+			coreAsWell: true,
+			onClickFunction: function (event) {
+				cy.elements(':selected').remove();
 			}
 		}
 	],

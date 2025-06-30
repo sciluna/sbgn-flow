@@ -37,29 +37,17 @@ h1 {
   font-weight: bold;
 }
 
-#downloadSBGNML:hover {
+#downloadSBGNML:hover, #uploadSBGNML:hover, #openNewt:hover {
   background-color: #eaeaea !important;
   border-radius: 3px;
   cursor: pointer;
 }
 
-#applyLayout:hover {
-  background-color: #eaeaea !important;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-#openNewt:hover {
-  background-color: #eaeaea !important;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-#processData, #refineLayout {
+#processData, #refineLayout, #mergeButton, #splitButton {
   background-color: #d67664;
 }
 
-#processData:hover, #refineLayout:hover {
+#processData:hover, #refineLayout:hover, #mergeButton:hover, #splitButton:hover {
   background-color: #f2711c !important;
 }
 
