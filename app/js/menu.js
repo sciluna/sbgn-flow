@@ -483,7 +483,7 @@ document.getElementById("mergeButton").addEventListener("click", function () {
 	let selectedComponent = cy.elements(":selected");
 	let unselectedComponent = cy.elements(":unselected");
 
-	let selectedUnselectedMap = new Map();
+	let selectedUnselectedMap = new Map(); // intersecting node map 
 	// find intersecting nodes based on label
 	selectedComponent.nodes().forEach(node1 => {
 		if (node1.data("label")){
@@ -493,7 +493,7 @@ document.getElementById("mergeButton").addEventListener("click", function () {
 						selectedUnselectedMap.set(node1.id(), node2.id());
 					}
 					else if (node1.parent().length > 0 && node2.parent().length > 0) { // both has parent
-						if (node1.parent().id() == node1.parent().id()) {
+						if (node1.parent().data("label") == node2.parent().data("label")) {
 							selectedUnselectedMap.set(node1.id(), node2.id());
 						}
 					}
@@ -501,52 +501,114 @@ document.getElementById("mergeButton").addEventListener("click", function () {
 			});
 		}
 	});
-	// for each intersecting node, transfer incident edges to unselected network
+
+	// calculate overall shift amount
+	let shiftAmountX = 0;
+	let shiftAmountY = 0;
 	selectedUnselectedMap.forEach((value, key) => {
 		let selectedNode = cy.getElementById(key);
-		selectedNode.incomers().edges().forEach(edge => {
-			edge.move({
-				target: value
-			});
+		let unselectedNode = cy.getElementById(value);
+		shiftAmountX += unselectedNode.position().x - selectedNode.position().x;
+		shiftAmountY += unselectedNode.position().y - selectedNode.position().y;
+	});
+	let shiftAmount = {x: shiftAmountX / selectedUnselectedMap.size, y: shiftAmountY / selectedUnselectedMap.size};
+
+	// animate nodes to calculated position and apply merge operation after animation completed
+	selectedComponent.nodes().forEach(node => {
+		node.animate({
+			position: ({x: node.position().x + shiftAmount.x, y:node.position().y + shiftAmount.y}),
+			duration: 2000,
+			complete: () => {
+				// for each intersecting node, transfer incident edges to unselected component
+				selectedUnselectedMap.forEach((value, key) => {
+					let selectedNode = cy.getElementById(key);
+					let unselectedNode = cy.getElementById(value);
+					selectedNode.incomers().edges().forEach(edge => {
+						edge.move({
+							target: value
+						});
+					});
+					selectedNode.outgoers().edges().forEach(edge => {
+						edge.move({
+							source: value
+						});
+					});
+					selectedNode.remove();	// remove dangling node
+					unselectedNode.select();
+				});
+			}
 		});
-		selectedNode.outgoers().edges().forEach(edge => {
-			edge.move({
-				source: value
-			});
-		});
-		selectedNode.remove();	// remove dangling node
 	});
 });
 
 document.getElementById("splitButton").addEventListener("click", function () {
 	let selectedComponent = cy.elements(":selected");
+	let unselectedComponent = cy.elements(":unselected");
 
-	// find the nodes that need to be split
-	let nodesToSplit = selectedComponent.nodes().filter(node => {
-		let filter = false;
-		node.connectedEdges().forEach(edge => {
-			if(!edge.selected()) {
-				filter = true;
-			}
-		})
-		return filter;
-	});
+	let nodesToSplit = undefined;
+	let edgesToRemove = undefined;
+	// keep connection points
+	if (document.getElementById("keepConnectionPoint").checked) {
+		// find the nodes that need to be split
+		nodesToSplit = selectedComponent.nodes().filter(node => {
+			let filter = false;
+			node.connectedEdges().forEach(edge => {
+				if(!edge.selected()) {
+					filter = true;
+				}
+			})
+			return filter;
+		});
 
-	// split nodes by generating a copy and reconnecting necessary edges
-	nodesToSplit.forEach(node => {
-		let clonedNode = cy.add({ group: 'nodes', data: { id: 'n0', class: node.data('class'), label: node.data('label'),'stateVariables': [], 'unitsOfInformation': [], clonemarker: node.data('clonemarker'), identifierData: node.data('identifierData') }, position: { x: node.position().x, y: node.position().y } });
-		console.log(clonedNode);
-		node.incomers(":unselected").edges().forEach(edge => {
-			edge.move({
-				target: clonedNode.id()
+		// split nodes by generating a copy and reconnecting necessary
+		nodesToSplit.forEach(node => {
+			let clonedNode = cy.add({ group: 'nodes', data: { id: generateNodeId(), class: node.data('class'), label: node.data('label'),'stateVariables': [], 'unitsOfInformation': [], clonemarker: node.data('clonemarker'), identifierData: node.data('identifierData'), parent: node.data('parent') }, position: { x: node.position().x, y: node.position().y } });
+			console.log(clonedNode);
+			node.incomers(":unselected").edges().forEach(edge => {
+				edge.move({
+					target: clonedNode.id()
+				});
+			});
+			node.outgoers(":unselected").edges().forEach(edge => {
+				edge.move({
+					source: clonedNode.id()
+				});
 			});
 		});
-		node.outgoers(":unselected").edges().forEach(edge => {
-			edge.move({
-				source: clonedNode.id()
+	} else {	// ignore connection points
+		edgesToRemove = selectedComponent.edgesWith(unselectedComponent);
+		edgesToRemove.remove();
+	}
+
+	// animation
+	if (nodesToSplit) {
+		// calculate overall shift amount
+		let shiftAmountX = 0;
+		let shiftAmountY = 0;
+		let selectedBBox = selectedComponent.boundingBox();
+		let unselectedBBox;
+		if (selectedComponent.parent() && selectedComponent.parent().length > 0) {
+			unselectedBBox = selectedComponent.parent()[0].children(":unselected").boundingBox();
+		} else {
+			unselectedBBox = unselectedComponent.boundingBox();
+		}
+		let direction = (unselectedBBox.x1 + unselectedBBox.w / 2 > selectedBBox.x1 + selectedBBox.w / 2) ? "toLeft" : "toRight";
+		if (direction == "toLeft") {
+			shiftAmountX = (unselectedBBox.x1 - selectedBBox.w / 2 - 100) - (selectedBBox.x1 + selectedBBox.w / 2) ;
+			shiftAmountY = (unselectedBBox.y1 + unselectedBBox.h / 2) - (selectedBBox.y1 + selectedBBox.h / 2);
+		} else {
+			shiftAmountX = unselectedBBox.x2 - (selectedBBox.x1 + selectedBBox.w / 2) + selectedBBox.w / 2 + 100;
+			shiftAmountY = (unselectedBBox.y1 + unselectedBBox.h / 2) - (selectedBBox.y1 + selectedBBox.h / 2);		
+		}
+		
+		// animate nodes to calculated position
+		selectedComponent.nodes().forEach(node => {
+			node.animate({
+				position: ({x: node.position().x + shiftAmountX, y: node.position().y + shiftAmountY}),
+				duration: 2000
 			});
 		});
-	});
+	}
 });
 
 /* Apply Layout Menu */
