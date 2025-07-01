@@ -613,6 +613,10 @@ document.getElementById("splitButton").addEventListener("click", function () {
 
 /* Apply Layout Menu */
 
+document.getElementById("applyLayout").addEventListener("click", function () {
+	//cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
+});
+
 document.getElementById("refineLayout").addEventListener("click", function () {
 	cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
 });
@@ -637,6 +641,8 @@ document.getElementById("unpinAll").addEventListener("click", function () {
 document.getElementById("selectAll").addEventListener("click", function () {
   cy.elements().select();
 });
+
+document.getElementById('clearCanvas').addEventListener('click', clearCanvas);
 
 /* Graph View Options */
 

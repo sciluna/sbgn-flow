@@ -135,12 +135,12 @@
 								<div class="field" style="margin-top: 0px; margin-bottom: 10px;">
 									<div class="ui right aligned checkbox">
 										<input  id="keepConnectionPoint" type="checkbox" checked>
-										<label>Keep connection points on split</label>
+										<label>Keep connection nodes on split</label>
 									</div>
 								</div>
 								<div class="ui wrapped spaced buttons">
-									<button id="mergeButton" class="tiny ui orange button" title="Merge selected to unselected">Merge selected</button>
-									<button id="splitButton" class="tiny ui orange button" title="Split selected from unselected">Split selected</button>
+									<button id="mergeButton" class="tiny ui orange button" title="Merge selected to unselected">Merge Selected</button>
+									<button id="splitButton" class="tiny ui orange button" title="Split selected from unselected">Split Selected</button>
 								</div>
 							</div>
 						</div>
@@ -155,9 +155,15 @@
 								<button id="unpinAll" class="compact ui button">Unpin All</button>
 								<button id="selectAll" class="compact ui button">Select All</button>
 							</div>
-							<div style="margin-top: 10px;  border-top: 0px !important;">
-								<button id="refineLayout" class="tiny ui orange button">Refine Layout</button>
+							<div id="drawingArea" style="margin-top: 10px;">
+								<canvas id="drawingCanvas" width=300 height=200></canvas>
 							</div>
+							<div class="ui tiny wrapped spaced buttons">
+								<button id="applyLayout" class="ui left floated orange button" title="Apply layout based on drawing">Apply Layout</button>
+								<button id="refineLayout" class="ui left floated orange button" title="Polish layout based on edge orientations">Polish Layout</button>
+							</div>
+							<button id="clearCanvas" class="ui icon right floated button"><i class="sync alternate
+ icon"></i></button>
 						</div>
 					</div>
 				</div>
@@ -194,6 +200,83 @@
 		</div>
 	</div>
 
+	<script>
+		const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'white'; // Set fill color to white
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		// Resize the canvas to match the parent container
+    function resizeCanvas() {
+      const container = document.getElementById('cy');
+      const rect = container.getBoundingClientRect();
+      const style = window.getComputedStyle(container);
+      const borderWidth = parseFloat(style.borderLeftWidth);
+
+      // Set the canvas's internal rendering size to match the container
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+
+      // Optional: Adjust for high-DPI displays
+      const pixelRatio = window.devicePixelRatio || 1;
+      //ctx.scale(pixelRatio, pixelRatio);
+    }
+
+    //resizeCanvas();
+
+    // Function to clear the canvas
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clears the entire canvas
+      ctx.fillStyle = 'white'; // Set fill color to white
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Variables to track the drawing state
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    // Get the correct mouse position
+    function getMousePos(canvas, event) {
+      const rect = canvas.getBoundingClientRect(); // Get canvas position relative to the viewport
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+    }
+
+    // Function to start drawing
+    canvas.addEventListener('mousedown', (e) => {
+      isDrawing = true;
+      const pos = getMousePos(canvas, e);
+      lastX = pos.x;
+      lastY = pos.y;
+    });
+
+    // Function to draw
+    canvas.addEventListener('mousemove', (e) => {
+      if (!isDrawing) return;
+
+      const pos = getMousePos(canvas, e);
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 10;
+      ctx.stroke();
+      ctx.closePath();
+
+      lastX = pos.x;
+      lastY = pos.y;
+    });
+
+    // Stop drawing when the mouse button is released
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+
+    ctx.fillStyle = 'white'; // Set fill color to white
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+	</script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.js"></script>

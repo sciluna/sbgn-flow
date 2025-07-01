@@ -19,6 +19,16 @@
   max-height: 100%;
 }
 
+#drawingCanvas {
+  display: flexbox;
+  margin-bottom: 10px;
+  cursor: crosshair;
+  border-radius: 3px;
+  border-width: 1px;
+  border-color: #999999;
+  border-style: solid;
+}
+
 #cy {
   position: relative;
   left: 0;
@@ -43,11 +53,11 @@ h1 {
   cursor: pointer;
 }
 
-#processData, #refineLayout, #mergeButton, #splitButton {
+#processData, #applyLayout, #refineLayout, #mergeButton, #splitButton {
   background-color: #d67664;
 }
 
-#processData:hover, #refineLayout:hover, #mergeButton:hover, #splitButton:hover {
+#processData:hover, #applyLayout:hover, #refineLayout:hover, #mergeButton:hover, #splitButton:hover {
   background-color: #f2711c !important;
 }
 
