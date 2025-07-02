@@ -23,6 +23,7 @@
     "libsbgn.js": "github:sbgn/libsbgn.js#master",
     "process": "^0.11.10",
     "sbgnml-to-cytoscape": "https://github.com/hasanbalci/sbgnml-to-cytoscape.git",
+    "uggly": "^1.0.0",
     "util": "^0.12.5",
     "xml-formatter": "^3.6.6"
   },

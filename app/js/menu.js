@@ -3,6 +3,7 @@ import convert from 'sbgnml-to-cytoscape';
 import { convert as cytoscapeToSbgnml } from './cytoscape-to-sbgnml.js'
 import { saveAs } from 'file-saver';
 import format from 'xml-formatter';
+import uggly from 'uggly';
 
 /* General */
 
@@ -115,12 +116,6 @@ document.getElementById("inputImage").addEventListener("click", function () {
 
 document.getElementById("processData").addEventListener("click", async function (e) {
 	if (base64data !== undefined) {
-		// remove object view content
-/* 		let objectView = document.getElementById("objectView");
-		if (objectView.querySelector("#objectData") != null) {
-			let objectData = document.getElementById("objectData");
-			objectView.removeChild(objectData);
-		} */
 		// reset other data
 		sbgnmlText = undefined;
 		let keepContent = getMapStatus();
@@ -130,7 +125,7 @@ document.getElementById("processData").addEventListener("click", async function 
 		cy.nodes().unselect();
 		e.currentTarget.style.backgroundColor = "#f2711c";
 		e.currentTarget.className += " loading";
-		userInputText = document.getElementById("userInputText").value;
+		//userInputText = document.getElementById("userInputText").value;
 		await communicate(base64data, userInputText);
 	}
 	else {
@@ -190,8 +185,6 @@ function loadSample(fname) {
 
 // evaluate positions
 let communicate = async function (pngBase64, userInputText) {
-	let imageHeader = "data:image/png;base64,";
-	let finalImage = imageHeader.concat(pngBase64);
 
 	let language = getMapType();
 	let model = getModelType();
@@ -210,7 +203,6 @@ let communicate = async function (pngBase64, userInputText) {
 		sbgnmlText = sbgnmlText.replaceAll('\"', '"');
 		sbgnmlText = sbgnmlText.replaceAll('\n', '');
 		sbgnmlText = sbgnmlText.replaceAll('empty set', 'source and sink');
-		console.log(sbgnmlText);
 		await generateCyGraph();
 	} catch (error) {
 		console.log(error);
@@ -293,7 +285,7 @@ let generateCyGraph = async function (layoutType = "fcose") {
 		edge.data.id = randomId;
 	});
 
-	cy.add(cyGraph);
+	let addedGraph = cy.add(cyGraph);
 	cy.nodes().forEach(
 		(node) => {
 			node.position({ x: node.data('bbox').x, y: node.data('bbox').y });
@@ -320,7 +312,12 @@ let generateCyGraph = async function (layoutType = "fcose") {
 		});
 	}
 	// apply layout
-	cy.layout({ name: layoutType, randomize: false }).run();
+	if (layoutType == "preset") {
+		cy.layout({ name: layoutType }).run();
+	} else if (layoutType == "fcose" && document.getElementById("polishConversion").checked) {
+		cy.layout({ name: layoutType, randomize: false, mapType: language, initialEnergyOnIncremental: 0.3}).run();
+	}
+
 	// apply identifier mapping
 	let nodesToQuery = cy.nodes().filter(node => {
 		return node.data("label");
@@ -563,7 +560,7 @@ document.getElementById("splitButton").addEventListener("click", function () {
 		// split nodes by generating a copy and reconnecting necessary
 		nodesToSplit.forEach(node => {
 			let clonedNode = cy.add({ group: 'nodes', data: { id: generateNodeId(), class: node.data('class'), label: node.data('label'),'stateVariables': [], 'unitsOfInformation': [], clonemarker: node.data('clonemarker'), identifierData: node.data('identifierData'), parent: node.data('parent') }, position: { x: node.position().x, y: node.position().y } });
-			console.log(clonedNode);
+
 			node.incomers(":unselected").edges().forEach(edge => {
 				edge.move({
 					target: clonedNode.id()
@@ -613,7 +610,18 @@ document.getElementById("splitButton").addEventListener("click", function () {
 
 /* Apply Layout Menu */
 
-document.getElementById("applyLayout").addEventListener("click", function () {
+document.getElementById("applyLayout").addEventListener("click", async function () {
+	let imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+  let subset = undefined;
+  if (cy.elements(':selected').length > 0) {
+    subset = cy.elements(':selected');
+  }
+	let result = await uggly.generateConstraints({cy: cy, imageData: imageData, subset: subset});
+	let constraints = result.constraints;
+  let applyIncremental = result.applyIncremental;
+	console.log(constraints);
+	console.log(applyIncremental);
+	await applyLayout(constraints, applyIncremental);
 	//cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
 });
 
@@ -643,6 +651,50 @@ document.getElementById("selectAll").addEventListener("click", function () {
 });
 
 document.getElementById('clearCanvas').addEventListener('click', clearCanvas);
+
+async function applyLayout(constraints, applyIncremental) {
+  let randomize = true;
+  let initialEnergyOnIncremental = 0.3;
+
+  // if there are selected elements, apply incremental layout on selected elements
+  if (cy.elements(':selected').length > 0) {
+    randomize = false;
+    initialEnergyOnIncremental = 0.1;
+  }
+
+  let idealEdgeLength = 60;
+
+  try {
+    callLayout(randomize, idealEdgeLength, initialEnergyOnIncremental, constraints, applyIncremental);
+  } catch (error) {
+    alert("Couldn't process constraints! Please try again!");
+  }
+}
+
+function callLayout(randomize, idealEdgeLength, initialEnergyOnIncremental, constraints, applyIncremental) {
+  cy.layout({
+    name: "fcose",
+    randomize: randomize,
+    idealEdgeLength: idealEdgeLength,
+    animationDuration: 1500,
+    fixedNodeConstraint: constraints.fixedNodeConstraint.length != 0 ? constraints.fixedNodeConstraint : undefined,
+    relativePlacementConstraint: constraints.relativePlacementConstraint ? constraints.relativePlacementConstraint : undefined,
+    alignmentConstraint: constraints.alignmentConstraint ? constraints.alignmentConstraint : undefined,
+    initialEnergyOnIncremental: initialEnergyOnIncremental,
+    stop: () => {      
+      if (applyIncremental) {
+        cy.layout({
+          name: "fcose",
+          randomize: false,
+          animationDuration: 500,
+          idealEdgeLength: idealEdgeLength,
+          fixedNodeConstraint: constraints.fixedNodeConstraint.length != 0 ? constraints.fixedNodeConstraint : undefined,
+          initialEnergyOnIncremental: 0.05
+        }).run();
+      }
+    }
+  }).run();
+};
 
 /* Graph View Options */
 

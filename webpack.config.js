@@ -13,6 +13,7 @@ export default {
     }
   },
   resolve: {
+    mainFields: ['module', 'main'],
     alias: { util$: path.resolve(__dirname, 'node_modules/util'),
       process$: path.resolve(__dirname, 'node_modules/process')
     },
