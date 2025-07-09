@@ -477,27 +477,52 @@ cy.on("unselect", "node", function (evt) {
 /* Merge/Split Maps Menu */
 
 document.getElementById("mergeButton").addEventListener("click", function () {
-	let selectedComponent = cy.elements(":selected");
-	let unselectedComponent = cy.elements(":unselected");
+	let selectedComponent;
+	let unselectedComponent;
+	let selectedUnselectedMap = new Map()
+	let idToMoveAllSelected = false;
 
-	let selectedUnselectedMap = new Map(); // intersecting node map 
-	// find intersecting nodes based on label
-	selectedComponent.nodes().forEach(node1 => {
-		if (node1.data("label")){
-			unselectedComponent.nodes("[label]").forEach(node2 => {
-				if (node1.data("label") == node2.data("label")) {
-					if (node1.parent().length == 0 && node2.parent().length == 0) { // no parent on both
-						selectedUnselectedMap.set(node1.id(), node2.id());
-					}
-					else if (node1.parent().length > 0 && node2.parent().length > 0) { // both has parent
-						if (node1.parent().data("label") == node2.parent().data("label")) {
+	if (!document.getElementById("mergePairwise").checked) {
+		selectedComponent = cy.elements(":selected");
+		unselectedComponent = cy.elements(":unselected");
+
+		// find intersecting nodes based on label
+		selectedComponent.nodes().forEach(node1 => {
+			if (node1.data("label") && !node1.isParent()){
+				unselectedComponent.nodes("[label]").forEach(node2 => {
+					if (node1.data("label") == node2.data("label")) {
+						if (node1.parent().length == 0 && node2.parent().length == 0) { // no parent on both
 							selectedUnselectedMap.set(node1.id(), node2.id());
 						}
+						else if (node1.parent().length > 0 && node2.parent().length > 0) { // both has parent
+							if (node1.parent().data("label") == node2.parent().data("label")) {
+								selectedUnselectedMap.set(node1.id(), node2.id());
+								idToMoveAllSelected = node2.parent().id();
+							}
+						}
+					}
+				});
+			}
+		});
+	} else { // pairwise merge is active
+		if (cy.nodes(":selected").length == 2) {
+			let node1 = cy.nodes(":selected")[0];
+			let node2 = cy.nodes(":selected")[1];
+			selectedComponent = node1.component();
+			unselectedComponent = node2.component();
+			if(!node1.isParent() && !node2.isParent() && node1.data("label") == node2.data("label") && selectedComponent.intersection(unselectedComponent).length == 0){
+				if (node1.parent().length == 0 && node2.parent().length == 0) { // no parent on both
+					selectedUnselectedMap.set(node1.id(), node2.id());
+				}	
+				else if (node1.parent().length > 0 && node2.parent().length > 0) { // both has parent
+					if (node1.parent().data("label") == node2.parent().data("label")) {
+						selectedUnselectedMap.set(node1.id(), node2.id());
+						idToMoveAllSelected = node2.parent().id();
 					}
 				}
-			});
+			}
 		}
-	});
+	}
 
 	// calculate overall shift amount
 	let shiftAmountX = 0;
@@ -533,6 +558,17 @@ document.getElementById("mergeButton").addEventListener("click", function () {
 					selectedNode.remove();	// remove dangling node
 					unselectedNode.select();
 				});
+				if (idToMoveAllSelected) {
+					let selectedParentId = selectedComponent.nodes()[0].parent().id();
+					selectedComponent.nodes().forEach(node => {
+						node.move({
+							parent: idToMoveAllSelected
+						});
+					});
+					if (idToMoveAllSelected != selectedParentId) {
+						cy.getElementById(selectedParentId).remove();
+					}
+				}
 			}
 		});
 	});
@@ -626,7 +662,11 @@ document.getElementById("applyLayout").addEventListener("click", async function 
 });
 
 document.getElementById("refineLayout").addEventListener("click", function () {
-	cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
+	if (cy.elements(":selected").length > 0) {
+		cy.elements(":selected").layout({ name: 'sbgn-layout', randomize: false, fit: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
+	} else {
+		cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
+	}
 });
 
 document.getElementById("pinSelected").addEventListener("click", function () {
@@ -681,7 +721,7 @@ function callLayout(randomize, idealEdgeLength, initialEnergyOnIncremental, cons
     relativePlacementConstraint: constraints.relativePlacementConstraint ? constraints.relativePlacementConstraint : undefined,
     alignmentConstraint: constraints.alignmentConstraint ? constraints.alignmentConstraint : undefined,
     initialEnergyOnIncremental: initialEnergyOnIncremental,
-    stop: () => {      
+/*     stop: () => {      
       if (applyIncremental) {
         cy.layout({
           name: "fcose",
@@ -692,7 +732,7 @@ function callLayout(randomize, idealEdgeLength, initialEnergyOnIncremental, cons
           initialEnergyOnIncremental: 0.05
         }).run();
       }
-    }
+    } */
   }).run();
 };
 
