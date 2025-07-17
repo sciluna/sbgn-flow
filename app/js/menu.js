@@ -286,12 +286,15 @@ let generateCyGraph = async function (layoutType = "fcose") {
 	});
 
 	let addedGraph = cy.add(cyGraph);
-	cy.nodes().forEach(
+	addedGraph.nodes().forEach(
 		(node) => {
 			node.position({ x: node.data('bbox').x, y: node.data('bbox').y });
 		}
 	);
 	// adjust context menu items
+	if (cy.nodes("[class = 'process']").length > 0) {
+		document.getElementById("radioPD").checked = true;
+	}
 	let language = getMapType();
 	let contextMenu = cy.contextMenus('get');
 	let pdItemIDs = ["consumption", "production", "modulation", "stimulation", "catalysis", "inhibition", "macromolecule", "simpleChemical", "unspecifiedEntity", "nucleicAcidFeature", "perturbingAgent", "emptySet", "complex", "process"];
@@ -644,6 +647,49 @@ document.getElementById("splitButton").addEventListener("click", function () {
 	}
 });
 
+/* document.getElementById("convertToAFButton").addEventListener("click", async function () {
+	let finalSbgnml = cytoscapeToSbgnml(cy, getMapType());
+	let model = getModelType();
+	let data = {
+		pd_sbgnml: finalSbgnml,
+		model: model
+	};
+
+	const settings = {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'text/plain'
+		},
+		body: JSON.stringify(data)
+	};
+
+	let res = await fetch('http://localhost:4000/pd2af', settings)
+		.then(response => response.json())
+		.then(result => {
+			return result;
+		})
+		.catch(e => {
+			console.log("Error!");
+		});
+
+	let resultJSON;
+	try {
+		resultJSON = JSON.parse(res);
+		sbgnmlText = resultJSON.answer;
+		sbgnmlText = sbgnmlText.replaceAll('\"', '"');
+		sbgnmlText = sbgnmlText.replaceAll('\n', '');
+		sbgnmlText = sbgnmlText.replaceAll('empty set', 'source and sink');
+		await generateCyGraph();
+	} catch (error) {
+		console.log(error);
+		alert("Output SBGNML from GPT is not in the correct format! Please try again!");
+		console.log("Output SBGNML is not in the correct format");
+		document.getElementById("processData").style.backgroundColor = "#d67664";
+		document.getElementById("processData").classList.remove("loading");
+	}
+}); */
+
 /* Apply Layout Menu */
 
 document.getElementById("applyLayout").addEventListener("click", async function () {
@@ -658,14 +704,13 @@ document.getElementById("applyLayout").addEventListener("click", async function 
 	console.log(constraints);
 	console.log(applyIncremental);
 	await applyLayout(constraints, applyIncremental);
-	//cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
 });
 
 document.getElementById("refineLayout").addEventListener("click", function () {
 	if (cy.elements(":selected").length > 0) {
-		cy.elements(":selected").layout({ name: 'sbgn-layout', randomize: false, fit: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
+		cy.elements(":selected").layout({ name: 'sbgn-layout', randomize: false, idealEdgeLength: 100, fit: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
 	} else {
-		cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
+		cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), idealEdgeLength: 100, initialEnergyOnIncremental: 0.5 }).run();
 	}
 });
 
@@ -690,6 +735,40 @@ document.getElementById("selectAll").addEventListener("click", function () {
   cy.elements().select();
 });
 
+document.getElementById("verticalFlip").addEventListener("click", function () {
+  let nodes = cy.nodes(":selected");
+	let bb = nodes.boundingBox();
+	let centerY = bb.y1 + bb.h / 2;
+	nodes.forEach(node => {
+		let positionY = node.position('y');
+		let newPositionY = 2 * centerY - positionY;
+		node.animate({
+			position: {x: node.position('x'), y: newPositionY}},
+			{
+				duration: 1000
+		});
+	});
+});
+
+document.getElementById("horizontalFlip").addEventListener("click", function () {
+  let nodes = cy.nodes(":selected");
+	let bb = nodes.boundingBox();
+	let centerX = bb.x1 + bb.w / 2;
+	nodes.forEach(node => {
+		let positionX = node.position('x');
+		let newPositionX = 2 * centerX - positionX;
+		node.animate({
+			position: {x: newPositionX, y: node.position('y')}},
+			{
+				duration: 1000
+		});
+	});
+});
+
+document.getElementById("selectAll").addEventListener("click", function () {
+  cy.elements().select();
+});
+
 document.getElementById('clearCanvas').addEventListener('click', clearCanvas);
 
 async function applyLayout(constraints, applyIncremental) {
@@ -702,7 +781,7 @@ async function applyLayout(constraints, applyIncremental) {
     initialEnergyOnIncremental = 0.1;
   }
 
-  let idealEdgeLength = 60;
+  let idealEdgeLength = 100;
 
   try {
     callLayout(randomize, idealEdgeLength, initialEnergyOnIncremental, constraints, applyIncremental);
@@ -717,22 +796,25 @@ function callLayout(randomize, idealEdgeLength, initialEnergyOnIncremental, cons
     randomize: randomize,
     idealEdgeLength: idealEdgeLength,
     animationDuration: 1500,
+		fit: false,
     fixedNodeConstraint: constraints.fixedNodeConstraint.length != 0 ? constraints.fixedNodeConstraint : undefined,
     relativePlacementConstraint: constraints.relativePlacementConstraint ? constraints.relativePlacementConstraint : undefined,
     alignmentConstraint: constraints.alignmentConstraint ? constraints.alignmentConstraint : undefined,
     initialEnergyOnIncremental: initialEnergyOnIncremental,
-/*     stop: () => {      
+    stop: () => {      
       if (applyIncremental) {
-        cy.layout({
-          name: "fcose",
+        cy.elements(":selected").layout({
+          name: "sbgn-layout",
+					mapType: getMapType(),
           randomize: false,
+					fit: false,
           animationDuration: 500,
           idealEdgeLength: idealEdgeLength,
           fixedNodeConstraint: constraints.fixedNodeConstraint.length != 0 ? constraints.fixedNodeConstraint : undefined,
           initialEnergyOnIncremental: 0.05
         }).run();
       }
-    } */
+    }
   }).run();
 };
 

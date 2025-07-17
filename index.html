@@ -152,6 +152,7 @@
 								<div class="ui wrapped spaced buttons">
 									<button id="mergeButton" class="tiny ui orange button" title="Merge selected to unselected">Merge Selected</button>
 									<button id="splitButton" class="tiny ui orange button" title="Split selected from unselected">Split Selected</button>
+<!-- 									<button id="convertToAFButton" class="tiny ui orange button" title="Split selected from unselected">Convert to AF</button> -->
 								</div>
 							</div>
 						</div>
@@ -160,11 +161,19 @@
 							Apply Layout
 						</div>
 						<div class="content">
-							<div class="four ui mini buttons">
+							<div class="two ui tiny circular buttons" style="margin-bottom: 5px;">
 								<button id="pinSelected" class="compact ui button">Pin Selected</button>
 								<button id="unpinSelected" class="compact ui button">Unpin Selected</button>
+							</div>
+							<div class="two ui tiny circular buttons" style="margin-bottom: 5px;">
 								<button id="unpinAll" class="compact ui button">Unpin All</button>
 								<button id="selectAll" class="compact ui button">Select All</button>
+							</div>
+							<div class="two ui tiny circular buttons">
+								<button id="verticalFlip" class="compact ui button">Flip <i class="fitted arrows alternate vertical
+ icon"></i></button>
+ 								<button id="horizontalFlip" class="compact ui button">Flip <i class="fitted arrows alternate horizontal
+ icon"></i></button>
 							</div>
 							<div id="drawingArea" style="margin-top: 10px;">
 								<canvas id="drawingCanvas" width=300 height=200></canvas>
