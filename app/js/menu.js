@@ -223,7 +223,7 @@ let sendRequestToGPT = async function (data) {
 		body: JSON.stringify(data)
 	};
 
-	let res = await fetch('http://3.95.207.114/gpt', settings)
+	let res = await fetch('https://dev.sciluna.com/image2sbgn/gpt', settings)
 		.then(response => response.json())
 		.then(result => {
 			return result;
@@ -353,7 +353,7 @@ let mapIdentifiers = async function (nodesToQuery) {
 		body: data
 	};
 
-	let identifiers = await fetch('http://3.95.207.114/anno', settings)
+	let identifiers = await fetch('https://dev.sciluna.com/image2sbgn/anno', settings)
 		.then(response => response.json())
 		.then(result => {
 			return result;
@@ -850,7 +850,7 @@ document.getElementById("openNewt").addEventListener("click", async function () 
 
 async function openInNewtAndDelete(sbgnContent) {
 	let filename = 'diagram_' + Date.now() + '.sbgnml';
-  const response = await fetch('http://3.95.207.114/upload', {
+  const response = await fetch('https://dev.sciluna.com/image2sbgn/upload', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -867,7 +867,7 @@ async function openInNewtAndDelete(sbgnContent) {
     window.open(`https://web.newteditor.org/?URL=${data.url}`, '_blank');
 
 		setTimeout(() => {
-			fetch('/delete', {
+			fetch('https://dev.sciluna.com/image2sbgn/delete', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ filename }),
