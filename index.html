@@ -54,7 +54,7 @@
 												<option value="sample4">SamplePD 2</option>
 											</select>
 										</div>
-										<div class="ui tiny button" id="load-file" tabindex="0">
+										<div class="ui tiny button" id="load-image" tabindex="0">
 											Open File...
 										</div>
 									</div>
@@ -62,8 +62,7 @@
 										Load File...
 									</div>
 								</div>
-								<input id="file-input" type="file" accept="image/*" style="display:none" />
-								<input id="file-input-cy" type="file" multiple style="display:none" />
+								<input id="image-input" type="file" accept="image/*" style="display:none" />
 								<h4 class="ui header" style="margin-top: 10px; margin-bottom: 5px;">Settings</h4>
 								<div class="field">
 									<div class="inline fields" style="margin-top: 0px; margin-bottom: 5px;">
@@ -192,8 +191,8 @@
 						<div class="field">
 							<div class="inline fields" style="margin-bottom: 10px;"">
 								<h3 class="ui header" style="margin-bottom: -3px; margin-right: 7.5px; padding: 2.5px;">Graph View</h3>
-								<i class="ui large upload icon" id="uploadSbgnml" title="Upload an SBGNML file"></i>&nbsp;
-								<input id="file-input-sbgn" type="file" accept="xml/*" style="display:none" />
+								<i class="ui large upload icon" id="uploadGraph" title="Upload an SBGNML file"></i>&nbsp;
+								<input id="file-input-graph" type="file" accept="xml/*" style="display:none" />
 								<i class="ui large download icon" id="downloadSbgnml" title="Download as SBGNML"></i>&nbsp;
 								<img class="ui image" id="openNewt" src="app/img/newt-icon.png" title="Open in Newt" style="height: 22px; width: 22px;">
 								<a class="tooltip"><i class="ui large info circle icon" id="contextMenuInfo" style="color: black;"></i>

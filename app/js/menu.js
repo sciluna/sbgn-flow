@@ -55,15 +55,15 @@ document.getElementById("samples").addEventListener("change", function (event) {
 	}
 });
 
-$("#load-file").on("click", function (e) {
-	$("#file-input").trigger('click');
+$("#load-image").on("click", function (e) {
+	$("#image-input").trigger('click');
 });
 
-$("#upload-file").on("click", function (e) {
+/* $("#upload-file").on("click", function (e) {
 	$("#file-input-cy").trigger('click');
-});
+}); */
 
-document.getElementById("file-input").addEventListener("change", async function (file) {
+document.getElementById("image-input").addEventListener("change", async function (file) {
 	let input = file.target;
 	let reader = new FileReader();
 	reader.onload = function () {
@@ -203,7 +203,7 @@ let communicate = async function (pngBase64, userInputText) {
 		sbgnmlText = sbgnmlText.replaceAll('\"', '"');
 		sbgnmlText = sbgnmlText.replaceAll('\n', '');
 		sbgnmlText = sbgnmlText.replaceAll('empty set', 'source and sink');
-		await generateCyGraph();
+		await generateCyGraph(sbgnmlText);
 	} catch (error) {
 		console.log(error);
 		alert("Output SBGNML from GPT is not in the correct format! Please try again!");
@@ -266,8 +266,15 @@ async function setIdentifiers (nodeLabelArray){
 	});
 }
 
-let generateCyGraph = async function (layoutType = "fcose") {
-	let cyGraph = convert(sbgnmlText);
+let generateCyGraph = async function (graphContent, source = "sbgn", layoutType = "fcose") {
+	let cyGraph;
+	if (source == "sbgn") {
+		cyGraph = convert(graphContent);
+	} else if(source == "json") {
+		cy.style(defaultStylesheet);
+		cyGraph = graphContent.elements;
+	}
+	
 	// change node/edge ids to allow keeping current content (otherwise nodes/edges with same ids cannot be added)
 	let nodeNewIdMap = new Map();
 	cyGraph.nodes.forEach(node => {
@@ -286,11 +293,14 @@ let generateCyGraph = async function (layoutType = "fcose") {
 	});
 
 	let addedGraph = cy.add(cyGraph);
-	addedGraph.nodes().forEach(
-		(node) => {
-			node.position({ x: node.data('bbox').x, y: node.data('bbox').y });
-		}
-	);
+	if (source == "sbgn") {
+		addedGraph.nodes().not(":parent").forEach(
+			(node) => {
+				node.position({ x: node.data('bbox').x, y: node.data('bbox').y });
+			}
+		);
+	}
+	//cy.nodes().grabify(); // for graphs from reactome cy.json
 	// adjust context menu items
 	if (cy.nodes("[class = 'process']").length > 0) {
 		document.getElementById("radioPD").checked = true;
@@ -803,11 +813,11 @@ function callLayout(randomize, idealEdgeLength, initialEnergyOnIncremental, cons
     initialEnergyOnIncremental: initialEnergyOnIncremental,
     stop: () => {      
       if (applyIncremental) {
-        cy.elements(":selected").layout({
+        cy.layout({
           name: "sbgn-layout",
 					mapType: getMapType(),
           randomize: false,
-					fit: false,
+					fit: true,
           animationDuration: 500,
           idealEdgeLength: idealEdgeLength,
           fixedNodeConstraint: constraints.fixedNodeConstraint.length != 0 ? constraints.fixedNodeConstraint : undefined,
@@ -820,19 +830,25 @@ function callLayout(randomize, idealEdgeLength, initialEnergyOnIncremental, cons
 
 /* Graph View Options */
 
-$("#uploadSbgnml").on("click", function (e) {
-	$("#file-input-sbgn").trigger('click');
+$("#uploadGraph").on("click", function (e) {
+	$("#file-input-graph").trigger('click');
 });
 
-document.getElementById("file-input-sbgn").addEventListener("change", async function (file) {
-	let input = file.target;
+document.getElementById("file-input-graph").addEventListener("change", async function (e) {
+	let file = e.target.files[0];
+	let fileExtension = file.name.split('.').pop();
 	let reader = new FileReader();
 	reader.onload = async function () {
-		sbgnmlText = reader.result;
-		await generateCyGraph("preset");
-		sbgnmlText = undefined;
+		if (fileExtension == "sbgn" || fileExtension == "sbgnml") {	// input is sbgn file
+			sbgnmlText = reader.result;
+			await generateCyGraph(sbgnmlText, "sbgn", "preset");
+			sbgnmlText = undefined;
+		} else if (fileExtension == "json") {	// input is cytoscape.js json file
+			let content = JSON.parse(reader.result);
+			await generateCyGraph(content, "json", "preset");
+		}
 	};
-	reader.readAsText(input.files[0]);
+	reader.readAsText(file);
 });
 
 document.getElementById("downloadSbgnml").addEventListener("click", function () {
@@ -883,5 +899,14 @@ async function openInNewtAndDelete(sbgnContent) {
   }
 	return data.filename;
 }
+
+let defaultStylesheet = [
+  {
+    selector: 'node',
+    style: {
+      'label': 'data(displayName)',
+    }
+  }
+];
 
 export { sendRequestToGPT, getMapType };
