@@ -747,26 +747,38 @@ document.getElementById("selectAll").addEventListener("click", function () {
 
 document.getElementById("verticalFlip").addEventListener("click", function () {
 	let transform = cy.transform('get');
-	let nodes = cy.nodes(":selected");
-	transform.flipVertical(nodes);
+		let selectedNodes = cy.nodes(":selected");
+	if (selectedNodes.length == 0) {
+		selectedNodes = cy.nodes();
+	}
+	transform.flipVertical(selectedNodes);
 });
 
 document.getElementById("horizontalFlip").addEventListener("click", function () {
 	let transform = cy.transform('get');
-	let nodes = cy.nodes(":selected");
-	transform.flipHorizontal(nodes);
+	let selectedNodes = cy.nodes(":selected");
+	if (selectedNodes.length == 0) {
+		selectedNodes = cy.nodes();
+	}
+	transform.flipHorizontal(selectedNodes);
 });
 
 document.getElementById("rotateClockwise").addEventListener("click", function () {
 	let transform = cy.transform('get');
-	let nodes = cy.nodes(":selected");
-	transform.rotate(nodes, 90);
+	let selectedNodes = cy.nodes(":selected");
+	if (selectedNodes.length == 0) {
+		selectedNodes = cy.nodes();
+	}
+	transform.rotate(selectedNodes, 90);
 });
 
 document.getElementById("rotateCounterclockwise").addEventListener("click", function () {
 	let transform = cy.transform('get');
-	let nodes = cy.nodes(":selected");
-	transform.rotate(nodes, -90);
+	let selectedNodes = cy.nodes(":selected");
+	if (selectedNodes.length == 0) {
+		selectedNodes = cy.nodes();
+	}
+	transform.rotate(selectedNodes, -90);
 });
 
 document.getElementById("selectAll").addEventListener("click", function () {
