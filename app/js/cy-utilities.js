@@ -4,12 +4,14 @@ import layoutUtilities from 'cytoscape-layout-utilities';
 import sbgnLayout from "cytoscape-sbgn-layout";
 import sbgnStylesheet from 'cytoscape-sbgn-stylesheet';
 import contextMenus from 'cytoscape-context-menus';
+import transform from 'cytoscape-transform';
 import { getMapType } from './menu.js'
 
 cytoscape.use(fcose);
 cytoscape.use(contextMenus);
 cytoscape.use(layoutUtilities);
 cytoscape.use(sbgnLayout);
+cytoscape.use(transform);
 
 let cy = window.cy = cytoscape({
 	container: document.getElementById('cy'),
@@ -27,6 +29,8 @@ cy.style().selector('.pinned')
 cy.layoutUtilities({
 	desiredAspectRatio: cy.width()/cy.height()
 });
+
+cy.transform();
 
 var contextMenuOptions = {
 	evtType: 'cxttap',

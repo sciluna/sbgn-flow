@@ -19,6 +19,7 @@
     "cytoscape-layout-utilities": "^1.1.1",
     "cytoscape-sbgn-layout": "github:sciluna/cytoscape.js-sbgn-layout",
     "cytoscape-sbgn-stylesheet": "https://github.com/hasanbalci/cytoscape-sbgn-stylesheet.git",
+    "cytoscape-transform": "https://github.com/hasanbalci/cytoscape.js-transform",
     "express": "^4.19.2",
     "file-saver": "^2.0.5",
     "libsbgn.js": "github:sbgn/libsbgn.js#master",

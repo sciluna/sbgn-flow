@@ -746,33 +746,27 @@ document.getElementById("selectAll").addEventListener("click", function () {
 });
 
 document.getElementById("verticalFlip").addEventListener("click", function () {
-  let nodes = cy.nodes(":selected");
-	let bb = nodes.boundingBox();
-	let centerY = bb.y1 + bb.h / 2;
-	nodes.forEach(node => {
-		let positionY = node.position('y');
-		let newPositionY = 2 * centerY - positionY;
-		node.animate({
-			position: {x: node.position('x'), y: newPositionY}},
-			{
-				duration: 1000
-		});
-	});
+	let transform = cy.transform('get');
+	let nodes = cy.nodes(":selected");
+	transform.flipVertical(nodes);
 });
 
 document.getElementById("horizontalFlip").addEventListener("click", function () {
-  let nodes = cy.nodes(":selected");
-	let bb = nodes.boundingBox();
-	let centerX = bb.x1 + bb.w / 2;
-	nodes.forEach(node => {
-		let positionX = node.position('x');
-		let newPositionX = 2 * centerX - positionX;
-		node.animate({
-			position: {x: newPositionX, y: node.position('y')}},
-			{
-				duration: 1000
-		});
-	});
+	let transform = cy.transform('get');
+	let nodes = cy.nodes(":selected");
+	transform.flipHorizontal(nodes);
+});
+
+document.getElementById("rotateClockwise").addEventListener("click", function () {
+	let transform = cy.transform('get');
+	let nodes = cy.nodes(":selected");
+	transform.rotate(nodes, 90);
+});
+
+document.getElementById("rotateCounterclockwise").addEventListener("click", function () {
+	let transform = cy.transform('get');
+	let nodes = cy.nodes(":selected");
+	transform.rotate(nodes, -90);
 });
 
 document.getElementById("selectAll").addEventListener("click", function () {
@@ -850,6 +844,37 @@ document.getElementById("file-input-graph").addEventListener("change", async fun
 	};
 	reader.readAsText(file);
 });
+
+/* document.getElementById("file-input-cy").addEventListener("change", async function (event) {
+	const files = Array.from(event.target.files);
+
+	files.forEach(async (file) => {
+    if (file.name.endsWith('.json')) {
+      const text = await file.text();
+      try {
+        const json = JSON.parse(text);
+        cy.elements().remove();
+        cy.json({elements: json.elements});
+				cy.layout({name: "preset"}).run();
+				let finalSbgnml = cytoscapeToSbgnml(cy, "activity flow");
+				finalSbgnml = format(finalSbgnml);
+				let blob = new Blob([finalSbgnml], { type: "text/xml" });
+				saveAs(blob, file.name.replace(/\.[^/.]+$/, "") + ".sbgnml");
+
+      } catch (err) {
+        console.error(`Failed to parse ${file.name}:`, err);
+      }
+    }
+	});
+
+	let input = file.target;
+	let reader = new FileReader();
+	reader.onload = function () {
+		let cyJson = JSON.parse(reader.result);
+		cy.json({elements: cyJson.elements});
+	};
+	reader.readAsText(input.files[0]);
+}); */
 
 document.getElementById("downloadSbgnml").addEventListener("click", function () {
 	let finalSbgnml = cytoscapeToSbgnml(cy, getMapType());
