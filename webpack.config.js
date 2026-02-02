@@ -15,9 +15,12 @@ export default {
   resolve: {
     mainFields: ['module', 'main'],
     alias: { util$: path.resolve(__dirname, 'node_modules/util'),
-      process$: path.resolve(__dirname, 'node_modules/process')
+      process$: path.resolve(__dirname, 'node_modules/process'),
+      path$: path.resolve(__dirname, 'node_modules/path-browserify')
     },
     fallback: {
+      "assert": false,
+      "crypto": false,
       "fs": false,
       "http": false,
       "timers": false,
