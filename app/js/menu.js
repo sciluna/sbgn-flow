@@ -1,6 +1,8 @@
+import cytoscape from 'cytoscape';
 import { cy } from './cy-utilities.js';
 import convert from 'sbgnml-to-cytoscape';
 import { convert as cytoscapeToSbgnml } from './cytoscape-to-sbgnml.js'
+import sbgnStylesheet from 'cytoscape-sbgn-stylesheet';
 import { saveAs } from 'file-saver';
 import format from 'xml-formatter';
 import uggly from 'uggly';
@@ -329,6 +331,8 @@ let generateCyGraph = async function (graphContent, source = "sbgn", layoutType 
 		cy.layout({ name: layoutType }).run();
 	} else if (layoutType == "fcose" && document.getElementById("polishConversion").checked) {
 		cy.layout({ name: layoutType, randomize: false, mapType: language, initialEnergyOnIncremental: 0.3}).run();
+	} else {
+		cy.layout({ name: "preset", fit: true }).run();
 	}
 
 	// apply identifier mapping
@@ -496,31 +500,38 @@ document.getElementById("mergeButton").addEventListener("click", function () {
 	let idToMoveAllSelected = false;
 
 	if (!document.getElementById("mergePairwise").checked) {
-		selectedComponent = cy.elements(":selected");
-		unselectedComponent = cy.elements(":unselected");
+		if(document.getElementById("mergeSmart").checked) {
+			let mergeSplit = cy.mergeSplit('get');
+			selectedComponent = cy.elements(":selected");
+			unselectedComponent = cy.elements(":unselected");
+			mergeSplit.merge(selectedComponent, unselectedComponent);
+		} else {
+			selectedComponent = cy.elements(":selected");
+			unselectedComponent = cy.elements(":unselected");
 
-		// find intersecting nodes based on label
-		selectedComponent.nodes().forEach(node1 => {
-			if (node1.data("label") && !node1.isParent()){
-				unselectedComponent.nodes("[label]").forEach(node2 => {
-					if (node1.data("label") == node2.data("label")) {
-						if (node1.parent().length == 0 && node2.parent().length == 0) { // no parent on both
-							selectedUnselectedMap.set(node1.id(), node2.id());
-						}
-						else if (node1.parent().length > 0 && node2.parent().length > 0) { // both has parent
-							if (node1.parent().data("label") == node2.parent().data("label")) {
+			// find intersecting nodes based on label
+			selectedComponent.nodes().forEach(node1 => {
+				if (node1.data("label") && !node1.isParent()){
+					unselectedComponent.nodes("[label]").forEach(node2 => {
+						if (node1.data("label") == node2.data("label")) {
+							if (node1.parent().length == 0 && node2.parent().length == 0) { // no parent on both
 								selectedUnselectedMap.set(node1.id(), node2.id());
-								idToMoveAllSelected = node2.parent().id();
+							}
+							else if (node1.parent().length > 0 && node2.parent().length > 0) { // both has parent
+								if (node1.parent().data("label") == node2.parent().data("label")) {
+									selectedUnselectedMap.set(node1.id(), node2.id());
+									idToMoveAllSelected = node2.parent().id();
+								}
 							}
 						}
-					}
-				});
-			}
-		});
+					});
+				}
+			});
+		}
 	} else { // pairwise merge is active
 		if (cy.nodes(":selected").length == 2) {
-			let node1 = cy.nodes(":selected")[0];
-			let node2 = cy.nodes(":selected")[1];
+			let node1 = cy.nodes(":selected")[1];
+			let node2 = cy.nodes(":selected")[0];
 			selectedComponent = node1.component();
 			unselectedComponent = node2.component();
 			if(!node1.isParent() && !node2.isParent() && node1.data("label") == node2.data("label") && selectedComponent.intersection(unselectedComponent).length == 0){
@@ -559,14 +570,22 @@ document.getElementById("mergeButton").addEventListener("click", function () {
 					let selectedNode = cy.getElementById(key);
 					let unselectedNode = cy.getElementById(value);
 					selectedNode.incomers().edges().forEach(edge => {
-						edge.move({
-							target: value
-						});
+						if(selectedUnselectedMap.has(edge.source().id()) && selectedUnselectedMap.has(edge.target().id())) {
+							edge.remove();
+						} else {
+							edge.move({
+								target: value
+							});
+						}
 					});
 					selectedNode.outgoers().edges().forEach(edge => {
-						edge.move({
-							source: value
-						});
+						if(selectedUnselectedMap.has(edge.source().id()) && selectedUnselectedMap.has(edge.target().id())) {
+							edge.remove();
+						} else {
+							edge.move({
+								source: value
+							});
+						}
 					});
 					selectedNode.remove();	// remove dangling node
 					unselectedNode.select();
@@ -589,71 +608,28 @@ document.getElementById("mergeButton").addEventListener("click", function () {
 
 document.getElementById("splitButton").addEventListener("click", function () {
 	let selectedComponent = cy.elements(":selected");
-	let unselectedComponent = cy.elements(":unselected");
 
-	let nodesToSplit = undefined;
-	let edgesToRemove = undefined;
-	// keep connection points
-	if (document.getElementById("keepConnectionPoint").checked) {
-		// find the nodes that need to be split
-		nodesToSplit = selectedComponent.nodes().filter(node => {
-			let filter = false;
-			node.connectedEdges().forEach(edge => {
-				if(!edge.selected()) {
-					filter = true;
-				}
-			})
-			return filter;
-		});
+	// apply split 
+	let mergeSplit = cy.mergeSplit('get');
+	let splittedComponent = mergeSplit.split(selectedComponent, document.getElementById("keepConnectionPoint").checked, "auto", 100);
 
-		// split nodes by generating a copy and reconnecting necessary
-		nodesToSplit.forEach(node => {
-			let clonedNode = cy.add({ group: 'nodes', data: { id: generateNodeId(), class: node.data('class'), label: node.data('label'),'stateVariables': [], 'unitsOfInformation': [], clonemarker: node.data('clonemarker'), identifierData: node.data('identifierData'), parent: node.data('parent') }, position: { x: node.position().x, y: node.position().y } });
-
-			node.incomers(":unselected").edges().forEach(edge => {
-				edge.move({
-					target: clonedNode.id()
+	// Add clone markers when necessary
+	let restOfGraph = cy.elements().not(splittedComponent);
+	restOfGraph.unselect();
+	if(getMapType() == 'PD') {
+		let classesWithCloneMarker = ['unspecified entity', 'simple chemical', 'simple chemical multimer', 'macromolecule', 'macromolecule multimer', 'nucleic acid feature', 'nucleic acid feature multimer', 'complex', 'complex multimer', 'perturbing agent']; 
+		splittedComponent.nodes().forEach(node1 => {
+			if(classesWithCloneMarker.includes(node1.data("class"))) {
+				let label = node1.data('label');
+				restOfGraph.forEach(node2 => {
+					if(node2.data('label') == label) {
+						node1.data('clonemarker', true);
+						node2.data('clonemarker', true);
+					}
 				});
-			});
-			node.outgoers(":unselected").edges().forEach(edge => {
-				edge.move({
-					source: clonedNode.id()
-				});
-			});
+			}
 		});
-	} else {	// ignore connection points
-		edgesToRemove = selectedComponent.edgesWith(unselectedComponent);
-		edgesToRemove.remove();
-	}
-
-	// animation
-	if (nodesToSplit) {
-		// calculate overall shift amount
-		let shiftAmountX = 0;
-		let shiftAmountY = 0;
-		let selectedBBox = selectedComponent.boundingBox();
-		let unselectedBBox;
-		if (selectedComponent.parent() && selectedComponent.parent().length > 0) {
-			unselectedBBox = selectedComponent.parent()[0].children(":unselected").boundingBox();
-		} else {
-			unselectedBBox = unselectedComponent.boundingBox();
-		}
-		let direction = (unselectedBBox.x1 + unselectedBBox.w / 2 > selectedBBox.x1 + selectedBBox.w / 2) ? "toLeft" : "toRight";
-		if (direction == "toLeft") {
-			shiftAmountX = (unselectedBBox.x1 - selectedBBox.w / 2 - 100) - (selectedBBox.x1 + selectedBBox.w / 2) ;
-			shiftAmountY = (unselectedBBox.y1 + unselectedBBox.h / 2) - (selectedBBox.y1 + selectedBBox.h / 2);
-		} else {
-			shiftAmountX = unselectedBBox.x2 - (selectedBBox.x1 + selectedBBox.w / 2) + selectedBBox.w / 2 + 100;
-			shiftAmountY = (unselectedBBox.y1 + unselectedBBox.h / 2) - (selectedBBox.y1 + selectedBBox.h / 2);		
-		}
-		
-		// animate nodes to calculated position
-		selectedComponent.nodes().forEach(node => {
-			node.animate({
-				position: ({x: node.position().x + shiftAmountX, y: node.position().y + shiftAmountY}),
-				duration: 2000
-			});
-		});
+		//cy.style(sbgnStylesheet(cytoscape)).update();
 	}
 });
 

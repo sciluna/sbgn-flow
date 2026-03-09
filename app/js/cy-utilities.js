@@ -5,6 +5,7 @@ import sbgnLayout from "cytoscape-sbgn-layout";
 import sbgnStylesheet from 'cytoscape-sbgn-stylesheet';
 import contextMenus from 'cytoscape-context-menus';
 import transform from 'cytoscape-transform';
+import cytoscapeMergeSplit from 'cytoscape-merge-split';
 import { getMapType } from './menu.js'
 
 cytoscape.use(fcose);
@@ -12,11 +13,26 @@ cytoscape.use(contextMenus);
 cytoscape.use(layoutUtilities);
 cytoscape.use(sbgnLayout);
 cytoscape.use(transform);
+cytoscape.use(cytoscapeMergeSplit);
 
 let cy = window.cy = cytoscape({
 	container: document.getElementById('cy'),
 	style: sbgnStylesheet(cytoscape),
 });
+
+let nodeClassesWithoutLabel = ["process", "omitted process", "uncertain process", "association", "dissociation"];
+
+cy.style().selector('node')
+	.style({
+		'content': (node) => {
+			if(nodeClassesWithoutLabel.includes(node.data("class"))) {
+				return "";
+			} else {
+				return node.data("label");
+			}
+		}
+	})
+	.update();
 
 cy.style().selector('.pinned')
 	.style({
@@ -26,11 +42,23 @@ cy.style().selector('.pinned')
 	})
 	.update();
 
+cy.style().selector(':selected')
+	.style({
+		"border-width": 2,
+		"border-color": "rgb(1,105,217)",
+		"background-color": "white",
+		"line-color": "rgb(1,105,217)",
+		"target-arrow-color": "rgb(1,105,217)",
+		"font-weight": "normal"
+	})
+	.update();
+
 cy.layoutUtilities({
 	desiredAspectRatio: cy.width()/cy.height()
 });
 
 cy.transform();
+cy.mergeSplit();
 
 var contextMenuOptions = {
 	evtType: 'cxttap',
