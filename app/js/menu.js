@@ -20,7 +20,7 @@ $('.ui.checkbox').checkbox();
 let base64data;
 let userInputText;
 let sbgnmlText;
-let sbgnmlfilename = "new_file.sbgnml";
+let sbgnmlfilename = "new_file.sbgn";
 
 document.getElementById("samples").addEventListener("change", function (event) {
 	let sample = event.target.value;
@@ -264,6 +264,12 @@ async function setIdentifiers (nodeLabelArray){
 		});
 		cyNodes.forEach(cyNode => {
 			cyNode.data("identifierData", value);
+			cyNode.data("annotations", [{
+				annotationValue: value[0].url,
+				selectedDB: value[0].db,
+				status: "validated",
+				selectedRelation: "bqbiol:is"
+			}]);
 		});
 	});
 }
@@ -866,14 +872,14 @@ document.getElementById("file-input-graph").addEventListener("change", async fun
 
 document.getElementById("downloadSbgnml").addEventListener("click", function () {
 	let finalSbgnml = cytoscapeToSbgnml(cy, getMapType());
-	finalSbgnml = format(finalSbgnml);
+	finalSbgnml = format(finalSbgnml, {indentation: '  '});
 	let blob = new Blob([finalSbgnml], { type: "text/xml" });
 	saveAs(blob, sbgnmlfilename);
 });
 
 document.getElementById("openNewt").addEventListener("click", async function () {
 	let finalSbgnml = cytoscapeToSbgnml(cy, getMapType());
-	finalSbgnml = format(finalSbgnml);
+	finalSbgnml = format(finalSbgnml, {indentation: '  '});
 	const filename = await openInNewtAndDelete(finalSbgnml);
 });
 

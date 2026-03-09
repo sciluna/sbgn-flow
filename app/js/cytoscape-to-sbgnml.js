@@ -1,4 +1,5 @@
 import libsbgnjs from 'libsbgn.js';
+let annot = libsbgnjs.annot;
 
 const convert = function (cy, mapLanguage) {
 
@@ -7,7 +8,7 @@ const convert = function (cy, mapLanguage) {
 
   const xmlHeader = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?>";
 
-  let sbgn = new libsbgnjs.Sbgn({ xmlns: 'http://sbgn.org/libsbgn/0.2' });
+  let sbgn = new libsbgnjs.Sbgn({ xmlns: 'http://sbgn.org/libsbgn/0.3' });
 
   let map = new libsbgnjs.Map({ language: mapLanguage });
 
@@ -22,7 +23,7 @@ const convert = function (cy, mapLanguage) {
   // add them to the map
   for (let i = 0; i < glyphList.length; i++) {
     if (glyphList[i] != undefined) {
-      glyphList[i].extension = null;
+      //glyphList[i].extension = null;
       map.addGlyph(glyphList[i]);
     }
   }
@@ -101,6 +102,13 @@ const getGlyphSbgnml = function (node) {
     glyph.addGlyphMember(addInfoBoxGlyph(boxGlyph, unitsOfInformationId, node));
   };
 
+  // check for annotations
+  if (node.data('annotations') && !$.isEmptyObject(node.data('annotations'))) {
+    var extension = getOrCreateExtension(glyph);
+    var annotExt = getAnnotationExtension(node);
+    extension.add(annotExt);
+  }
+
   // add glyph members that are not state variables or unit of info 
   if (nodeClass === "complex" || nodeClass === "complex multimer" || nodeClass === "submap") {
     let children = node.children();
@@ -176,6 +184,47 @@ const addStateAndInfoBbox = function (mainGlyph, boxGlyph) {
   let y = ((boxBbox.y * (mainGlyph.outerHeight() - borderWidth)) / 100) + (mainGlyph.position().y - mainGlyph.height() / 2 - padding - boxBbox.h / 2);
 
   return new libsbgnjs.Bbox({ x: x, y: y, w: boxBbox.w, h: boxBbox.h });
+};
+
+const getAnnotationExtension = function(cyElement) {
+var annotations = cyElement.data('annotations');
+  var annotExt = new annot.Annotation();
+  var rdfElement = new annot.RdfElement();
+  for (var annotID in annotations) {
+    var currentAnnot = annotations[annotID];
+
+    // check validity of annotation
+    if(currentAnnot.status != 'validated' || !currentAnnot.selectedDB || !currentAnnot.annotationValue) {
+      continue;
+    }
+
+    // check if uncontrolled vocabulary
+    if(currentAnnot.selectedRelation == "sio:SIO_000223") {
+      var obj = {};
+      obj[currentAnnot.selectedDB] = currentAnnot.annotationValue;
+      rdfElement.addCustomProperty('#'+cyElement.data('id') , obj);
+    }
+    else {
+      var obj = {};
+      obj[currentAnnot.selectedRelation] = currentAnnot.annotationValue;
+      rdfElement.addResource('#'+cyElement.data('id') , obj);
+    }
+  }
+  annotExt.setRdfElement(rdfElement);
+  return annotExt;
+};
+
+// element: a libsbgn.js glyph or edge object
+const getOrCreateExtension = function(element) {
+    var extension;
+    if(element.extension) { // an extension is already there for this element
+        extension = element.extension;
+    }
+    else {
+        extension = new libsbgnjs.Extension();
+        element.setExtension(extension);
+    }
+    return extension;
 };
 
 const getArcSbgnml = function (edge) {
