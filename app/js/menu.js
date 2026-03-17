@@ -191,7 +191,7 @@ let communicate = async function (pngBase64, userInputText) {
 	let language = getMapType();
 	let model = getModelType();
 	let data = {
-		comment: userInputText,
+		context: userInputText,
 		image: pngBase64,
 		language: language,
 		model: model
@@ -208,7 +208,7 @@ let communicate = async function (pngBase64, userInputText) {
 		await generateCyGraph(sbgnmlText);
 	} catch (error) {
 		console.log(error);
-		alert("Output SBGNML from GPT is not in the correct format! Please try again!");
+		alert("Output SBGNML from LLM is not in the correct format! Please try again!");
 		console.log("Output SBGNML is not in the correct format");
 		document.getElementById("processData").style.backgroundColor = "#d67664";
 		document.getElementById("processData").classList.remove("loading");
@@ -225,7 +225,7 @@ let sendRequestToGPT = async function (data) {
 		body: JSON.stringify(data)
 	};
 
-	let res = await fetch('https://dev.sciluna.com/image2sbgn/gpt', settings)
+	let res = await fetch('https://dev.sciluna.com/image2sbgn/sbgnml/from-image', settings)
 		.then(response => response.json())
 		.then(result => {
 			return result;
@@ -355,6 +355,7 @@ let generateCyGraph = async function (graphContent, source = "sbgn", layoutType 
 
 	document.getElementById("processData").style.backgroundColor = "#d67664";
 	document.getElementById("processData").classList.remove("loading");
+	document.getElementById("submitEdit").classList.remove("loading");
 };
 
 let mapIdentifiers = async function (nodesToQuery) {
@@ -675,7 +676,7 @@ document.getElementById("splitButton").addEventListener("click", function () {
 		await generateCyGraph();
 	} catch (error) {
 		console.log(error);
-		alert("Output SBGNML from GPT is not in the correct format! Please try again!");
+		alert("Output SBGNML from LLM is not in the correct format! Please try again!");
 		console.log("Output SBGNML is not in the correct format");
 		document.getElementById("processData").style.backgroundColor = "#d67664";
 		document.getElementById("processData").classList.remove("loading");
@@ -918,6 +919,69 @@ async function openInNewtAndDelete(sbgnContent) {
   }
 	return data.filename;
 }
+
+document.getElementById("submitEdit").addEventListener("click", async function (e) {
+	let instructions = document.getElementById("editInstructions").value;
+	if(instructions == "" || cy.elements().length == 0) {
+		return;
+	}
+
+	let currentSbgnml = cytoscapeToSbgnml(cy, getMapType());
+	currentSbgnml = format(currentSbgnml, {indentation: '  '});
+	let language = getMapType();
+	let model = getModelType();
+
+	let data = {
+		sbgnml: currentSbgnml,
+		language: language,
+		model: model,
+		instructions: instructions
+	};
+	console.log(data);
+	document.getElementById("submitEdit").className += " loading";
+	e.currentTarget.className += " loading";
+
+	let response = await sendEditInstructions(data);
+
+	let resultJSON;
+	try {
+		resultJSON = JSON.parse(response);
+		sbgnmlText = resultJSON.answer;
+		sbgnmlText = sbgnmlText.replaceAll('\"', '"');
+		sbgnmlText = sbgnmlText.replaceAll('\n', '');
+		sbgnmlText = sbgnmlText.replaceAll('empty set', 'source and sink');
+		console.log(sbgnmlText);
+		cy.elements().remove();
+		await generateCyGraph(sbgnmlText);
+	} catch (error) {
+		console.log(error);
+		alert("Output SBGNML from LLM is not in the correct format! Please try again!");
+		console.log("Output SBGNML is not in the correct format");
+		document.getElementById("submitEdit").classList.remove("loading");
+	}
+});
+
+async function sendEditInstructions(data) {
+	const settings = {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'text/plain'
+		},
+		body: JSON.stringify(data)
+	};
+
+	let res = await fetch('http://127.0.0.1:4000/sbgnml/edit', settings)
+		.then(response => response.json())
+		.then(result => {
+			return result;
+		})
+		.catch(e => {
+			console.log("Error!");
+		});
+	return res;
+}
+
 
 let defaultStylesheet = [
   {
