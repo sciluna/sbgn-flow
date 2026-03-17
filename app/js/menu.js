@@ -971,7 +971,7 @@ async function sendEditInstructions(data) {
 		body: JSON.stringify(data)
 	};
 
-	let res = await fetch('http://127.0.0.1:4000/sbgnml/edit', settings)
+	let res = await fetch('https://dev.sciluna.com/image2sbgn/sbgnml/edit', settings)
 		.then(response => response.json())
 		.then(result => {
 			return result;
