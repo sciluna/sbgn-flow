@@ -363,7 +363,7 @@ let mapIdentifiers = async function (nodeLabelArray) {
 	});
 	data = JSON.stringify(data);
 
-	let url = "http://grounding.indra.bio/ground_multi";
+	let url = "https://grounding.indra.bio/ground_multi";
 	const settings = {
 		method: 'POST',
 		headers: {
