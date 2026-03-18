@@ -363,12 +363,12 @@ let mapIdentifiers = async function (nodeLabelArray) {
 	});
 	data = JSON.stringify(data);
 
-	let url = "https://grounding.indra.bio/ground_multi";
+	let url = "https://dev.sciluna.com/image2sbgn/anno";
 	const settings = {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
-			'Content-Type': 'application/json'
+			'Content-Type': 'text/plain'
 		},
 		body: data
 	};
