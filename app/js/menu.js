@@ -198,10 +198,8 @@ let communicate = async function (pngBase64, userInputText) {
 	};
 
 	let response = await sendRequestToGPT(data);
-	let resultJSON;
 	try {
-		resultJSON = JSON.parse(response);
-		sbgnmlText = resultJSON.answer;
+		sbgnmlText = response.answer;
 		sbgnmlText = sbgnmlText.replaceAll('\"', '"');
 		sbgnmlText = sbgnmlText.replaceAll('\n', '');
 		sbgnmlText = sbgnmlText.replaceAll('empty set', 'source and sink');
@@ -358,23 +356,24 @@ let generateCyGraph = async function (graphContent, source = "sbgn", layoutType 
 	document.getElementById("submitEdit").classList.remove("loading");
 };
 
-let mapIdentifiers = async function (nodesToQuery) {
+let mapIdentifiers = async function (nodeLabelArray) {
 	let data = [];
-	nodesToQuery.forEach(item => {
+	nodeLabelArray.forEach(item => {
 		data.push({ text: item });
 	});
 	data = JSON.stringify(data);
 
+	let url = "http://grounding.indra.bio/ground_multi";
 	const settings = {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
-			'Content-Type': 'text/plain'
+			'Content-Type': 'application/json'
 		},
 		body: data
 	};
 
-	let identifiers = await fetch('https://dev.sciluna.com/image2sbgn/anno', settings)
+	let identifiers = await fetch(url, settings)
 		.then(response => response.json())
 		.then(result => {
 			return result;
@@ -945,8 +944,7 @@ document.getElementById("submitEdit").addEventListener("click", async function (
 
 	let resultJSON;
 	try {
-		resultJSON = JSON.parse(response);
-		sbgnmlText = resultJSON.answer;
+		sbgnmlText = response.answer;
 		sbgnmlText = sbgnmlText.replaceAll('\"', '"');
 		sbgnmlText = sbgnmlText.replaceAll('\n', '');
 		sbgnmlText = sbgnmlText.replaceAll('empty set', 'source and sink');
