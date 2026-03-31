@@ -334,7 +334,7 @@ let generateCyGraph = async function (graphContent, source = "sbgn", layoutType 
 	if (layoutType == "preset") {
 		cy.layout({ name: layoutType }).run();
 	} else if (layoutType == "fcose" && document.getElementById("polishConversion").checked) {
-		cy.layout({ name: layoutType, randomize: false, mapType: language, initialEnergyOnIncremental: 0.3}).run();
+		cy.layout({ name: layoutType, randomize: false, mapType: language, initialEnergyOnIncremental: 0.3, padding: 60}).run();
 	} else {
 		cy.layout({ name: "preset", fit: true }).run();
 	}
@@ -690,19 +690,34 @@ document.getElementById("applyLayout").addEventListener("click", async function 
   if (cy.elements(':selected').length > 0) {
     subset = cy.elements(':selected');
   }
-	let result = await uggly.generateConstraints({cy: cy, imageData: imageData, subset: subset});
-	let constraints = result.constraints;
-  let applyIncremental = result.applyIncremental;
-	console.log(constraints);
-	console.log(applyIncremental);
-	await applyLayout(constraints, applyIncremental);
+
+	if(cy.elements(':selected').length > 0) {
+		subset.layout({
+			name: "sbgn-layout",
+			randomize: true,
+			idealEdgeLength: 100,
+			fit: false,
+			imageData: imageData,
+			subset: subset,
+			padding: 50
+		}).run();
+	} else {
+		cy.layout({
+			name: "sbgn-layout",
+			randomize: true,
+			idealEdgeLength: 100,
+			fit: true,
+			imageData: imageData,
+			padding: 50
+		}).run();
+	}
 });
 
 document.getElementById("refineLayout").addEventListener("click", function () {
 	if (cy.elements(":selected").length > 0) {
-		cy.elements(":selected").layout({ name: 'sbgn-layout', randomize: false, idealEdgeLength: 100, fit: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5 }).run();
+		cy.elements(":selected").layout({ name: 'sbgn-layout', randomize: false, idealEdgeLength: 100, fit: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5, padding: 60 }).run();
 	} else {
-		cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), idealEdgeLength: 100, initialEnergyOnIncremental: 0.5 }).run();
+		cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), idealEdgeLength: 100, initialEnergyOnIncremental: 0.5, padding: 60 }).run();
 	}
 });
 
@@ -948,7 +963,7 @@ document.getElementById("submitEdit").addEventListener("click", async function (
 		sbgnmlText = sbgnmlText.replaceAll('\"', '"');
 		sbgnmlText = sbgnmlText.replaceAll('\n', '');
 		sbgnmlText = sbgnmlText.replaceAll('empty set', 'source and sink');
-		console.log(sbgnmlText);
+		//console.log(sbgnmlText);
 		cy.elements().remove();
 		await generateCyGraph(sbgnmlText);
 	} catch (error) {
