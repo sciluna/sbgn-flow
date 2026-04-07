@@ -32,10 +32,16 @@ document.getElementById("samples").addEventListener("change", function (event) {
 		filename = "AF_sample2.png";
 	}
 	else if (sample == "sample3") {
-		filename = "PD_sample1.png";
+		filename = "AF_sample3.png";
 	}
 	else if (sample == "sample4") {
+		filename = "PD_sample1.png";
+	}
+	else if (sample == "sample5") {
 		filename = "PD_sample2.png";
+	}
+	else if (sample == "sample6") {
+		filename = "PD_sample3.png";
 	}
 	loadSample('app/samples/' + filename);
 
@@ -50,10 +56,10 @@ document.getElementById("samples").addEventListener("change", function (event) {
 	radioAF.checked = false;
 
 	// Check the appropriate radio based on the selected sample
-	if (selectedSample === 'sample1' || selectedSample === 'sample2') {
-		radioAF.checked = true; // PD for sample1
-	} else if (selectedSample === 'sample3' || selectedSample === 'sample4') {
-		radioPD.checked = true; // AF for sample2
+	if (selectedSample === 'sample1' || selectedSample === 'sample2' || selectedSample === 'sample3') {
+		radioAF.checked = true; // AF for sample1, sample2 and sample3
+	} else if (selectedSample === 'sample4' || selectedSample === 'sample5' || selectedSample === 'sample6') {
+		radioPD.checked = true; // PD for sample4, sample5 and sample6
 	}
 });
 
@@ -617,7 +623,7 @@ document.getElementById("splitButton").addEventListener("click", function () {
 
 	// apply split 
 	let mergeSplit = cy.mergeSplit('get');
-	let splittedComponent = mergeSplit.split(selectedComponent, document.getElementById("keepConnectionPoint").checked, "auto", 100);
+	let splittedComponent = mergeSplit.split(selectedComponent, document.getElementById("keepConnectionPoint").checked, "auto", 150);
 
 	// Add clone markers when necessary
 	let restOfGraph = cy.elements().not(splittedComponent);
@@ -708,7 +714,7 @@ document.getElementById("applyLayout").addEventListener("click", async function 
 			idealEdgeLength: 100,
 			fit: true,
 			imageData: imageData,
-			padding: 50
+			padding: 60
 		}).run();
 	}
 });

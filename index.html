@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>SBGNFlow demo</title>
+	<title>SBGNFlow</title>
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 	<!-- Fomantic UI -->
@@ -50,8 +50,10 @@
 												<option value="">Select...</option>
 												<option value="sample1">SampleAF 1</option>
 												<option value="sample2">SampleAF 2</option>
-												<option value="sample3">SamplePD 1</option>
-												<option value="sample4">SamplePD 2</option>
+												<option value="sample3">SampleAF 3</option>
+												<option value="sample4">SamplePD 1</option>
+												<option value="sample5">SamplePD 2</option>
+												<option value="sample6">SamplePD 3</option>
 											</select>
 										</div>
 										<div class="ui tiny button" id="load-image" tabindex="0">
@@ -84,12 +86,12 @@
 										<label style="margin-top: 5px;">Model</label>
 										<div class="field">
 											<div class="ui radio checkbox">
-												<input type="radio" id="gpt-5.2" name="model" checked="checked">
-												<label>GPT-5.2</label>
+												<input type="radio" id="gemini-3.1-pro-preview" name="model"  checked="checked">
+												<label>Gemini 3.1 Pro</label>
 											</div>
 											<div class="ui radio checkbox">
-												<input type="radio" id="gemini-3-flash-preview" name="model">
-												<label>Gemini 3 Flash</label>
+												<input type="radio" id="gpt-5.2" name="model">
+												<label>GPT-5.2</label>
 											</div>
 										</div>
 									</div>
@@ -97,7 +99,7 @@
 										<label style="margin-top: 5px;">Apply layout after conversion</label>
 										<div class="field">
 											<div class="ui tiny checkbox">
-												<input type="checkbox" id="polishConversion" name="mapStatus">
+												<input type="checkbox" id="polishConversion" name="mapStatus" checked>
 											</div>
 										</div>
 									</div>
@@ -209,7 +211,7 @@
 							</div>
 							<div id="editField" class="five wide column">
 								<div class="inline fields">
-									<textarea id="editInstructions" style="margin-right: 10px;" rows="1" cols="33" placeholder="Write instructions to edit current SBGN map..."></textarea>
+									<textarea id="editInstructions" style="margin-right: 10px; opacity: 0.8;" rows="1" cols="33" placeholder="Write instructions to edit current SBGN map..."></textarea>
 									<i class="ui large paper plane icon" id="submitEdit" title="Upload an SBGNML file"></i>
 								</div>
 							</div>
