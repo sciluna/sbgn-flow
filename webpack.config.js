@@ -52,6 +52,15 @@ export default {
             ]
           }
         }
+      },
+      {
+        test: /\.js$/,
+        loader: 'string-replace-loader',
+        options: {
+          search: '\u00A0',
+          replace: ' ',
+          flags: 'g'
+        }
       }
     ]
   }
