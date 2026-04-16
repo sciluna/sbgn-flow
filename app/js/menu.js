@@ -133,7 +133,7 @@ document.getElementById("processData").addEventListener("click", async function 
 		cy.nodes().unselect();
 		e.currentTarget.style.backgroundColor = "#f2711c";
 		e.currentTarget.className += " loading";
-		//userInputText = document.getElementById("userInputText").value;
+		document.getElementById('tokenCount').textContent = `Tokens used:`;
 		await communicate(base64data, userInputText);
 	}
 	else {
@@ -209,6 +209,7 @@ let communicate = async function (pngBase64, userInputText) {
 		sbgnmlText = sbgnmlText.replaceAll('\"', '"');
 		sbgnmlText = sbgnmlText.replaceAll('\n', '');
 		sbgnmlText = sbgnmlText.replaceAll('empty set', 'source and sink');
+		document.getElementById('tokenCount').textContent = `Tokens used: ${response.totalTokens}`;
 		await generateCyGraph(sbgnmlText);
 	} catch (error) {
 		console.log(error);
@@ -512,34 +513,10 @@ document.getElementById("mergeButton").addEventListener("click", function () {
 	let idToMoveAllSelected = false;
 
 	if (!document.getElementById("mergePairwise").checked) {
-		if(document.getElementById("mergeSmart").checked) {
-			let mergeSplit = cy.mergeSplit('get');
-			selectedComponent = cy.elements(":selected");
-			unselectedComponent = cy.elements(":unselected");
-			mergeSplit.merge(selectedComponent, unselectedComponent);
-		} else {
-			selectedComponent = cy.elements(":selected");
-			unselectedComponent = cy.elements(":unselected");
-
-			// find intersecting nodes based on label
-			selectedComponent.nodes().forEach(node1 => {
-				if (node1.data("label") && !node1.isParent()){
-					unselectedComponent.nodes("[label]").forEach(node2 => {
-						if (node1.data("label") == node2.data("label")) {
-							if (node1.parent().length == 0 && node2.parent().length == 0) { // no parent on both
-								selectedUnselectedMap.set(node1.id(), node2.id());
-							}
-							else if (node1.parent().length > 0 && node2.parent().length > 0) { // both has parent
-								if (node1.parent().data("label") == node2.parent().data("label")) {
-									selectedUnselectedMap.set(node1.id(), node2.id());
-									idToMoveAllSelected = node2.parent().id();
-								}
-							}
-						}
-					});
-				}
-			});
-		}
+		let mergeSplit = cy.mergeSplit('get');
+		selectedComponent = cy.elements(":selected");
+		unselectedComponent = cy.elements(":unselected");
+		mergeSplit.merge(selectedComponent, unselectedComponent);
 	} else { // pairwise merge is active
 		if (cy.nodes(":selected").length == 2) {
 			let node1 = cy.nodes(":selected")[1];
@@ -957,10 +934,10 @@ document.getElementById("submitEdit").addEventListener("click", async function (
 		model: model,
 		instructions: instructions
 	};
-	console.log(data);
+
 	document.getElementById("submitEdit").className += " loading";
 	e.currentTarget.className += " loading";
-
+	document.getElementById('tokenCount').textContent = `Tokens used:`;
 	let response = await sendEditInstructions(data);
 
 	let resultJSON;
@@ -969,7 +946,7 @@ document.getElementById("submitEdit").addEventListener("click", async function (
 		sbgnmlText = sbgnmlText.replaceAll('\"', '"');
 		sbgnmlText = sbgnmlText.replaceAll('\n', '');
 		sbgnmlText = sbgnmlText.replaceAll('empty set', 'source and sink');
-		//console.log(sbgnmlText);
+		document.getElementById('tokenCount').textContent = `Tokens used: ${response.totalTokens}`;
 		cy.elements().remove();
 		await generateCyGraph(sbgnmlText);
 	} catch (error) {

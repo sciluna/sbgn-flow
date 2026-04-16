@@ -5,7 +5,7 @@ import sbgnLayout from "cytoscape-sbgn-layout";
 import sbgnStylesheet from 'cytoscape-sbgn-stylesheet';
 import contextMenus from 'cytoscape-context-menus';
 import transform from 'cytoscape-transform';
-import cytoscapeMergeSplit from 'cytoscape-merge-split';
+import mergeSplit from 'cytoscape-merge-split';
 import { getMapType } from './menu.js'
 
 cytoscape.use(fcose);
@@ -13,7 +13,7 @@ cytoscape.use(contextMenus);
 cytoscape.use(layoutUtilities);
 cytoscape.use(sbgnLayout);
 cytoscape.use(transform);
-cytoscape.use(cytoscapeMergeSplit);
+cytoscape.use(mergeSplit);
 
 let cy = window.cy = cytoscape({
 	container: document.getElementById('cy'),
