@@ -172,6 +172,14 @@
  								<button id="rotateClockwise" style="margin-right: 1px;" class="compact ui button"><i class="fitted redo alternate icon" title="Rotate 90&deg; clockwise"></i></button>
  								<button id="rotateCounterclockwise" class="compact ui button"><i class="fitted undo alternate icon" title="Rotate 90&deg; counterclockwise"></i></button>
 							</div>
+							<div class="ui small form">
+								<div class="inline fields" style="margin-top: 10px;">
+									<div class="field">
+										<label>Ideal edge length:</label>
+										<input id="idealEdgeLength" type="number" name="idealEdgeLength" max="1000" min="1" value="100">
+									</div>
+								</div>
+							</div>
 							<div id="drawingArea" style="margin-top: 10px;">
 								<canvas id="drawingCanvas" width=300 height=200></canvas>
 							</div>

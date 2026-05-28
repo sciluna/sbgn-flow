@@ -504,95 +504,34 @@ cy.on("unselect", "node", function (evt) {
 	}
 });
 
+cy.on("remove", "node", function (evt) {
+	let objectView = document.getElementById("objectView");
+	if (objectView.querySelector("#objectData") != null) {
+		let objectData = document.getElementById("objectData");
+		objectView.removeChild(objectData);
+	}
+});
+
 /* Merge/Split Maps Menu */
 
 document.getElementById("mergeButton").addEventListener("click", function () {
 	let selectedComponent;
 	let unselectedComponent;
-	let selectedUnselectedMap = new Map()
-	let idToMoveAllSelected = false;
+
+
+	let mergeSplit = cy.mergeSplit('get');
 
 	if (!document.getElementById("mergePairwise").checked) {
-		let mergeSplit = cy.mergeSplit('get');
 		selectedComponent = cy.elements(":selected");
 		unselectedComponent = cy.elements(":unselected");
 		mergeSplit.merge(selectedComponent, unselectedComponent);
 	} else { // pairwise merge is active
 		if (cy.nodes(":selected").length == 2) {
-			let node1 = cy.nodes(":selected")[1];
-			let node2 = cy.nodes(":selected")[0];
-			selectedComponent = node1.component();
-			unselectedComponent = node2.component();
-			if(!node1.isParent() && !node2.isParent() && node1.data("label") == node2.data("label") && selectedComponent.intersection(unselectedComponent).length == 0){
-				if (node1.parent().length == 0 && node2.parent().length == 0) { // no parent on both
-					selectedUnselectedMap.set(node1.id(), node2.id());
-				}	
-				else if (node1.parent().length > 0 && node2.parent().length > 0) { // both has parent
-					if (node1.parent().data("label") == node2.parent().data("label")) {
-						selectedUnselectedMap.set(node1.id(), node2.id());
-						idToMoveAllSelected = node2.parent().id();
-					}
-				}
-			}
+			let node1 = cy.nodes(":selected")[0];
+			let node2 = cy.nodes(":selected")[1];
+			mergeSplit.mergePairwise(node1, node2);
 		}
 	}
-
-	// calculate overall shift amount
-	let shiftAmountX = 0;
-	let shiftAmountY = 0;
-	selectedUnselectedMap.forEach((value, key) => {
-		let selectedNode = cy.getElementById(key);
-		let unselectedNode = cy.getElementById(value);
-		shiftAmountX += unselectedNode.position().x - selectedNode.position().x;
-		shiftAmountY += unselectedNode.position().y - selectedNode.position().y;
-	});
-	let shiftAmount = {x: shiftAmountX / selectedUnselectedMap.size, y: shiftAmountY / selectedUnselectedMap.size};
-
-	// animate nodes to calculated position and apply merge operation after animation completed
-	selectedComponent.nodes().forEach(node => {
-		node.animate({
-			position: ({x: node.position().x + shiftAmount.x, y:node.position().y + shiftAmount.y}),
-			duration: 2000,
-			complete: () => {
-				// for each intersecting node, transfer incident edges to unselected component
-				selectedUnselectedMap.forEach((value, key) => {
-					let selectedNode = cy.getElementById(key);
-					let unselectedNode = cy.getElementById(value);
-					selectedNode.incomers().edges().forEach(edge => {
-						if(selectedUnselectedMap.has(edge.source().id()) && selectedUnselectedMap.has(edge.target().id())) {
-							edge.remove();
-						} else {
-							edge.move({
-								target: value
-							});
-						}
-					});
-					selectedNode.outgoers().edges().forEach(edge => {
-						if(selectedUnselectedMap.has(edge.source().id()) && selectedUnselectedMap.has(edge.target().id())) {
-							edge.remove();
-						} else {
-							edge.move({
-								source: value
-							});
-						}
-					});
-					selectedNode.remove();	// remove dangling node
-					unselectedNode.select();
-				});
-				if (idToMoveAllSelected) {
-					let selectedParentId = selectedComponent.nodes()[0].parent().id();
-					selectedComponent.nodes().forEach(node => {
-						node.move({
-							parent: idToMoveAllSelected
-						});
-					});
-					if (idToMoveAllSelected != selectedParentId) {
-						cy.getElementById(selectedParentId).remove();
-					}
-				}
-			}
-		});
-	});
 });
 
 document.getElementById("splitButton").addEventListener("click", function () {
@@ -673,12 +612,12 @@ document.getElementById("applyLayout").addEventListener("click", async function 
   if (cy.elements(':selected').length > 0) {
     subset = cy.elements(':selected');
   }
-
+	let idealEdgeLength = parseInt(document.getElementById("idealEdgeLength").value);
 	if(cy.elements(':selected').length > 0) {
 		subset.layout({
 			name: "sbgn-layout",
 			randomize: true,
-			idealEdgeLength: 100,
+			idealEdgeLength: idealEdgeLength,
 			fit: false,
 			imageData: imageData,
 			subset: subset,
@@ -688,7 +627,7 @@ document.getElementById("applyLayout").addEventListener("click", async function 
 		cy.layout({
 			name: "sbgn-layout",
 			randomize: true,
-			idealEdgeLength: 100,
+			idealEdgeLength: idealEdgeLength,
 			fit: true,
 			imageData: imageData,
 			padding: 60
@@ -697,10 +636,11 @@ document.getElementById("applyLayout").addEventListener("click", async function 
 });
 
 document.getElementById("refineLayout").addEventListener("click", function () {
+	let idealEdgeLength = parseInt(document.getElementById("idealEdgeLength").value);
 	if (cy.elements(":selected").length > 0) {
-		cy.elements(":selected").layout({ name: 'sbgn-layout', randomize: false, idealEdgeLength: 100, fit: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5, padding: 60 }).run();
+		cy.elements(":selected").layout({ name: 'sbgn-layout', randomize: false, idealEdgeLength: idealEdgeLength, fit: false, mapType: getMapType(), initialEnergyOnIncremental: 0.5, padding: 60 }).run();
 	} else {
-		cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), idealEdgeLength: 100, initialEnergyOnIncremental: 0.5, padding: 60 }).run();
+		cy.layout({ name: 'sbgn-layout', randomize: false, mapType: getMapType(), idealEdgeLength: idealEdgeLength, initialEnergyOnIncremental: 0.5, padding: 60 }).run();
 	}
 });
 

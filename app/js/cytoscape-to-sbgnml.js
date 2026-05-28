@@ -138,8 +138,15 @@ const getGlyphSbgnml = function (node) {
 };
 
 const addGlyphBbox = function (node) {
-  let width = node.width();
-  let height = node.height();
+  let borderWidth = parseFloat(node.css("border-width"));
+  let width, height;
+  if (node.data("class") == "compartment" || node.data("class") == "complex") {
+    width = node.outerWidth() - borderWidth;
+    height = node.outerHeight() - borderWidth;
+  } else {
+    width = node.width() - borderWidth;
+    height = node.height() - borderWidth;
+  }
 
   let x = node.position().x - width / 2;
   let y = node.position().y - height / 2;
@@ -173,16 +180,19 @@ const addInfoBoxGlyph = function (boxGlyph, id, mainGlyph) {
 
 const addStateAndInfoBbox = function (mainGlyph, boxGlyph) {
   let boxBbox;
+  let padding = mainGlyph.css('padding');
   if (boxGlyph.bbox) {
     boxBbox = boxGlyph.bbox;
   } else {
-    boxBbox = { x: 0, y: 0, w: 20, h: 10 };
+    boxBbox = { x: 20, y: 0, w: 20, h: 10 };
   }
   let borderWidth = mainGlyph.css('border-width');
-  let padding = mainGlyph.css('padding');
-  let x = ((boxBbox.x * (mainGlyph.outerWidth() - borderWidth)) / 100) + (mainGlyph.position().x - mainGlyph.width() / 2 - padding - boxBbox.w / 2);
-  let y = ((boxBbox.y * (mainGlyph.outerHeight() - borderWidth)) / 100) + (mainGlyph.position().y - mainGlyph.height() / 2 - padding - boxBbox.h / 2);
+  let x = ((boxBbox.x * (mainGlyph.outerWidth() - parseFloat(borderWidth))) / 100) + (mainGlyph.position().x - mainGlyph.width() / 2 - parseFloat(borderWidth) - boxBbox.w / 2);
+  let y = ((boxBbox.y * (mainGlyph.outerHeight() - parseFloat(borderWidth))) / 100) + (mainGlyph.position().y - mainGlyph.height() / 2 - parseFloat(borderWidth) - boxBbox.h / 2);
 
+  if (mainGlyph.data("class") == "compartment" || mainGlyph.data("class") == "complex") {
+    y = y - parseFloat(padding) + parseFloat(borderWidth);
+  }
   return new libsbgnjs.Bbox({ x: x, y: y, w: boxBbox.w, h: boxBbox.h });
 };
 

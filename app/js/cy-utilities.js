@@ -58,7 +58,7 @@ cy.layoutUtilities({
 });
 
 cy.transform();
-cy.mergeSplit();
+cy.mergeSplit({animate: "end", animationDuration: 1500});
 
 var contextMenuOptions = {
 	evtType: 'cxttap',
