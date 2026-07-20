@@ -514,22 +514,74 @@ cy.on("remove", "node", function (evt) {
 
 /* Merge/Split Maps Menu */
 
+document.getElementById("mergePairwise").addEventListener('change', (event) => {
+    if (event.target.checked) {
+      document.getElementById("strictCheck").disabled = false;
+			document.getElementById("strictCheckLabel").style.opacity = 1;
+			document.getElementById("addSourceComponent").disabled = true;
+			document.getElementById("addTargetComponent").disabled = true;
+		  document.getElementById("componentMessage").style.opacity = 0.5;
+    } else {
+			document.getElementById("strictCheck").disabled = true;
+			document.getElementById("strictCheckLabel").style.opacity = 0.5;
+			document.getElementById("addSourceComponent").disabled = false;
+			document.getElementById("addTargetComponent").disabled = false;
+			document.getElementById("componentMessage").style.opacity = 1;
+    }
+});
+
+let sourceComponent = null;
+let targetComponent = null;
+
+document.getElementById("addSourceComponent").addEventListener("click", function () {
+	let selectedComponent = cy.elements(":selected");
+	let componentMessage = document.getElementById("componentMessage");
+	if (selectedComponent.nodes().length == 0) {
+		sourceComponent = null;
+		componentMessage.textContent = "Please select a source component to add!";
+	} else {
+		sourceComponent = selectedComponent;
+		componentMessage.textContent = "Source component added!";
+	}
+});
+
+document.getElementById("addTargetComponent").addEventListener("click", function () {
+	let selectedComponent = cy.elements(":selected");
+	let componentMessage = document.getElementById("componentMessage");
+	if (selectedComponent.nodes().length == 0) {
+		targetComponent = null;
+		componentMessage.textContent = "Please select a target component to add!";
+	} else {
+		targetComponent = selectedComponent;
+		componentMessage.textContent = "Target component added!";
+	}
+});
+
 document.getElementById("mergeButton").addEventListener("click", function () {
 	let selectedComponent;
 	let unselectedComponent;
 
-
 	let mergeSplit = cy.mergeSplit('get');
+	mergeSplit.setOption("checkLabel", document.getElementById("checkLabel").checked);
+	mergeSplit.setOption("checkIdentifier", document.getElementById("checkIdentifier").checked);
+	mergeSplit.setOption("checkCardinality", document.getElementById("checkCardinality").checked);
+	mergeSplit.setOption("language", getMapType());
 
 	if (!document.getElementById("mergePairwise").checked) {
-		selectedComponent = cy.elements(":selected");
-		unselectedComponent = cy.elements(":unselected");
-		mergeSplit.merge(selectedComponent, unselectedComponent);
+		selectedComponent = sourceComponent;
+		unselectedComponent = targetComponent;
+		if (selectedComponent != null && unselectedComponent != null) {
+			mergeSplit.merge(selectedComponent, unselectedComponent);
+			sourceComponent = null;
+			targetComponent = null;
+			let componentMessage = document.getElementById("componentMessage");
+			componentMessage.textContent = "Select and add source and target components!";
+		}
 	} else { // pairwise merge is active
 		if (cy.nodes(":selected").length == 2) {
 			let node1 = cy.nodes(":selected")[0];
 			let node2 = cy.nodes(":selected")[1];
-			mergeSplit.mergePairwise(node1, node2);
+			mergeSplit.mergePairwise(node1, node2, document.getElementById("strictCheck").checked);
 		}
 	}
 });
@@ -541,7 +593,7 @@ document.getElementById("splitButton").addEventListener("click", function () {
 	let mergeSplit = cy.mergeSplit('get');
 	let splittedComponent = mergeSplit.split(selectedComponent, document.getElementById("keepConnectionPoint").checked, "auto", 150);
 
-	// Add clone markers when necessary
+/* 	// Add clone markers when necessary
 	let restOfGraph = cy.elements().not(splittedComponent);
 	restOfGraph.unselect();
 	if(getMapType() == 'PD') {
@@ -557,8 +609,10 @@ document.getElementById("splitButton").addEventListener("click", function () {
 				});
 			}
 		});
-		//cy.style(sbgnStylesheet(cytoscape)).update();
-	}
+		cy.style().update();
+		//cy.style(defaultStylesheet);
+		//cy.style(sbgnStylesheet(cytoscape, "red_blue")).update();
+	} */
 });
 
 /* document.getElementById("convertToAFButton").addEventListener("click", async function () {

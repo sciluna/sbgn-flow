@@ -40,7 +40,7 @@
 							Convert Image to SBGN
 						</div>
 						<div class="active content">
-							<h4 class="ui header" style="margin-bottom: 5px;">File</h4>
+							<h5 class="ui header" style="margin-bottom: 5px;">File</h5>
 							<div class="ui small form">
 								<div class="field">
 									<div class="inline fields">
@@ -65,7 +65,9 @@
 									</div>
 								</div>
 								<input id="image-input" type="file" accept="image/*" style="display:none" />
-								<h4 class="ui header" style="margin-top: 10px; margin-bottom: 5px;">Settings</h4>
+
+								<div class="ui divider" style="margin-top: 7px; margin-bottom: 7px;"></div>
+								<h5 class="ui header" style="margin-top: 10px; margin-bottom: 5px;">Settings</h5>
 								<div class="field">
 									<div class="inline fields" style="margin-top: 0px; margin-bottom: 5px;">
 										<label style="margin-top: 5px;">Map Type</label>
@@ -134,22 +136,69 @@
 						</div>
 						<div class="content">
 							<div class="ui small form">
+								<h5 class="ui header" style="margin-bottom: 10px;">Node/Edge Matching Settings</h5>
 								<div class="inline fields" style="margin-top: 0px; margin-bottom: 10px;">
-									<label>Merge pairwise</label>
-									<div class="ui right aligned checkbox">
-										<input  id="mergePairwise" type="checkbox">
+									<label>Node:</label>
+									<label>Label</label>
+									<div class="field">
+										<div class="ui tiny checkbox">
+											<input type="checkbox" id="checkLabel" checked>
+										</div>
+									</div>
+									<label>Identifier</label>
+									<div class="field">
+										<div class="ui tiny checkbox">
+											<input type="checkbox" id="checkIdentifier">
+										</div>
 									</div>
 								</div>
+								<div class="inline fields" style="margin-top: 0px; margin-bottom: 10px;">
+									<label>Edge:</label>
+									<label>Cardinality</label>
+									<div class="field">
+										<div class="ui tiny checkbox">
+											<input type="checkbox" id="checkCardinality">
+										</div>
+									</div>
+								</div>
+								<div class="ui divider" style="margin-top: 7px; margin-bottom: 7px;"></div>
+								<h5 class="ui header" style="margin-top: 0px; margin-bottom: 10px;">Merge</h5>
+								<div class="inline fields" style="margin-top: 0px; margin-bottom: 10px;">
+									<label title="Select one node from each of the two separate components and perform the merge operation through those nodes">Merge pairwise</label>
+									<div class="field">
+										<div class="ui tiny checkbox">
+											<input type="checkbox" id="mergePairwise" name="mergePairwise">
+										</div>
+									</div>
+									<label id="strictCheckLabel" style="opacity: 0.5;">Strict check</label>
+									<div class="field">
+										<div class="ui tiny checkbox">
+											<input type="checkbox" id="strictCheck" name="strictCheck" disabled checked>
+										</div>
+									</div>
+								</div>
+								<div class="inline fields" style="margin-top: 0px; margin-bottom: 0px;">
+									<div class="two ui mini circular buttons" style="margin-bottom: 5px;">
+										<button id="addSourceComponent" class="compact ui button" title="Select and add a source component for the merge operation">Add Source Component</button>
+										<button id="addTargetComponent" class="compact ui button" title="Select and add a target component for the merge operation">Add Target Component</button>
+									</div>
+								</div>
+								<span id="componentMessage" disabled>Select and add source and target components!</span>
+								<div class="inline fields" style="margin-top: 10px; border-top: 0px !important;">
+									<button id="mergeButton" class="tiny ui orange button" title="Either merge source component to target component or perform pairwise merge operation">Apply Merge</button>
+								</div>
+								<div class="ui divider" style="margin-top: 7px; margin-bottom: 7px;"></div>
+								<h5 class="ui header" style="margin-top: 0px; margin-bottom: 10px;">Split</h5>
 								<div class="inline fields" style="margin-top: 0px; margin-bottom: 10px;">
 									<label>Keep connection nodes on split</label>
-									<div class="ui right aligned checkbox">
-										<input id="keepConnectionPoint" type="checkbox" checked>
+									<div class="field">
+										<div class="ui tiny checkbox">
+											<input type="checkbox" id="keepConnectionPoint" checked>
+										</div>
 									</div>
 								</div>
-								<div class="ui wrapped spaced buttons">
-									<button id="mergeButton" class="tiny ui orange button" title="Merge selected to unselected">Merge Selected</button>
+								<div style="margin-top: 10px; border-top: 0px !important;">
 									<button id="splitButton" class="tiny ui orange button" title="Split selected from unselected">Split Selected</button>
-<!-- 									<button id="convertToAFButton" class="tiny ui orange button" title="Split selected from unselected">Convert to AF</button> -->
 								</div>
 							</div>
 						</div>

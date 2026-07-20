@@ -20,13 +20,27 @@ let cy = window.cy = cytoscape({
 	style: sbgnStylesheet(cytoscape),
 });
 
-let nodeClassesWithoutLabel = ["process", "omitted process", "uncertain process", "association", "dissociation"];
+let nodeClassesWithoutLabel = ["process", "omitted process", "uncertain process", "association", "dissociation", "and", "or", "not", "delay"];
 
 cy.style().selector('node')
 	.style({
 		'content': (node) => {
 			if(nodeClassesWithoutLabel.includes(node.data("class"))) {
-				return "";
+				if (node.data("class") == "omitted process") {
+					return "\\\\";
+				} else if (node.data("class") == "uncertain process") {
+					return "?";
+				} else if (node.data("class") == "and") {
+					return "AND";
+				} else if (node.data("class") == "or") {
+					return "OR";
+				} else if (node.data("class") == "not") {
+					return "NOT";
+				} else if (node.data("class") == "delay") {
+					return "\u03C4";
+				} else {
+					return "";
+				}
 			} else {
 				return node.data("label");
 			}
@@ -58,7 +72,189 @@ cy.layoutUtilities({
 });
 
 cy.transform();
-cy.mergeSplit({animate: "end", animationDuration: 1500});
+cy.mergeSplit({
+	animate: "end", 
+	animationDuration: 1500,
+	nodeMatcher: (n1, n2, options) => {  // n1 from source component, n2 from target component
+		let isMatched = false;
+		if (n1.data('class') != n2.data('class')) {
+			return false;
+		} else {
+			// if nodes are process like, then at least one input and output should match
+			let nodeClassesWithoutLabel = ["process", "omitted process", "uncertain process", "association", "dissociation", "and", "or", "not", "delay"];
+			if(nodeClassesWithoutLabel.includes(n1.data("class")) && n1.data("class") == n2.data("class")) {
+				// find input nodes
+				let n1IncomerEdges = n1.incomers().edges();
+				let n1InputNodes = cy.collection();
+				n1IncomerEdges.forEach(edge => {
+					if (edge.data("class") == "consumption") {
+						n1InputNodes.merge(edge.source());
+					}
+				});
+				let n2IncomerEdges = n2.incomers().edges();
+				let n2InputNodes = cy.collection();
+				n2IncomerEdges.forEach(edge => {
+					if (edge.data("class") == "consumption") {
+						n2InputNodes.merge(edge.source());
+					}
+				});
+				let isInputMatch = false;
+				n1InputNodes.forEach(node1 => {
+					n2InputNodes.forEach(node2 => {
+						if (options.checkLabel && !options.checkIdentifier) {
+							if(node1.data("label") == node2.data("label")) {
+								isInputMatch = true;
+							}
+						} else if (!options.checkLabel && options.checkIdentifier) {
+							if(node1.data("identifierData") && node2.data("identifierData") && node1.data("identifierData")[0].id == node2.data("identifierData")[0].id) {
+								isInputMatch = true;
+							}
+						} else if (options.checkLabel && options.checkIdentifier) {
+							if(node1.data("label") == node2.data("label") && node1.data("identifierData") && node2.data("identifierData") && node1.data("identifierData")[0].id == node2.data("identifierData")[0].id) {
+								isInputMatch = true;
+							}
+						}
+					});
+				});
+
+				// find output nodes
+				let n1OutgoingEdges = n1.outgoers().edges();
+				let n1OutputNodes = cy.collection();
+				n1OutgoingEdges.forEach(edge => {
+					if (edge.data("class") == "production") {
+						n1OutputNodes.merge(edge.target());
+					}
+				});
+				let n2OutgoingEdges = n2.outgoers().edges();
+				let n2OutputNodes = cy.collection();
+				n2OutgoingEdges.forEach(edge => {
+					if (edge.data("class") == "production") {
+						n2OutputNodes.merge(edge.target());
+					}
+				});
+				let isOutputMatch = false;
+				n1OutputNodes.forEach(node1 => {
+					n2OutputNodes.forEach(node2 => {
+						if (options.checkLabel && !options.checkIdentifier) {
+							if(node1.data("label") == node2.data("label")) {
+								isOutputMatch = true;
+							}
+						} else if (!options.checkLabel && options.checkIdentifier) {
+							if(node1.data("identifierData") && node2.data("identifierData") && node1.data("identifierData")[0].id == node2.data("identifierData")[0].id) {
+								isOutputMatch = true;
+							}
+						} else if (options.checkLabel && options.checkIdentifier) {
+							if(node1.data("label") == node2.data("label") && node1.data("identifierData") && node2.data("identifierData") && node1.data("identifierData")[0].id == node2.data("identifierData")[0].id) {
+								isOutputMatch = true;
+							}
+						}
+					});
+				});
+
+				if (isInputMatch && isOutputMatch) {
+					isMatched = true;
+				}
+			} else {
+				if (options.checkLabel && !options.checkIdentifier) {
+					// check if labels match
+					if (!!(n1.data('label') && n1.data('label') != '' && n2.data('label') && n2.data('label') != '' && n1.data('label') === n2.data('label'))) {
+						isMatched = true;
+					}
+				} else if (!options.checkLabel && options.checkIdentifier) {
+					// check if identifiers match
+					if (!!(n1.data('identifierData') && n2.data('identifierData') && n1.data('identifierData')[0].id === n2.data('identifierData')[0].id)) {
+						isMatched = true;
+					}
+				} else if (options.checkLabel && options.checkIdentifier) {
+					// check if both labels and identifiers match
+					if (!!(n1.data('label') && n1.data('label') != '' && n2.data('label') && n2.data('label') != '' && n1.data('label') === n2.data('label')) &&
+						!!(n1.data('identifierData') && n2.data('identifierData') && n1.data('identifierData')[0].id === n2.data('identifierData')[0].id)) {
+						isMatched = true;
+					}
+				} else {
+					isMatched = false;
+				}
+			}
+			// apply a final check for parent nodes if they exist
+			if (isMatched) {
+				if (n1.parent().length > 0 && n2.parent().length > 0) {
+					if (n1.parent()[0].data('label') == n2.parent()[0].data('label')) {
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return true;
+				}
+			} else {
+				return false;
+			}
+		}
+	},
+	edgeMatcher: (e1, e2, options) => {  // e1 from source component, e2 from target component
+		// check if source and target labels match
+		let isMatched = false;
+		if (e1.data('class') != e2.data('class')) {
+			return false;
+		} else {
+			if (options.checkLabel && !options.checkIdentifier) {
+				if (e1.source().data('label') === e2.source().data('label') && e1.target().data('label') === e2.target().data('label')) {
+					if (options.checkCardinality && e1.data('cardinality') === e2.data('cardinality')) {
+						isMatched = true;
+					} else if (!options.checkCardinality) {
+						isMatched = true;
+					}
+				}
+			} else if (!options.checkLabel && options.checkIdentifier) {
+				if (options.language == "AF") { 
+					if (e1.source().data('identifierData') && e2.source().data('identifierData') && e1.target().data('identifierData') && e2.target().data('identifierData') &&
+						e1.source().data('identifierData')[0].id === e2.source().data('identifierData')[0].id &&
+						e1.target().data('identifierData')[0].id === e2.target().data('identifierData')[0].id) {
+						if (options.checkCardinality && e1.data('cardinality') === e2.data('cardinality')) {
+							isMatched = true;
+						} else if (!options.checkCardinality) {
+							isMatched = true;
+						}
+					}
+				} else { 
+					if ((e1.source().data('identifierData') && e2.source().data('identifierData') && e1.source().data('identifierData')[0].id === e2.source().data('identifierData')[0].id) || (e1.target().data('identifierData') && e2.target().data('identifierData') && e1.target().data('identifierData')[0].id === e2.target().data('identifierData')[0].id)) {
+						if (options.checkCardinality && e1.data('cardinality') === e2.data('cardinality')) {
+							isMatched = true;
+						} else if (!options.checkCardinality) {
+							isMatched = true;
+						}
+					}
+				}
+			} else if (options.checkLabel && options.checkIdentifier) {
+				if (options.language == "AF") { 
+					if (e1.source().data('label') === e2.source().data('label') && e1.target().data('label') === e2.target().data('label') &&
+						e1.source().data('identifierData') && e2.source().data('identifierData') && e1.target().data('identifierData') && e2.target().data('identifierData') &&
+						e1.source().data('identifierData')[0].id === e2.source().data('identifierData')[0].id &&
+						e1.target().data('identifierData')[0].id === e2.target().data('identifierData')[0].id) {
+						if (options.checkCardinality && e1.data('cardinality') === e2.data('cardinality')) {
+							isMatched = true;
+						} else if (!options.checkCardinality) {
+							isMatched = true;
+						}
+					}
+				} else { 
+					if ((e1.source().data('label') === e2.source().data('label') && e1.source().data('identifierData') && e2.source().data('identifierData') && e1.source().data('identifierData')[0].id === e2.source().data('identifierData')[0].id) || (e1.target().data('label') === e2.target().data('label') && e1.target().data('identifierData') && e2.target().data('identifierData') && e1.target().data('identifierData')[0].id === e2.target().data('identifierData')[0].id)) {
+						if (options.checkCardinality && e1.data('cardinality') === e2.data('cardinality')) {
+							isMatched = true;
+						} else if (!options.checkCardinality) {
+							isMatched = true;
+						}
+					}
+				}
+			}
+		}
+		return isMatched;
+	},
+	checkLabel: true,
+	checkIdentifier: false,
+	checkCardinality: false,
+	language: "PD"
+});
 
 var contextMenuOptions = {
 	evtType: 'cxttap',
@@ -276,6 +472,7 @@ var contextMenuOptions = {
 							onClickFunction: function (event) {
 								let target = event.target || event.cyTarget;
 								target.data('class', 'process');
+								target.data("label", "");
 							}
 						},
 						{
@@ -284,6 +481,7 @@ var contextMenuOptions = {
 							onClickFunction: function (event) {
 								let target = event.target || event.cyTarget;
 								target.data('class', 'omitted process');
+								target.data("label", "\\\\");
 							}
 						},
 						{
@@ -292,6 +490,7 @@ var contextMenuOptions = {
 							onClickFunction: function (event) {
 								let target = event.target || event.cyTarget;
 								target.data('class', 'uncertain process');
+								target.data("label", "?");
 							}
 						},
 						{
@@ -300,6 +499,7 @@ var contextMenuOptions = {
 							onClickFunction: function (event) {
 								let target = event.target || event.cyTarget;
 								target.data('class', 'association');
+								target.data("label", "");
 							}
 						},
 						{
@@ -308,6 +508,7 @@ var contextMenuOptions = {
 							onClickFunction: function (event) {
 								let target = event.target || event.cyTarget;
 								target.data('class', 'dissociation');
+								target.data("label", "");
 							}
 						}
 					]
@@ -324,6 +525,7 @@ var contextMenuOptions = {
 							onClickFunction: function (event) {
 								let target = event.target || event.cyTarget;
 								target.data('class', 'and');
+								target.data("label", "AND");
 							}
 						},
 						{
@@ -333,6 +535,7 @@ var contextMenuOptions = {
 							onClickFunction: function (event) {
 								let target = event.target || event.cyTarget;
 								target.data('class', 'or');
+								target.data("label", "OR");
 							}
 						},
 						{
@@ -342,6 +545,7 @@ var contextMenuOptions = {
 							onClickFunction: function (event) {
 								let target = event.target || event.cyTarget;
 								target.data('class', 'not');
+								target.data("label", "NOT");
 							}
 						},
 						{
@@ -351,6 +555,7 @@ var contextMenuOptions = {
 							onClickFunction: function (event) {
 								let target = event.target || event.cyTarget;
 								target.data('class', 'delay');
+								target.data("label", "\u03C4");
 							}
 						}
 					]
