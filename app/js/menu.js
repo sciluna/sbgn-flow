@@ -262,7 +262,7 @@ async function setIdentifiers (nodeLabelArray){
 			}
 		});
 	});
-	console.log(identifiersMap);
+	//console.log(identifiersMap);
 	identifiersMap.forEach((value, key, map) => {
 		let cyNodes = cy.nodes().filter(node => {
 			return node.data('label') == key;
@@ -542,6 +542,7 @@ document.getElementById("addSourceComponent").addEventListener("click", function
 	} else {
 		sourceComponent = selectedComponent;
 		componentMessage.textContent = "Source component added!";
+		selectedComponent.unselect();
 	}
 });
 
@@ -554,8 +555,27 @@ document.getElementById("addTargetComponent").addEventListener("click", function
 	} else {
 		targetComponent = selectedComponent;
 		componentMessage.textContent = "Target component added!";
+		selectedComponent.unselect();
 	}
 });
+
+function getAnimationType() {
+	// Get all radio buttons with the name 'animation'
+	const radios = document.getElementsByName('animation');
+
+	// Loop through the radio buttons and return the one that's checked
+	for (let i = 0; i < radios.length; i++) {
+		if (radios[i].checked) {
+			let text = radios[i].nextElementSibling.innerText; // Get the label text (End or During)
+			if (text == "End") {
+				return "end";
+			} else {
+				return "during";
+			}
+		}
+	}
+	return null; // If none are checked
+}
 
 document.getElementById("mergeButton").addEventListener("click", function () {
 	let selectedComponent;
@@ -565,7 +585,7 @@ document.getElementById("mergeButton").addEventListener("click", function () {
 	mergeSplit.setOption("checkLabel", document.getElementById("checkLabel").checked);
 	mergeSplit.setOption("checkIdentifier", document.getElementById("checkIdentifier").checked);
 	mergeSplit.setOption("checkCardinality", document.getElementById("checkCardinality").checked);
-	mergeSplit.setOption("language", getMapType());
+	mergeSplit.setOption("animate", getAnimationType());
 
 	if (!document.getElementById("mergePairwise").checked) {
 		selectedComponent = sourceComponent;

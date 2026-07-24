@@ -21,7 +21,7 @@
     "cytoscape-merge-split": "https://github.com/sciluna/cytoscape.js-merge-split.git",
     "cytoscape-sbgn-layout": "github:sciluna/cytoscape.js-sbgn-layout",
     "cytoscape-sbgn-stylesheet": "https://github.com/hasanbalci/cytoscape-sbgn-stylesheet.git",
-    "cytoscape-transform": "1.0.0",
+    "cytoscape-transform": "https://github.com/sciluna/cytoscape.js-transform.git",
     "file-saver": "^2.0.5",
     "libsbgn.js": "github:sbgn/libsbgn.js#master",
     "process": "^0.11.10",
