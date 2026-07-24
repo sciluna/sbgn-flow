@@ -38,6 +38,7 @@
 						<div class="active title">
 							<i class="dropdown icon"></i>
 							Convert Image to SBGN
+							<i id="convertImageToSbgnVideo" class="fitted small circular colored orange video icon" style="margin-left: 3px !important;" title="Watch tutorial"></i>
 						</div>
 						<div class="active content">
 							<h5 class="ui header" style="margin-bottom: 5px;">File</h5>
@@ -261,6 +262,22 @@
 						<div class="field">
 							<div class="inline fields" style="margin-bottom: 10px;"">
 								<h3 class="ui header" style="margin-bottom: -3px; margin-right: 7.5px; padding: 2.5px;">Graph View</h3>
+								<div class="field" style="margin-left: 7px; padding-right: 0px;">
+									<div class="inline fields">
+										<label>Sample files:</label>
+										<div class="ten wide field">
+											<select required id="demoSamples">
+												<option value="">Select...</option>
+												<option value="sample1">Merge Sample 1</option>
+												<option value="sample2">Merge Sample 2</option>
+												<option value="sample2">Merge Sample 3</option>
+												<option value="sample3">Layout Sample 1</option>
+												<option value="sample4">Layout Sample 2</option>
+												<option value="sample4">Layout Sample 3</option>
+											</select>
+										</div>
+									</div>
+								</div>
 								<i class="ui large upload icon" id="uploadGraph" title="Upload an SBGNML file"></i>&nbsp;
 								<input id="file-input-graph" type="file" accept="xml/*" style="display:none" />
 								<i class="ui large download icon" id="downloadSbgnml" title="Download as SBGNML"></i>&nbsp;
@@ -268,7 +285,11 @@
 								<a class="tooltip"><i class="ui large info circle icon" id="contextMenuInfo" style="color: black;"></i>
 									<span class="tooltiptext">Right click to nodes, edges or viewport for quick edit!</span></a>&nbsp;
 							</div>
-							<div id="cy"></div>
+							<div id="cy">
+								<div id="processWarning" style="display: none;" class="ui active inverted dimmer">
+									<div  class="ui text loader">Please wait! This may take a while...</div>
+								</div>
+							</div>
 							<div id="objectField" class="five wide column"
 								style="margin-top: 11.5px; padding-left: 0px;">
 								<div class="field">
@@ -294,6 +315,15 @@
 			<div class="image content">
 				<img class="image" id="imageContent" style="max-height: 600px; width: auto; height: auto;">
 			</div>
+		</div>
+	</div>
+
+	<div id="imageToSbgnVideoModal" class="ui large modal">
+		<div class="header">
+			Image to SBGN Conversion Tutorial
+		</div>
+		<div class="content">
+			<div class="ui embed" data-url="https://sciluna.github.io/sbgn-flow/tutorials/image_to_sbgn_tutorial.mp4" ></div>
 		</div>
 	</div>
 

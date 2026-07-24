@@ -47,6 +47,10 @@ h1 {
   font-weight: bold;
 }
 
+#demoSamples {
+  padding-left: 5px;
+}
+
 #downloadSBGNML:hover, #uploadGraph:hover, #openNewt:hover {
   background-color: #eaeaea !important;
   border-radius: 3px;
@@ -82,7 +86,7 @@ h1 {
   border-width: 0px;
   text-align: justify;
   border-radius: 3px;
-  padding: 3px 5px;
+  padding: 10px 3px 0px 5px;
   color: black;
 
   /* Position the tooltip */
@@ -94,6 +98,10 @@ h1 {
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+#convertImageToSbgnVideo {
+  color: #d67664;
 }
 
 #objectData h4 {

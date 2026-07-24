@@ -13,6 +13,14 @@ $('.ui.accordion').accordion({
 	exclusive: true 
 });
 
+$("#convertImageToSbgnVideo").on("click", function (event) {
+	event.preventDefault();
+	event.stopPropagation();
+
+	$("#imageToSbgnVideoModal").modal("show");
+	$('.ui.embed').embed();
+});
+
 $('.ui.checkbox').checkbox();
 
 /* Image-to-SBGN Menu */
@@ -133,6 +141,7 @@ document.getElementById("processData").addEventListener("click", async function 
 		cy.nodes().unselect();
 		e.currentTarget.style.backgroundColor = "#f2711c";
 		e.currentTarget.className += " loading";
+		document.getElementById("processWarning").style.display = "block";
 		document.getElementById('tokenCount').textContent = `Tokens used:`;
 		await communicate(base64data, userInputText);
 	}
@@ -215,6 +224,7 @@ let communicate = async function (pngBase64, userInputText) {
 		console.log(error);
 		alert("Output SBGNML from LLM is not in the correct format! Please try again!");
 		console.log("Output SBGNML is not in the correct format");
+		document.getElementById("processWarning").style.display = "none";
 		document.getElementById("processData").style.backgroundColor = "#d67664";
 		document.getElementById("processData").classList.remove("loading");
 	}
@@ -358,6 +368,7 @@ let generateCyGraph = async function (graphContent, source = "sbgn", layoutType 
 	});
 	await setIdentifiers(nodesToQuery);
 
+	document.getElementById("processWarning").style.display = "none";
 	document.getElementById("processData").style.backgroundColor = "#d67664";
 	document.getElementById("processData").classList.remove("loading");
 	document.getElementById("submitEdit").classList.remove("loading");
@@ -949,6 +960,7 @@ document.getElementById("submitEdit").addEventListener("click", async function (
 		instructions: instructions
 	};
 
+	document.getElementById("processWarning").style.display = "block";
 	document.getElementById("submitEdit").className += " loading";
 	e.currentTarget.className += " loading";
 	document.getElementById('tokenCount').textContent = `Tokens used:`;
