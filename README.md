@@ -9,7 +9,7 @@ The final step introduces SBGN-specific layout refinement methods, combining use
 
 Click [here](https://sciluna.github.io/sbgn-flow/index.html) for a demo.
 
-https://github.com/user-attachments/assets/e65d0bcb-d1da-4ae8-b219-d8e30033cae0
+https://github.com/user-attachments/assets/82325ba6-d35c-4c07-b21e-9af8a0bd927e
 
 ## Software
 
