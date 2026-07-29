@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<sbgn xmlns="http://sbgn.org/libsbgn/0.3">
+  <map language="AF">
+    <glyph id="node-uv4bso2em" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-uv4bso2em">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/hgnc:1464"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="CAMK4"/>
+      <bbox x="735.7694926583599" y="72.19638286880519" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-qnrv1hrdr" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-qnrv1hrdr">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/fplx:PI3K"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="PI3K"/>
+      <bbox x="494.797899750129" y="372.6392226124331" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-ebcg75ssp" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-ebcg75ssp">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/hgnc:9380"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="PRKACA"/>
+      <bbox x="746.9482211128735" y="372.2501769769871" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-j8qrh70l6" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-j8qrh70l6">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/hgnc:3236"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="EGFR"/>
+      <bbox x="49.2538925657374" y="11.4880161649791" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-3obpezn86" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-3obpezn86">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/hgnc:3430"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="ERBB2"/>
+      <bbox x="53.08595555376752" y="103.40131209671215" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-gj7mldhco" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-gj7mldhco">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/fplx:RAS"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="RAS"/>
+      <bbox x="42.729134535520274" y="193.68587116691515" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-etzmc01z7" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-etzmc01z7">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/fplx:RAF"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="RAF"/>
+      <bbox x="-106.10283954919119" y="198.59719789833048" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-bte3dqq1v" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-bte3dqq1v">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/fplx:MEK"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="MEK"/>
+      <bbox x="-124.71562762678144" y="300.56386048324543" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-7bpcbp27g" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-7bpcbp27g">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/fplx:ERK"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="ERK"/>
+      <bbox x="-111.49871981974815" y="424.74541054370644" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-f3f98x0gv" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-f3f98x0gv">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/fplx:PI3K"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="PI3K"/>
+      <bbox x="92.45277818847771" y="283.0254791145934" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-6njl4np06" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-6njl4np06">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/fplx:AKT"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="AKT"/>
+      <bbox x="97.1444742631518" y="379.75039577534267" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-nnd7jebpj" class="phenotype">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-nnd7jebpj">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/mesh:D002470"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="Cell Survival"/>
+      <bbox x="33.86329190816008" y="487.3753755487629" w="138" h="58"/>
+    </glyph>
+    <glyph id="node-qltbsr6dr" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-qltbsr6dr">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/fplx:AKT"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="AKT"/>
+      <bbox x="517.155356659156" y="221.14995213619625" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-rhxuhhlqy" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-rhxuhhlqy">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/hgnc:2345"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="CREB1"/>
+      <bbox x="717.8835271311383" y="221.14995213619625" w="94.5" h="46.5"/>
+    </glyph>
+    <glyph id="node-xo3iacyxj" class="biological activity">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-xo3iacyxj">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/hgnc:7980"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="NR4A1"/>
+      <bbox x="321.25058456578046" y="285.98657717237484" w="94.5" h="46.5"/>
+    </glyph>
+    <arc id="edge-2njt9h4a0" class="negative influence" source="node-qltbsr6dr" target="node-xo3iacyxj">
+      <start x="515.655356659156" y="260.5342475734057"/>
+      <end x="418.19994166531194" y="292.7880825983602"/>
+    </arc>
+    <arc id="edge-r0q4j7xfd" class="positive influence" source="node-qltbsr6dr" target="node-rhxuhhlqy">
+      <start x="613.155356659156" y="244.39995213619625"/>
+      <end x="716.3835271311383" y="244.39995213619625"/>
+    </arc>
+    <arc id="edge-slz0pt9un" class="positive influence" source="node-ebcg75ssp" target="node-rhxuhhlqy">
+      <start x="789.4374659465202" y="370.7501769769871"/>
+      <end x="769.8942822974916" y="269.14995213619625"/>
+    </arc>
+    <arc id="edge-kd16dfp4n" class="positive influence" source="node-qnrv1hrdr" target="node-qltbsr6dr">
+      <start x="545.700614274127" y="371.1392226124331"/>
+      <end x="560.752642135158" y="269.14995213619625"/>
+    </arc>
+    <arc id="edge-razvocjin" class="positive influence" source="node-j8qrh70l6" target="node-3obpezn86">
+      <start x="97.5357732962923" y="59.4880161649791"/>
+      <end x="99.30407482321262" y="101.90131209671216"/>
+    </arc>
+    <arc id="edge-eerjl0cs7" class="positive influence" source="node-3obpezn86" target="node-gj7mldhco">
+      <start x="97.49680650279522" y="151.40131209671213"/>
+      <end x="92.81828358649257" y="192.18587116691515"/>
+    </arc>
+    <arc id="edge-bar8pi2es" class="positive influence" source="node-gj7mldhco" target="node-etzmc01z7">
+      <start x="41.22913453552029" y="218.5445791050375"/>
+      <end x="-10.102839549191174" y="220.2384899602081"/>
+    </arc>
+    <arc id="edge-51due0s9g" class="positive influence" source="node-etzmc01z7" target="node-bte3dqq1v">
+      <start x="-63.37065442360398" y="246.59719789833048"/>
+      <end x="-72.94781275236865" y="299.06386048324543"/>
+    </arc>
+    <arc id="edge-qi1xx8j4m" class="positive influence" source="node-bte3dqq1v" target="node-7bpcbp27g">
+      <start x="-74.83143222444664" y="348.56386048324543"/>
+      <end x="-66.88291522208294" y="423.24541054370644"/>
+    </arc>
+    <arc id="edge-wuudmsl78" class="positive influence" source="node-gj7mldhco" target="node-f3f98x0gv">
+      <start x="103.75421379411108" y="241.68587116691515"/>
+      <end x="125.9276989298869" y="281.5254791145934"/>
+    </arc>
+    <arc id="edge-iiwd7206q" class="positive influence" source="node-f3f98x0gv" target="node-6njl4np06">
+      <start x="140.90329075397784" y="331.0254791145934"/>
+      <end x="143.19396169765167" y="378.25039577534267"/>
+    </arc>
+    <arc id="edge-2iy7un92k" class="positive influence" source="node-6njl4np06" target="node-nnd7jebpj">
+      <start x="135.32812853731093" y="427.75039577534267"/>
+      <end x="117.14965487009115" y="477.375375548763"/>
+    </arc>
+    <arc id="edge-3hljwsl15" class="positive influence" source="node-7bpcbp27g" target="node-nnd7jebpj">
+      <start x="-15.49871981974816" y="467.9432482815714"/>
+      <end x="47.01049873862469" y="493.5211713364055"/>
+    </arc>
+    <arc id="edge-5ahn9mytk" class="positive influence" source="node-uv4bso2em" target="node-rhxuhhlqy">
+      <start x="780.0475756443805" y="120.19638286880519"/>
+      <end x="768.1054441451178" y="219.64995213619625"/>
+    </arc>
+  </map>
+</sbgn>

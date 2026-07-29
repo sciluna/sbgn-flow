@@ -100,7 +100,7 @@ h1 {
   visibility: visible;
 }
 
-#convertImageToSbgnVideo {
+#convertImageToSbgnVideo, #mergeSplitVideo {
   color: #d67664;
 }
 

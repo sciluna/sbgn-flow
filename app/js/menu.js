@@ -21,6 +21,14 @@ $("#convertImageToSbgnVideo").on("click", function (event) {
 	$('.ui.embed').embed();
 });
 
+$("#mergeSplitVideo").on("click", function (event) {
+	event.preventDefault();
+	event.stopPropagation();
+
+	$("#mergeSplitVideoModal").modal("show");
+	$('.ui.embed').embed();
+});
+
 $('.ui.checkbox').checkbox();
 
 /* Image-to-SBGN Menu */
@@ -349,7 +357,7 @@ let generateCyGraph = async function (graphContent, source = "sbgn", layoutType 
 	}
 	// apply layout
 	if (layoutType == "preset") {
-		cy.layout({ name: layoutType }).run();
+		cy.layout({ name: layoutType, padding: 60}).run();
 	} else if (layoutType == "fcose" && document.getElementById("polishConversion").checked) {
 		cy.layout({ name: layoutType, randomize: false, mapType: language, initialEnergyOnIncremental: 0.3, padding: 60}).run();
 	} else {
@@ -840,6 +848,57 @@ function callLayout(randomize, idealEdgeLength, initialEnergyOnIncremental, cons
 };
 
 /* Graph View Options */
+
+document.getElementById("demoSamples").addEventListener("change", function (event) {
+	let sample = event.target.value;
+	let filename = "";
+	if (sample == "demoSample1") {
+		filename = "demoSample1.sbgn";
+	}
+	else if (sample == "demoSample2") {
+		filename = "demoSample2.sbgn";
+	}
+	else if (sample == "demoSample3") {
+		filename = "demoSample3.sbgn";
+	}
+	else if (sample == "demoSample4") {
+		filename = "demoSample4.sbgn";
+	}
+	else if (sample == "demoSample5") {
+		filename = "demoSample5.sbgn";
+	}
+	else if (sample == "demoSample6") {
+		filename = "demoSample6.sbgn";
+	}
+	loadDemoSample('app/samples/' + filename);
+
+	const selectedSample = this.value;
+
+	// Get the radio buttons
+	const radioPD = document.getElementById('radioPD');
+	const radioAF = document.getElementById('radioAF');
+
+	// Uncheck both radios
+	radioPD.checked = false;
+	radioAF.checked = false;
+
+	// Check the appropriate radio based on the selected sample
+	if (selectedSample === 'demoSample1' || selectedSample === 'demoSample2' || selectedSample === 'demoSample3') {
+		radioAF.checked = true; // AF for demoSample1, demoSample2 and demoSample3
+	} else if (selectedSample === 'demoSample4' || selectedSample === 'demoSample5' || selectedSample === 'demoSample6') {
+		radioPD.checked = true; // PD for demoSample4, demoSample5 and demoSample6
+	}
+});
+
+function loadDemoSample(fname) {
+	cy.nodes().remove();
+	fetch(fname).then(function (res) {
+		return res.text();
+	}).then(async sbgnmlText => {
+			await generateCyGraph(sbgnmlText, "sbgn", "preset");
+			sbgnmlText = undefined;
+	});
+};
 
 $("#uploadGraph").on("click", function (e) {
 	$("#file-input-graph").trigger('click');

@@ -620,6 +620,25 @@ var contextMenuOptions = {
 			onClickFunction: function (event) {
 				cy.elements(':selected').remove();
 			}
+		},
+		{
+			id: 'addCompartmentToSelected',
+			content: 'Add compartment to selected',
+			coreAsWell: true,
+			onClickFunction: function (event) {
+				let selectedNodes = cy.nodes(':selected');
+				if (selectedNodes.length > 0) {
+					let parentNodes = selectedNodes[0].parent();
+					if (parentNodes.length > 0) {
+						let parent = parentNodes[0];
+						let newParent = cy.add({ group: 'nodes', data: { class: 'compartment', label: 'Compartment', 'stateVariables': [], 'unitsOfInformation': [], parent: parent.id()}});
+						selectedNodes.move({ parent: newParent.id() });
+					} else {
+						let newParent = cy.add({ group: 'nodes', data: { class: 'compartment', label: 'Compartment', 'stateVariables': [], 'unitsOfInformation': []}});
+						selectedNodes.move({ parent: newParent.id() });
+					}
+				}
+			}
 		}
 	],
 	// css classes that menu items will have
@@ -633,6 +652,67 @@ var contextMenuOptions = {
 	// Indicates that the menu item has a submenu. If not provided default one will be used
 	submenuIndicator: { src: 'app/img/submenu-indicator-default.svg', width: 12, height: 12 }
 };
+
+let lastMouseRenderedPosition = null;
+
+cy.container().addEventListener("mousemove", (event) => {
+  const rect = cy.container().getBoundingClientRect();
+
+  lastMouseRenderedPosition = {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top
+  };
+});
+
+cy.on("dragfree", "node", (event) => {
+  if (!event.target.selected() || !lastMouseRenderedPosition) {
+    return;
+  }
+
+  const selectedNodes = cy.nodes(":selected");
+
+  const targetParent = cy
+    .nodes(":parent")
+    .filter((compound) => {
+      if (selectedNodes.contains(compound)) {
+        return false;
+      }
+
+      const bb = compound.renderedBoundingBox({
+        includeNodes: true,
+        includeEdges: false,
+        includeLabels: false
+      });
+
+      return (
+        lastMouseRenderedPosition.x >= bb.x1 &&
+        lastMouseRenderedPosition.x <= bb.x2 &&
+        lastMouseRenderedPosition.y >= bb.y1 &&
+        lastMouseRenderedPosition.y <= bb.y2
+      );
+    })
+    .sort((a, b) => {
+      const aBb = a.renderedBoundingBox();
+      const bBb = b.renderedBoundingBox();
+
+      return aBb.w * aBb.h - bBb.w * bBb.h;
+    })
+    .first();
+
+  if (targetParent.empty()) {
+    return;
+  }
+
+  const topLevelSelectedNodes = selectedNodes.filter((node) => {
+    const parent = node.parent();
+
+    return parent.empty() || !selectedNodes.contains(parent);
+  });
+
+  topLevelSelectedNodes.move({
+    parent: targetParent.id()
+  });
+});
 
 let instance = cy.contextMenus(contextMenuOptions);
 
