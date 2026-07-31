@@ -29,6 +29,30 @@ $("#mergeSplitVideo").on("click", function (event) {
 	$('.ui.embed').embed();
 });
 
+$("#layoutVideo").on("click", function (event) {
+	event.preventDefault();
+	event.stopPropagation();
+
+	$("#layoutVideoModal").modal("show");
+	$('.ui.embed').embed();
+});
+
+$("#tutorialVideo1").on("click", function (event) {
+	event.preventDefault();
+	event.stopPropagation();
+
+	$("#tutorialVideo1Modal").modal("show");
+	$('.ui.embed').embed();
+});
+
+$("#tutorialVideo2").on("click", function (event) {
+	event.preventDefault();
+	event.stopPropagation();
+
+	$("#tutorialVideo2Modal").modal("show");
+	$('.ui.embed').embed();
+});
+
 $('.ui.checkbox').checkbox();
 
 /* Image-to-SBGN Menu */

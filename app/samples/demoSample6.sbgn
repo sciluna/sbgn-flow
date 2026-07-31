@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<sbgn xmlns="http://sbgn.org/libsbgn/0.3">
+  <map language="PD">
+    <glyph id="node-wlg1puujk" class="compartment">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-wlg1puujk">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/go:0005829"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="cytosol"/>
+      <bbox x="-426.5516554317041" y="-18.1168679041092" w="1516.1020122827922" h="888.3754426112929"/>
+    </glyph>
+    <glyph id="node-74p4a9c5q" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="PDXate"/>
+      <bbox x="799.673990833772" y="471.7497171986305" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-bgqd64oce" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="PXLP"/>
+      <bbox x="251.16158198061612" y="459.87301454382964" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-flmjm57bt" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="PDX"/>
+      <bbox x="180.402519862433" y="30.883132095890772" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-awbotu3s5" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-awbotu3s5">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/hgnc:30259"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="PDXP"/>
+      <bbox x="286.07799338551257" y="237.35969232545733" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-6vqmp98b1" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="PXL"/>
+      <bbox x="502.8814707332074" y="446.52331865440937" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-lslb4snce" class="complex" compartmentRef="node-wlg1puujk">
+      <label text="2xPNPO:2xFMN"/>
+      <bbox x="-202.8678823249093" y="253.73714904151848" w="160" h="188"/>
+      <glyph id="node-a46lzyyte" class="simple chemical">
+        <extension>
+          <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+              <rdf:Description rdf:about="#node-a46lzyyte">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="https://bioregistry.io/chebi:17621"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+        </extension>
+        <label text="FMN"/>
+        <bbox x="-169.8678823249093" y="362.7371490415185" w="94" h="46"/>
+      </glyph>
+      <glyph id="node-25s6wk66o" class="macromolecule">
+        <extension>
+          <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+              <rdf:Description rdf:about="#node-25s6wk66o">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="https://bioregistry.io/hgnc:30260"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+        </extension>
+        <label text="PNPO"/>
+        <bbox x="-169.8678823249093" y="286.7371490415185" w="94" h="46"/>
+        <glyph id="http___purl.org_pc2_4_Protein_269f509de4b089e3814c8883cba1da2a_http___purl.org_pc2_4_Complex_30d74cbefecaa3b05b9cdfacad488329_0" class="state variable">
+          <state value="x[1 - 261]" variable=""/>
+          <bbox x="-160.46788232490928" y="278.7371490415185" w="20" h="10"/>
+        </glyph>
+      </glyph>
+    </glyph>
+    <glyph id="node-3qc7y8sn5" class="complex" compartmentRef="node-wlg1puujk">
+      <label text="2xPDXK:2xZn2+"/>
+      <bbox x="253.2120691162503" y="641.2585747071837" w="160" h="188"/>
+      <glyph id="node-2r8yc66ag" class="simple chemical">
+        <label text="Zn2+"/>
+        <bbox x="286.2120691162503" y="750.2585747071837" w="94" h="46"/>
+      </glyph>
+      <glyph id="node-y7wvkkrcn" class="macromolecule">
+        <extension>
+          <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+              <rdf:Description rdf:about="#node-y7wvkkrcn">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="https://bioregistry.io/hgnc:8819"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+        </extension>
+        <label text="PDXK"/>
+        <bbox x="286.2120691162503" y="674.2585747071837" w="94" h="46"/>
+        <glyph id="http___purl.org_pc2_4_Protein_1b235ff261fe500a6447d1b99f212fac_http___purl.org_pc2_4_Complex_bb744f8a7e7637ffafa1c8061c4977a0_0" class="state variable">
+          <state value="x[1 - 312]" variable=""/>
+          <bbox x="295.61206911625027" y="666.2585747071837" w="20" h="10"/>
+        </glyph>
+      </glyph>
+    </glyph>
+    <glyph id="node-fuf8r2jn1" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="NH4+"/>
+      <bbox x="128.7670166291109" y="545.7660170251835" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-958fds4a1" class="complex" compartmentRef="node-wlg1puujk">
+      <label text="2xAOX1:cofactors"/>
+      <clone/>
+      <bbox x="764.550356851088" y="243.42029326762287" w="284" h="188"/>
+      <glyph id="node-kyveld1xl" class="macromolecule">
+        <extension>
+          <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+              <rdf:Description rdf:about="#node-kyveld1xl">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="https://bioregistry.io/hgnc:553"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+        </extension>
+        <label text="AOX1"/>
+        <bbox x="921.550356851088" y="352.42029326762287" w="94" h="46"/>
+        <glyph id="http___purl.org_pc2_4_Protein_10eb099b277fbb1b0efe28055d04533c_http___purl.org_pc2_4_Complex_1727e90f52ed647723f8fec499a6df32_0" class="state variable">
+          <state value="x[1 - 1338]" variable=""/>
+          <bbox x="930.950356851088" y="344.42029326762287" w="20" h="10"/>
+        </glyph>
+      </glyph>
+      <glyph id="node-oc02lci5k" class="simple chemical">
+        <label text="(4Fe-4S)&#xA;(2+)"/>
+        <bbox x="921.550356851088" y="276.42029326762287" w="94" h="46"/>
+      </glyph>
+      <glyph id="node-yv9wm1w3b" class="simple chemical">
+        <extension>
+          <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+              <rdf:Description rdf:about="#node-yv9wm1w3b">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="https://bioregistry.io/chebi:16238"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+        </extension>
+        <label text="FAD"/>
+        <clone/>
+        <bbox x="797.550356851088" y="352.42029326762287" w="94" h="46"/>
+      </glyph>
+      <glyph id="node-newoa9ide" class="simple chemical">
+        <label text="MPT"/>
+        <bbox x="797.550356851088" y="276.42029326762287" w="94" h="46"/>
+      </glyph>
+    </glyph>
+    <glyph id="node-oy5aw1d0q" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-oy5aw1d0q">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/chebi:16761"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="ADP"/>
+      <clone/>
+      <bbox x="85.29967401782199" y="154.36400538192086" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-lcom521x1" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-lcom521x1">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/chebi:15422"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="ATP"/>
+      <clone/>
+      <bbox x="454.7102369207202" y="638.5468449438622" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-4hcb22lrl" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-4hcb22lrl">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/chebi:15422"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="ATP"/>
+      <clone/>
+      <bbox x="382.37709472389264" y="101.42326904348684" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-4322j0ir0" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="H2O2"/>
+      <clone/>
+      <bbox x="501.03911235571957" y="341.34132480343254" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-5cd3cz2za" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="H2O2"/>
+      <clone/>
+      <bbox x="156.60989233651347" y="356.8801530229986" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-vefrr67mu" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="H2O2"/>
+      <clone/>
+      <bbox x="776.6984040351867" y="572.5513184025399" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-les58yre1" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="O2"/>
+      <clone/>
+      <bbox x="439.64735764770825" y="233.91928480268848" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-nyr9zg28f" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="O2"/>
+      <clone/>
+      <bbox x="-7.254503618485572" y="571.4278429321698" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-xzbnutfo4" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="H2O"/>
+      <clone/>
+      <bbox x="-4.854088850171095" y="286.07359869384715" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-2zhbke3ww" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="H2O"/>
+      <clone/>
+      <bbox x="639.6574146886917" y="366.5172577029573" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-1qinis24f" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-1qinis24f">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/chebi:16761"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="ADP"/>
+      <clone/>
+      <bbox x="497.44156413311475" y="537.5754413155173" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-5tx0tkezq" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="O2"/>
+      <clone/>
+      <bbox x="635.4600302137958" y="605.9923431144593" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-53qiifse4" class="process" compartmentRef="node-wlg1puujk">
+      <label text=""/>
+      <bbox x="386.6617517606219" y="356.6230142442529" w="23.5" h="23.5"/>
+    </glyph>
+    <glyph id="node-v4feylc9r" class="process" compartmentRef="node-wlg1puujk">
+      <label text=""/>
+      <bbox x="32.3674583369646" y="455.34249977350566" w="23.5" h="23.5"/>
+    </glyph>
+    <glyph id="node-wj1fv8ko9" class="process" compartmentRef="node-wlg1puujk">
+      <label text=""/>
+      <bbox x="405.3741288343902" y="543.9903546508831" w="23.5" h="23.5"/>
+    </glyph>
+    <glyph id="node-2dmkc187g" class="process" compartmentRef="node-wlg1puujk">
+      <label text=""/>
+      <bbox x="695.857023055067" y="490.52464028746454" w="23.5" h="23.5"/>
+    </glyph>
+    <glyph id="node-sx88oi0mb" class="process" compartmentRef="node-wlg1puujk">
+      <label text=""/>
+      <bbox x="267.4392433026862" y="139.74393576015427" w="23.5" h="23.5"/>
+    </glyph>
+    <glyph id="node-eg0xt1ziq" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="PXA"/>
+      <bbox x="-364.4794512972966" y="731.9994007938376" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-f5nmibjcv" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <label text="PXAP"/>
+      <bbox x="-166.2178618824442" y="547.4833715597117" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-tyr4r98x3" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-tyr4r98x3">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/chebi:16761"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="ADP"/>
+      <clone/>
+      <bbox x="-122.84865408777594" y="733.089584119582" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-rw1qe7fkx" class="simple chemical" compartmentRef="node-wlg1puujk">
+      <extension>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#node-rw1qe7fkx">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://bioregistry.io/chebi:15422"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </extension>
+      <label text="ATP"/>
+      <clone/>
+      <bbox x="-377.55165543170403" y="578.8357527736575" w="94" h="46"/>
+    </glyph>
+    <glyph id="node-javseokh7" class="process" compartmentRef="node-wlg1puujk">
+      <label text=""/>
+      <bbox x="-207.7211217695066" y="661.1874055052804" w="23.5" h="23.5"/>
+    </glyph>
+    <arc id="edge-o2f3pzsj8" class="consumption" source="node-les58yre1" target="node-53qiifse4">
+      <start x="460.52194211551193" y="289.9192848026885"/>
+      <end x="408.90150193642796" y="355.1230142442529"/>
+    </arc>
+    <arc id="edge-p2iuzp3ul" class="production" source="node-v4feylc9r" target="node-bgqd64oce">
+      <start x="57.3674583369646" y="467.91555294123054"/>
+      <end x="241.52437584925548" y="479.35486873873515"/>
+    </arc>
+    <arc id="edge-vkrh457rw" class="consumption" source="node-flmjm57bt" target="node-sx88oi0mb">
+      <start x="244.91043711518302" y="86.88313209589077"/>
+      <end x="272.1595492542335" y="138.24393576015427"/>
+    </arc>
+    <arc id="edge-y3dcx0s5k" class="consumption" source="node-xzbnutfo4" target="node-v4feylc9r">
+      <start x="42.557640738700556" y="342.07359869384715"/>
+      <end x="43.952142668705534" y="453.84249977350566"/>
+    </arc>
+    <arc id="edge-pa1j1hsjo" class="consumption" source="node-f5nmibjcv" target="node-v4feylc9r">
+      <start x="-77.59175989056223" y="544.1341473489229"/>
+      <end x="30.86745833696459" y="475.47971846770486"/>
+    </arc>
+    <arc id="edge-zj055etc8" class="consumption" source="node-rw1qe7fkx" target="node-javseokh7">
+      <start x="-285.7162462630828" y="625.5232178626965"/>
+      <end x="-209.2211217695066" y="665.9371590873347"/>
+    </arc>
+    <arc id="edge-2ehkhmrzt" class="consumption" source="node-awbotu3s5" target="node-53qiifse4">
+      <start x="353.0386240566024" y="293.35969232545733"/>
+      <end x="390.3972561123813" y="355.1230142442529"/>
+    </arc>
+    <arc id="edge-40cstiofm" class="production" source="node-wj1fv8ko9" target="node-1qinis24f">
+      <start x="430.3741288343902" y="556.2435449496516"/>
+      <end x="487.66391554334507" y="558.4192177715732"/>
+    </arc>
+    <arc id="edge-gelx28mm0" class="consumption" source="node-lcom521x1" target="node-wj1fv8ko9">
+      <start x="475.3286646833306" y="628.5468449438622"/>
+      <end x="427.7167298084936" y="568.9903546508831"/>
+    </arc>
+    <arc id="edge-wzz3x9onx" class="production" source="node-2dmkc187g" target="node-vefrr67mu">
+      <start x="720.857023055067" y="512.920701817531"/>
+      <end x="786.9985911946394" y="566.0638870333028"/>
+    </arc>
+    <arc id="edge-p6kaxtdu" class="production" source="node-53qiifse4" target="node-bgqd64oce">
+      <start x="386.8107496111923" y="381.6230142442529"/>
+      <end x="326.95925439943426" y="449.9819630092773"/>
+    </arc>
+    <arc id="edge-n2b2e4umc" class="catalysis" source="node-3qc7y8sn5" target="node-wj1fv8ko9">
+      <start x="378.0852732423554" y="639.2585747071837"/>
+      <end x="407.7071585346581" y="575.8866572468316"/>
+    </arc>
+    <arc id="edge-whj5klnxj" class="production" source="node-javseokh7" target="node-f5nmibjcv">
+      <start x="-186.04490750210277" y="659.6874055052804"/>
+      <end x="-143.9397540201291" y="603.4833715597117"/>
+    </arc>
+    <arc id="edge-jdp08svqv" class="production" source="node-v4feylc9r" target="node-fuf8r2jn1">
+      <start x="57.36745833696462" y="477.32553147571"/>
+      <end x="138.18455840971433" y="539.740923711534"/>
+    </arc>
+    <arc id="edge-9m5uvm8wm" class="consumption" source="node-nyr9zg28f" target="node-v4feylc9r">
+      <start x="40.87852622971678" y="561.4278429321698"/>
+      <end x="43.66252968579245" y="480.34249977350566"/>
+    </arc>
+    <arc id="edge-qleiul3hr" class="consumption" source="node-6vqmp98b1" target="node-2dmkc187g">
+      <start x="604.099045382949" y="480.78146420773305"/>
+      <end x="694.357023055067" y="499.5233104918177"/>
+    </arc>
+    <arc id="edge-2fdiwwogi" class="production" source="node-53qiifse4" target="node-4322j0ir0">
+      <start x="411.6617517606219" y="368.0159947467599"/>
+      <end x="491.1970522960837" y="365.8729265935427"/>
+    </arc>
+    <arc id="edge-9bedphph6" class="production" source="node-wj1fv8ko9" target="node-bgqd64oce">
+      <start x="403.8741288343902" y="547.6244199978934"/>
+      <end x="340.44256763975284" y="508.77110636824847"/>
+    </arc>
+    <arc id="edge-85f7rozej" class="production" source="node-javseokh7" target="node-tyr4r98x3">
+      <start x="-182.7211217695066" y="682.1094312545238"/>
+      <end x="-115.68955610941433" y="728.5105819146347"/>
+    </arc>
+    <arc id="edge-70eetkvhp" class="catalysis" source="node-lslb4snce" target="node-v4feylc9r">
+      <start x="-40.86788232490929" y="406.34791523949735"/>
+      <end x="24.67431781085679" y="453.19521485240625"/>
+    </arc>
+    <arc id="edge-1s0yda9pa" class="production" source="node-sx88oi0mb" target="node-oy5aw1d0q">
+      <start x="265.9392433026862" y="153.82751481656538"/>
+      <end x="187.2591261799774" y="167.6845920598504"/>
+    </arc>
+    <arc id="edge-9gj47l905" class="production" source="node-v4feylc9r" target="node-5cd3cz2za">
+      <start x="57.3674583369646" y="459.8472432715735"/>
+      <end x="159.345494231877" y="404.0844487340727"/>
+    </arc>
+    <arc id="edge-sppxkkdgi" class="catalysis" source="node-958fds4a1" target="node-2dmkc187g">
+      <start x="790.6992410651068" y="433.42029326762287"/>
+      <end x="726.718586591503" y="486.43784763294036"/>
+    </arc>
+    <arc id="edge-pfabkvx0l" class="production" source="node-2dmkc187g" target="node-74p4a9c5q">
+      <start x="720.857023055067" y="501.55768188591435"/>
+      <end x="789.9902786543129" y="497.81687672150713"/>
+    </arc>
+    <arc id="edge-n6cx0xvnu" class="consumption" source="node-eg0xt1ziq" target="node-javseokh7">
+      <start x="-277.1459596840198" y="727.7597307925905"/>
+      <end x="-209.2211217695066" y="681.8859396658517"/>
+    </arc>
+    <arc id="edge-32pkxuqud" class="consumption" source="node-4hcb22lrl" target="node-sx88oi0mb">
+      <start x="374.5158868459451" y="134.3117484383524"/>
+      <end x="292.4392433026862" y="149.1056844428763"/>
+    </arc>
+    <arc id="edge-kpfxbnumd" class="consumption" source="node-5tx0tkezq" target="node-2dmkc187g">
+      <start x="689.0088449827546" y="595.9923431144593"/>
+      <end x="704.9775747008639" y="515.5246402874645"/>
+    </arc>
+    <arc id="edge-sp5wjy7ha" class="consumption" source="node-2zhbke3ww" target="node-2dmkc187g">
+      <start x="692.7886059264118" y="422.5172577029573"/>
+      <end x="705.1452568762854" y="489.02464028746454"/>
+    </arc>
+    <arc id="edge-szbz6fr1s" class="production" source="node-sx88oi0mb" target="node-awbotu3s5">
+      <start x="285.7480177155489" y="164.74393576015427"/>
+      <end x="316.74293258366583" y="227.35969232545733"/>
+    </arc>
+    <arc id="edge-rge3vbj77" class="consumption" source="node-6vqmp98b1" target="node-wj1fv8ko9">
+      <start x="508.7665754781246" y="496.22469993771676"/>
+      <end x="430.3741288343902" y="547.1353636905793"/>
+    </arc>
+  </map>
+</sbgn>

@@ -75,7 +75,7 @@ h1 {
 
 .tooltip {
   margin-left: auto;
-  margin-right: 10;
+  margin-right: 0px;
 }
 
 .tooltiptext {
@@ -93,14 +93,14 @@ h1 {
   position: absolute;
   z-index: 1000;
   top: 0px;
-  right: 5%;
+  right: 9%;
 }
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
 
-#convertImageToSbgnVideo, #mergeSplitVideo {
+#convertImageToSbgnVideo, #mergeSplitVideo, #layoutVideo, #tutorialVideo1, #tutorialVideo2 {
   color: #d67664;
 }
 

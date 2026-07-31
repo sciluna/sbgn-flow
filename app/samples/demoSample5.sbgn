@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sbgn xmlns="http://sbgn.org/libsbgn/0.2">
+    <map language="AF">
+        <glyph id="node-053lf72ch" class="simple chemical">
+            <label text="3 PG"/>
+            <bbox x="553.0077116536512" y="241.16490719459944" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-d9m9wsvby" class="simple chemical">
+            <label text="GA-3P"/>
+            <bbox x="866.3165211119558" y="-302.0225434206229" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-j0ilqvq87" class="simple chemical">
+            <label text="fructose&#xA;6P"/>
+            <bbox x="-28.460087769821392" y="-34.18809131689116" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-z3ihxu0pb" class="process">
+            <label text=""/>
+            <bbox x="1028.6014282145989" y="-384.82317817962877" w="25" h="25"/>
+        </glyph>
+        <glyph id="node-e819oen2b" class="process">
+            <label text=""/>
+            <bbox x="-470.9035292280591" y="-24.18992399174278" w="25" h="25"/>
+        </glyph>
+        <glyph id="node-ipjuda9z8" class="simple chemical">
+            <label text="DHA-P"/>
+            <bbox x="857.724126331608" y="-474.2985561000743" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-n96xehamu" class="simple chemical">
+            <label text="pyruvate"/>
+            <bbox x="-619.5573040597209" y="521.8162824131545" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-0dynfpm1e" class="process">
+            <label text=""/>
+            <bbox x="-404.9971041435971" y="513.4292676811071" w="25" h="25"/>
+        </glyph>
+        <glyph id="node-uwcl1sq9y" class="simple chemical">
+            <label text="ATP"/>
+            <clone/>
+            <bbox x="-569.6484841878206" y="367.4180478875123" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-f330kvzfs" class="simple chemical">
+            <label text="ADP"/>
+            <clone/>
+            <bbox x="-334.1713463705769" y="382.86816813850675" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-jvf271ea1" class="simple chemical">
+            <label text="PEP"/>
+            <bbox x="-243.1386169074218" y="507.94659541749354" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-4rr4tabdd" class="process">
+            <label text=""/>
+            <bbox x="770.4079641158507" y="-368.03018953877177" w="25" h="25"/>
+        </glyph>
+        <glyph id="node-nm72rju81" class="simple chemical">
+            <label text="H2O"/>
+            <bbox x="-122.83791517795017" y="377.2314370684336" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-kg1yxhuk0" class="simple chemical">
+            <label text="2 PG"/>
+            <bbox x="116.62367370094827" y="501.5475869208036" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-6483j56ll" class="process">
+            <label text=""/>
+            <bbox x="439.2959212363194" y="-328.1832834138126" w="25" h="25"/>
+        </glyph>
+        <glyph id="node-hm5pq219h" class="simple chemical">
+            <label text="3 PG"/>
+            <bbox x="451.89372348002405" y="489.75425299795984" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-spwe79ln3" class="process">
+            <label text=""/>
+            <bbox x="-138.63593113745745" y="-55.3591431000775" w="25" h="25"/>
+        </glyph>
+        <glyph id="node-nezbmm9kj" class="simple chemical">
+            <label text="ATP"/>
+            <clone/>
+            <bbox x="662.3409510974819" y="133.33568716374194" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-w6ssd0msf" class="simple chemical">
+            <label text="ADP"/>
+            <clone/>
+            <bbox x="826.844238818317" y="131.89568312284544" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-wzuyuzpi5" class="simple chemical">
+            <label text="1,3 BPG"/>
+            <bbox x="941.3658199520129" y="218.24573199504738" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-l8oh2nw8a" class="macromolecule">
+            <label text="pyruvate&#xA;kinase"/>
+            <bbox x="-441.62657300572874" y="629.2721093845852" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-in3zdjjfh" class="macromolecule">
+            <label text="enolase"/>
+            <bbox x="-25.70359734127038" y="624.4129561600776" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-k3xe3wifx" class="macromolecule">
+            <label text="PG mutase"/>
+            <bbox x="311.0843921356567" y="664.9876874580373" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-6zko6h7eh" class="macromolecule">
+            <label text="PGK1"/>
+            <bbox x="767.7691250382595" y="360.4798485858575" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-m6bwdb70s" class="simple chemical">
+            <label text="NADH"/>
+            <bbox x="1073.8968978862" y="270.1031857385501" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-vo83cxolx" class="simple chemical">
+            <label text="H+"/>
+            <bbox x="1206.516053925778" y="216.77171951919044" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-3ten4ri6e" class="simple chemical">
+            <label text="NAD"/>
+            <bbox x="1212.326390176808" y="-25.412483497855828" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-cvkrjsa8v" class="simple chemical">
+            <label text="Pi"/>
+            <bbox x="925.1681523615248" y="-1.5833621479622693" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-4dmf9ye80" class="simple chemical">
+            <label text="GA-3P"/>
+            <bbox x="1077.7969064397826" y="-26.083856962576032" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-udiz5u1tm" class="macromolecule">
+            <label text="GAPDH"/>
+            <bbox x="1211.4445442640674" y="107.00127468210641" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-wdswih6oz" class="process">
+            <label text=""/>
+            <bbox x="326.38991137044087" y="539.5505452465977" w="25" h="25"/>
+        </glyph>
+        <glyph id="node-weo9xh6uj" class="macromolecule">
+            <label text="adolase"/>
+            <bbox x="690.3981504425398" y="-495.13677184103653" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-sh31cpf8d" class="process">
+            <label text=""/>
+            <bbox x="788.8925850883828" y="237.5148345869666" w="25" h="25"/>
+        </glyph>
+        <glyph id="node-hd9qfzaf0" class="macromolecule">
+            <label text="phospho&#xA;fructokinase"/>
+            <bbox x="401.40489009656363" y="-466.76218896427054" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-onem650ba" class="process">
+            <label text=""/>
+            <bbox x="1088.0921292422452" y="118.90631590806547" w="25" h="25"/>
+        </glyph>
+        <glyph id="node-jh1jeovh6" class="macromolecule">
+            <label text="glucose-6P&#xA;isomerase"/>
+            <bbox x="-172.1883364787466" y="-182.23540745424359" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-ig6brvfcz" class="simple chemical">
+            <label text="fructose&#xA;1,6P"/>
+            <bbox x="575.6110134781694" y="-359.4712770616085" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-4sbsqa8l8" class="macromolecule">
+            <label text="triose-P&#xA;isomerase"/>
+            <bbox x="1152.288600882925" y="-398.1535408225895" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-ps0rj65as" class="simple chemical">
+            <label text="fructose&#xA;6P"/>
+            <bbox x="259.34866428550436" y="-370.1513751955247" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-lxiwhdjou" class="simple chemical">
+            <label text="glucose&#xA;6P"/>
+            <bbox x="-330.47056736137677" y="-62.08741511973903" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-1bnzwl2p6" class="simple chemical">
+            <label text="ATP"/>
+            <clone/>
+            <bbox x="320.53862065892764" y="-231.50937386520062" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-gf2krkuok" class="simple chemical">
+            <label text="ADP"/>
+            <clone/>
+            <bbox x="493.51558514193607" y="-229.19048203973614" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-qsceyoffq" class="simple chemical">
+            <label text="ADP"/>
+            <clone/>
+            <bbox x="-380.2887002447661" y="67.76450797217142" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-afx1e1yrr" class="process">
+            <label text=""/>
+            <bbox x="-20.442968741959533" y="521.2995557204385" w="25" h="25"/>
+        </glyph>
+        <glyph id="node-hgv5xqhmp" class="simple chemical">
+            <label text="ATP"/>
+            <clone/>
+            <bbox x="-599.2901682577588" y="65.17170908635808" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-ijvee0z6x" class="simple chemical">
+            <label text="glucose"/>
+            <bbox x="-660.0697893980621" y="-69.4535495257854" w="96" h="48"/>
+        </glyph>
+        <glyph id="node-n48zsm52m" class="macromolecule">
+            <label text="hexokinase"/>
+            <bbox x="-511.2628331234543" y="-149.01183753517847" w="96" h="48"/>
+        </glyph>
+        <arc id="edge-oa6z54spw" class="consumption" source="node-jvf271ea1" target="node-0dynfpm1e">
+            <start x="-251.959965886258" y="530.2141506464709"/>
+            <end x="-379.2471041435971" y="526.3332512828446"/>
+        </arc>
+        <arc id="edge-az81d4b85" class="consumption" source="node-f330kvzfs" target="node-0dynfpm1e">
+            <start x="-315.40252285605754" y="439.6005566601548"/>
+            <end x="-380.66438719486405" y="512.6792676811071"/>
+        </arc>
+        <arc id="edge-k9bhct4ui" class="catalysis" source="node-n48zsm52m" target="node-e819oen2b">
+            <start x="-461.8477755804436" y="-92.01183753517847"/>
+            <end x="-459.29782462377784" y="-32.54543492448521"/>
+        </arc>
+        <arc id="edge-dbrizi4st" class="consumption" source="node-ijvee0z6x" target="node-e819oen2b">
+            <start x="-558.1310213676326" y="-33.6020971410379"/>
+            <end x="-471.6535292280591" y="-14.601220445701742"/>
+        </arc>
+        <arc id="edge-jz1xwu9qr" class="production" source="node-e819oen2b" target="node-lxiwhdjou">
+            <start x="-445.1535292280591" y="-13.677992365826057"/>
+            <end x="-337.94041830882975" y="-29.764558034173405"/>
+        </arc>
+        <arc id="edge-hf1gao1tx" class="consumption" source="node-hgv5xqhmp" target="node-e819oen2b">
+            <start x="-521.3760720664548" y="56.68927000332052"/>
+            <end x="-470.60586949941387" y="1.5600760082572265"/>
+        </arc>
+        <arc id="edge-k8l3ov17c" class="production" source="node-e819oen2b" target="node-qsceyoffq">
+            <start x="-445.1535292280591" y="-0.8206928745721314"/>
+            <end x="-368.5286356748123" y="62.036188435528935"/>
+        </arc>
+        <arc id="edge-yvfbw7d02" class="production" source="node-6483j56ll" target="node-gf2krkuok">
+            <start x="462.5548623796863" y="-302.4332834138126"/>
+            <end x="514.7197317282674" y="-238.19048203973614"/>
+        </arc>
+        <arc id="edge-jojlougne" class="consumption" source="node-1bnzwl2p6" target="node-6483j56ll">
+            <start x="393.9374523228534" y="-240.50937386520062"/>
+            <end x="441.5979054924704" y="-302.4332834138126"/>
+        </arc>
+        <arc id="edge-ph6omt03f" class="consumption" source="node-lxiwhdjou" target="node-spwe79ln3">
+            <start x="-225.64941229135624" y="-39.82174029598736"/>
+            <end x="-139.38593113745742" y="-42.454719632146016"/>
+        </arc>
+        <arc id="edge-w3ue3my2h" class="production" source="node-spwe79ln3" target="node-j0ilqvq87">
+            <start x="-112.88593113745745" y="-39.887535549230876"/>
+            <end x="-34.29448221995638" y="-22.261653056006427"/>
+        </arc>
+        <arc id="edge-os2uyc71u" class="consumption" source="node-ps0rj65as" target="node-6483j56ll">
+            <start x="361.4901773518196" y="-334.7313688615384"/>
+            <end x="438.5459212363194" y="-318.47809049170087"/>
+        </arc>
+        <arc id="edge-vatt0wcx4" class="production" source="node-6483j56ll" target="node-ig6brvfcz">
+            <start x="465.0459212363194" y="-317.20928972916136"/>
+            <end x="567.624880746731" y="-329.0233380336742"/>
+        </arc>
+        <arc id="edge-oe15zx9ig" class="production" source="node-0dynfpm1e" target="node-n96xehamu">
+            <start x="-405.7471041435971" y="527.4008562603842"/>
+            <end x="-515.509734788599" y="539.591455029334"/>
+        </arc>
+        <arc id="edge-3qxvq9hm2" class="production" source="node-0dynfpm1e" target="node-uwcl1sq9y">
+            <start x="-405.21913423307103" y="512.6792676811071"/>
+            <end x="-490.7916576045867" y="423.55544650647386"/>
+        </arc>
+        <arc id="edge-89praf3wk" class="consumption" source="node-ig6brvfcz" target="node-4rr4tabdd">
+            <start x="679.4369547947232" y="-342.5009638593865"/>
+            <end x="769.6579641158507" y="-353.8617295383859"/>
+        </arc>
+        <arc id="edge-bssaefoaz" class="production" source="node-4rr4tabdd" target="node-ipjuda9z8">
+            <start x="796.1579641158507" y="-365.75425805128026"/>
+            <end x="868.1220428493172" y="-421.28374268603613"/>
+        </arc>
+        <arc id="edge-6o81m79fy" class="production" source="node-4rr4tabdd" target="node-d9m9wsvby">
+            <start x="796.1579641158507" y="-347.71504922720203"/>
+            <end x="871.3256324456896" y="-303.3795114995621"/>
+        </arc>
+        <arc id="edge-nzam9pyls" class="catalysis" source="node-jh1jeovh6" target="node-spwe79ln3">
+            <start x="-124.74538886813727" y="-125.2354074542436"/>
+            <end x="-125.78378260912478" y="-63.72055875200465"/>
+        </arc>
+        <arc id="edge-ztug3m6ce" class="catalysis" source="node-hd9qfzaf0" target="node-6483j56ll">
+            <start x="450.0257958815966" y="-409.76218896427054"/>
+            <end x="451.4034118270145" y="-336.54443629608664"/>
+        </arc>
+        <arc id="edge-b8n2waiw8" class="catalysis" source="node-weo9xh6uj" target="node-4rr4tabdd">
+            <start x="751.1035156732053" y="-438.13677184103653"/>
+            <end x="775.0713906407527" y="-375.88434071689494"/>
+        </arc>
+        <arc id="edge-4qmrxjakn" class="catalysis" source="node-udiz5u1tm" target="node-onem650ba">
+            <start x="1202.4445442640674" y="131.14661304461413"/>
+            <end x="1121.4546044961883" y="131.35312085558712"/>
+        </arc>
+        <arc id="edge-pvrskcd3z" class="consumption" source="node-4dmf9ye80" target="node-onem650ba">
+            <start x="1119.566053414184" y="30.916143037423964"/>
+            <end x="1103.093911138887" y="118.15631590806547"/>
+        </arc>
+        <arc id="edge-4t19odi2x" class="production" source="node-onem650ba" target="node-wzuyuzpi5">
+            <start x="1087.3421292422452" y="144.61022667813614"/>
+            <end x="1021.2412756880855" y="210.48115287848591"/>
+        </arc>
+        <arc id="edge-482vlp961" class="consumption" source="node-cvkrjsa8v" target="node-onem650ba">
+            <start x="1008.4880794329845" y="52.62686652889214"/>
+            <end x="1087.3421292422452" y="120.07318010746039"/>
+        </arc>
+        <arc id="edge-dy5taq7gv" class="consumption" source="node-3ten4ri6e" target="node-onem650ba">
+            <start x="1224.3853776782844" y="28.472414717203307"/>
+            <end x="1113.8421292422452" y="120.38896069677862"/>
+        </arc>
+        <arc id="edge-ip0gcuff7" class="production" source="node-onem650ba" target="node-vo83cxolx">
+            <start x="1113.8421292422452" y="140.8206522487398"/>
+            <end x="1215.1958031418653" y="212.83405416980042"/>
+        </arc>
+        <arc id="edge-h94t9295z" class="production" source="node-onem650ba" target="node-m6bwdb70s">
+            <start x="1102.3271852689932" y="144.65631590806547"/>
+            <end x="1117.5756262724126" y="261.1031857385501"/>
+        </arc>
+        <arc id="edge-jg1vkrguo" class="catalysis" source="node-6zko6h7eh" target="node-sh31cpf8d">
+            <start x="812.2408777697927" y="351.4798485858575"/>
+            <end x="803.6185199031762" y="270.8341942573289"/>
+        </arc>
+        <arc id="edge-bpcxfuyae" class="catalysis" source="node-k3xe3wifx" target="node-wdswih6oz">
+            <start x="354.21779528333497" y="655.9876874580373"/>
+            <end x="341.95454709531174" y="572.8315924526123"/>
+        </arc>
+        <arc id="edge-3s4lqg9p4" class="catalysis" source="node-in3zdjjfh" target="node-afx1e1yrr">
+            <start x="13.589748354826613" y="615.4129561600776"/>
+            <end x="-2.5051034328427626" y="554.4101770839638"/>
+        </arc>
+        <arc id="edge-1jlzjg76o" class="catalysis" source="node-l8oh2nw8a" target="node-0dynfpm1e">
+            <start x="-393.3338791098509" y="620.2721093845852"/>
+            <end x="-392.68214168196965" y="546.7914682677726"/>
+        </arc>
+        <arc id="edge-wxny469ww" class="consumption" source="node-wzuyuzpi5" target="node-sh31cpf8d">
+            <start x="932.6077271212685" y="244.59159493901188"/>
+            <end x="814.6425850883828" y="249.46720018881618"/>
+        </arc>
+        <arc id="edge-dce3jtnhm" class="consumption" source="node-w6ssd0msf" target="node-sh31cpf8d">
+            <start x="849.0906643822806" y="188.89568312284544"/>
+            <end x="811.7330354301247" y="236.7648345869666"/>
+        </arc>
+        <arc id="edge-6rzeca2wx" class="production" source="node-sh31cpf8d" target="node-nezbmm9kj">
+            <start x="788.3752647534192" y="236.7648345869666"/>
+            <end x="741.7245720250888" y="189.28027841528328"/>
+        </arc>
+        <arc id="edge-stflrtes0" class="production" source="node-sh31cpf8d" target="node-053lf72ch">
+            <start x="788.1425850883828" y="251.01659913441145"/>
+            <end x="657.566752945713" y="260.8887681452518"/>
+        </arc>
+        <arc id="edge-gctd717lc" class="consumption" source="node-hm5pq219h" target="node-wdswih6oz">
+            <start x="446.36850012241797" y="526.4857378585875"/>
+            <end x="352.13991137044087" y="548.898906377643"/>
+        </arc>
+        <arc id="edge-zish3jhv8" class="production" source="node-wdswih6oz" target="node-kg1yxhuk0">
+            <start x="325.63991137044087" y="550.0354435119589"/>
+            <end x="220.06361379440062" y="533.9790676340555"/>
+        </arc>
+        <arc id="edge-eza8gpc7c" class="consumption" source="node-kg1yxhuk0" target="node-afx1e1yrr">
+            <start x="107.90336914131558" y="528.2598966517339"/>
+            <end x="5.3070312580404675" y="533.1659536230266"/>
+        </arc>
+        <arc id="edge-cv2915mc5" class="production" source="node-afx1e1yrr" target="node-nm72rju81">
+            <start x="-14.629026063204243" y="520.5495557204385"/>
+            <end x="-58.185847887302955" y="434.2314370684336"/>
+        </arc>
+        <arc id="edge-wjobn0dzk" class="production" source="node-afx1e1yrr" target="node-jvf271ea1">
+            <start x="-21.192968741959533" y="533.6684002996014"/>
+            <end x="-138.1967399379255" y="532.5102358580363"/>
+        </arc>
+        <arc id="edge-cflyv2gzm" class="production" source="node-z3ihxu0pb" target="node-d9m9wsvby">
+            <start x="1027.8514282145989" y="-362.46803501542496"/>
+            <end x="952.723697769127" y="-306.5892018726448"/>
+        </arc>
+        <arc id="edge-pg6wfkrtu" class="catalysis" source="node-4sbsqa8l8" target="node-z3ihxu0pb">
+            <start x="1143.288600882925" y="-373.49814460629926"/>
+            <end x="1061.963425047312" y="-372.56305315837295"/>
+        </arc>
+        <arc id="edge-2a85znywi" class="production" source="node-z3ihxu0pb" target="node-ipjuda9z8">
+            <start x="1027.8514282145989" y="-379.9549875234056"/>
+            <end x="949.116631772118" y="-425.30509734756333"/>
+        </arc>
+    </map>
+</sbgn>
