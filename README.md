@@ -11,6 +11,8 @@ Click [here](https://sciluna.github.io/sbgn-flow/index.html) for a demo.
 
 https://github.com/user-attachments/assets/82325ba6-d35c-4c07-b21e-9af8a0bd927e
 
+You can also watch following tutorial videos: [image-to-sbgn](https://sciluna.github.io/sbgn-flow/tutorials/image_to_sbgn_tutorial.mp4), [merge-split](https://sciluna.github.io/sbgn-flow/tutorials/merge_split_tutorial.mp4), [layout](https://sciluna.github.io/sbgn-flow/tutorials/layout_tutorial.mp4), [SBGNFlow-1](https://sciluna.github.io/sbgn-flow/tutorials/SBGNFlow_tutorial_1.mp4), [SBGNFlow-2](https://sciluna.github.io/sbgn-flow/tutorials/SBGNFlow_tutorial_2.mp4).
+
 ## Software
 
 #### Running a Local Instance
